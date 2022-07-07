@@ -26,11 +26,11 @@
 \frontmatter
 \input{head/titlepage}
 
-\import{head}{dedication}
+\subimport{head/}{dedication}
 \setcounter{page}{0}
-\import{head}{acknowledgments}
-%\import{head}{preface}
-\import{head}{abstracts}
+\subimport{head/}{acknowledgments}
+%\subimport{head/}{preface}
+\subimport{head/}{abstracts}
 
 \cleardoublepage
 \pdfbookmark{\contentsname}{toc}
@@ -51,7 +51,7 @@
 % List of symbols
 \cleardoublepage
 \phantomsection
-\import{head}{symbols}
+\subimport{head/}{symbols}
 \addcontentsline{toc}{chapter}{\nomname}
 
 % space before each new paragraph according to the template guidelines.
@@ -63,25 +63,25 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \mainmatter
 %
-\import{body}{ch1_introduction}
+\subimport{body/}{ch1_introduction}
 \cleardoublepage
 %
-\import{body}{ch2_theoretical}
+\subimport{body/}{ch2_theoretical}
 \cleardoublepage
 %
-\import{body}{ch3_koopmans-spectral}
+\subimport{body/}{ch3_koopmans-spectral}
 \cleardoublepage
 %
-\import{body}{ch4_koopmans-periodic}
+\subimport{body/}{ch4_koopmans-periodic}
 \cleardoublepage
 %
-\import{body}{ch5_band-structures}
+\subimport{body/}{ch5_band-structures}
 \cleardoublepage
 %
-\import{body}{ch6_charge-transition}
+\subimport{body/}{ch6_charge-transition}
 \cleardoublepage
 %
-\import{body}{conclusions}
+\subimport{body/}{conclusions}
 \cleardoublepage
 
 % use to end the last part if the thesis is composed of parts
@@ -93,13 +93,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%  TAIL: Bibliography, Appendix, CV  %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\import{tail}{appendix}
+\subimport{tail/}{appendix}
 \backmatter
-\import{tail}{biblio}
+\subimport{tail/}{biblio}
 % Add your glossary here
 % Add your index here
 % Photographic credits (list of pictures&images that have been used with names of the person holding the copyright for them)
-\import{tail}{cv}
+\subimport{tail/}{cv}
 
 
 \end{document}
