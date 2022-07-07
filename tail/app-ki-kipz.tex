@@ -1,0 +1,173 @@
+\chapter{KI and KIPZ potentials\label{app:ki-kipz}}
+Here we report the detailed expressions and derivations for the KI and KIPZ functionals and potentials. Before moving on we list some important functional derivatives which will be useful later on:
+
+\begin{equation}
+    \frac{\delta f_i}{\delta \rho_j(\br)} = \delta_{ij}
+    \label{eq:deriv-occupancy-density}
+\end{equation}
+
+\begin{equation}
+    \frac{\delta n_i(\br)}{\delta \rho_j(\br')} = \left\{ \frac{1}{f_i} \delta(\br-\br') - \frac{\rho_i(\br)}{f_i^2} \right\} \delta_{ij} = \frac{1}{f_i}\{ \delta(\br-\br') - n_i(\br) \} \delta_{ij}
+    \label{eq:deriv-density-density}
+\end{equation}
+
+\begin{equation}
+    \frac{\delta \rho_i(\br)}{\delta n_j(\br')} = f_i \delta(\br-\br') \delta_{ij}
+    \label{eq:deriv-density-density-inv}
+\end{equation}
+
+\vspace{1cm}
+\section*{KI}
+We start recalling the definition of the KI correction \eqref{eq:ki-correction}, showing how it can be simplified:
+%
+\begin{equation}
+    \begin{split}
+    \Pi^{\rm uKI}_i[\rho,\rho_i] &= E^{\rm DFA}[\rho-\rho_i] - E^{\rm DFA}[\rho]
+         + f_i \left( E^{\rm DFA}[\rho-\rho_i+n_i] - E^{\rm DFA}[\rho-\rho_i] \right) \\
+         &= E_{\rm Hxc}[\rho-\rho_i] - E_{\rm Hxc}[\rho]
+         + f_i \left( E_{\rm Hxc}[\rho-\rho_i+n_i] - E_{\rm Hxc}[\rho-\rho_i] \right) ,
+    \end{split}
+    \label{eq:app-ki-functional}
+\end{equation}
+%
+where we exploited the linearity of the kinetic energy functional with respect to the orbital densities, i.e. $T[\rho] = \sum_i T[\rho_i]$. By splitting the Hartree and the exchange-correlation parts we obtain
+%
+\begin{equation}
+    \begin{split}
+    \Pi^{\rm uKI}_i[\rho,\rho_i] = E_{\rm xc}[\rho-\rho_i] - E_{\rm xc}[\rho]
+         + f_i \left( E_{\rm xc}[\rho-\rho_i+n_i] - E_{\rm xc}[\rho-\rho_i] \right)
+         + f_i(1-f_i) E_{\text{H}}[n_i] .
+    \end{split}
+    \label{eq:app-ki-functional-xc-only}
+\end{equation}
+
+\clearpage
+The KI potential acting on the $i$-th orbital, is defined as the functional derivative of the KI correction with respect to the orbital density $\rho_i$:
+
+\begin{equation}
+    \begin{split}
+    v^{\rm KI}_j(\br) &=\ \frac{\delta \left( \sum_i \Pi^{\rm uKI}_i[\rho,\rho_i] \right)}{\delta \rho_j(\br)} \\
+    &=\ \underbrace{\frac{\delta \Pi^{\rm KI}_j[\rho,\rho_j]}{\delta \rho_j(\br)}}_{(\text{a})} + \underbrace{\frac{\delta \left( \sum_{i \neq j} \Pi^{\rm KI}_i[\rho,\rho_i] \right)}{\delta \rho_j(\br)}}_{(\text{b})}
+    \end{split}
+    \label{eq:ki-pot-1}
+\end{equation}
+%
+\begin{equation}
+    \begin{split}
+    \text{(a)} \quad \frac{\delta \Pi^{\rm KI}_j[\rho,\rho_j]}{\delta \rho_j(\br)} =\
+    &\int \frac{\delta E_{\rm Hxc}[\rho-\rho_j]}{\delta(\rho-\rho_j)(\br')} \underbrace{\frac{\delta(\rho-\rho_j)(\br')}{\delta\rho_j(\br)}}_{0} d\br' -
+    \int \frac{\delta E_{\rm Hxc}[\rho]}{\delta\rho(\br')} \underbrace{\frac{\delta\rho(\br')}{\delta\rho_j(\br)}}_{\delta(\br-\br')} d\br' \ + \\
+    %
+    &E_{\rm Hxc}[\rho-\rho_j+n_j] - E_{\rm Hxc}[\rho-\rho_j] \ + \\
+    %
+    &f_j \Bigg( \int \frac{\delta E_{\rm Hxc}[\rho-\rho_j+n_j]}{\delta(\rho-\rho_j+n_j)(\br')} \underbrace{\frac{\delta(\rho-\rho_j+n_j)(\br')}{\delta\rho_j(\br)}}_{\delta n_j(\br')/\delta \rho_j(\br)} d\br' - 
+    \int \frac{\delta E_{\rm Hxc}[\rho-\rho_j]}{\delta(\rho-\rho_j)(\br')} \underbrace{\frac{\delta(\rho-\rho_j)(\br')}{\delta\rho_j(\br)}}_{0} d\br' \Bigg) \\
+    %
+    = \ &- v_{\rm Hxc}([\rho],\br) + E_{\rm Hxc}[\rho-\rho_j+n_j] - E_{\rm Hxc}[\rho-\rho_j] \ + \\
+    &f_j \int v_{\rm Hxc}([\rho-\rho_j+n_j],\br') \frac{1}{f_j} \{ \delta(\br-\br') - n_j(\br') \} d\br' \\
+    %
+    = \ &E_{\rm Hxc}[\rho-\rho_j+n_j] - E_{\rm Hxc}[\rho-\rho_j] - \int v_{\rm Hxc}([\rho-\rho_j+n_j],\br') n_j(\br') d\br' \ + \\
+    &v_{\rm Hxc}([\rho-\rho_j+n_j],\br) - v_{\rm Hxc}([\rho],\br)
+    \end{split}
+    \label{eq:ki-pot-diag-deriv}
+\end{equation}
+%
+\begin{equation}
+    \begin{split}
+    \text{(b)} \quad \frac{\delta \left( \sum_{i \neq j} \Pi^{\rm KI}_i[\rho,\rho_i] \right)}{\delta \rho_j(\br)}
+    = \ &\sum_{i \neq j} \Bigg\{ \int \frac{\delta E_{\rm Hxc}[\rho-\rho_i]}{\delta(\rho-\rho_i)(\br')} 
+    \underbrace{\frac{\delta(\rho-\rho_i)(\br')}{\delta\rho_j(\br)}}_{\delta(\br-\br')} d\br' -
+    \int \frac{\delta E_{\rm Hxc}[\rho]}{\delta\rho(\br')} \underbrace{\frac{\delta\rho(\br')}{\delta\rho_j(\br)}}_{\delta(\br-\br')} d\br' \ + \\
+    %
+    &f_i \bigg( \int \frac{\delta E_{\rm Hxc}[\rho-\rho_i+n_i]}{\delta(\rho-\rho_i+n_i)(\br')} \underbrace{\frac{\delta(\rho-\rho_i+n_i)(\br')}{\delta\rho_j(\br)}}_{\delta(\br-\br')} d\br' - \\
+    &\int \frac{\delta E_{\rm Hxc}[\rho-\rho_i]}{\delta(\rho-\rho_i)(\br')} \underbrace{\frac{\delta(\rho-\rho_i)(\br')}{\delta\rho_j(\br)}}_{\delta(\br-\br')} d\br' \bigg) \Bigg\} \\
+    %
+    = \ &\sum_{i \neq j} \Big\{ v_{\rm Hxc}([\rho-\rho_i],\br) - v_{\rm Hxc}([\rho],\br) \ + \\
+    &\qquad f_i \big[v_{\rm Hxc}([\rho-\rho_i+n_i],\br) - v_{\rm Hxc}([\rho-\rho_i],\br)\big] \Big\} .
+    \end{split}
+    \label{eq:ki-pot-cross-deriv}
+\end{equation}
+%
+By putting together Eqs.~\eqref{eq:ki-pot-diag-deriv} and \eqref{eq:ki-pot-cross-deriv}, one obtains the general expression of the KI potential:
+%
+\begin{equation}
+    v^{\rm KI}_j(\br) = v^{\rm KI,scalar}_j(\br) + v^{\rm KI,non-scalar}_j(\br) ,
+    \label{eq:ki-pot-final}
+\end{equation}
+%
+where $v^{\rm KI,scalar}_j(\br)$ contains only the scalar terms (in the sense that they not depend on the spatial coordinate $\br$), and thus they do not contribute to the minimization since they apply a homogeneous correction whose effect does not modify the shape of the orbitals
+%
+\begin{equation}
+    v^{\rm KI,scalar}_j([\rho,\rho_j],\br) =\ E_{\rm Hxc}[\rho-\rho_j+n_j] - E_{\rm Hxc}[\rho-\rho_j] - \int v_{\rm Hxc}([\rho-\rho_j+n_j],\br') n_j(\br') d\br' ,
+    \label{eq:ki-pot-scalar}
+\end{equation}
+%
+while $v^{\rm KI,real}_j(\br)$ depends on $\br$ and so reshapes the orbitals
+%
+\begin{equation}
+    \begin{split}
+    v^{\rm KI,real}_j([\{\rho_i\}],\br) =\ &v_{\rm Hxc}([\rho-\rho_j+n_j],\br) - v_{\rm Hxc}([\rho],\br) \ + \\
+    &\sum_{i \neq j} \Big\{ v_{\rm Hxc}([\rho-\rho_i],\br) - v_{\rm Hxc}([\rho],\br) \ + \\
+    &f_i \big[v_{\rm Hxc}([\rho-\rho_i+n_i],\br) - v_{\rm Hxc}([\rho-\rho_i],\br)\big] \Big\} .
+    \end{split}
+    \label{eq:ki-pot-real}
+\end{equation}
+
+Finally, we give the expression for the KI potentials on the fully occupied ($f_j=1$) and empty ($f_j=0$) states:
+%
+\begin{equation}
+    v^{\rm KI,occ}_j =\ E_{\rm Hxc}[\rho] - E_{\rm Hxc}[\rho-n_j] - \int v_{\rm Hxc}([\rho],\br') n_j(\br') d\br' ,
+    \label{eq:ki-pot-occ}
+\end{equation}
+%
+\begin{equation}
+    \begin{split}
+    v^{\rm KI,emp}_j(\br) =\ &E_{\rm Hxc}[\rho+n_j] - E_{\rm Hxc}[\rho] - \int v_{\rm Hxc}([\rho+n_j],\br') n_j(\br') d\br' \ + \\
+    &v_{\rm Hxc}([\rho+n_j],\br) - v_{\rm Hxc}([\rho],\br) ,
+    \end{split}
+    \label{eq:ki-pot-emp}
+\end{equation}
+%
+where we see that $v^{\rm KI,occ}_j$ is fully scalar and is therefore invariant under unitary transformation, i.e. the KI correction on the occupied states consists of a simple (orbital-dependent) shift of the KS energies; on the other hand, $v^{\rm KI,emp}_j(\br)$ has also some real terms and resulting in a non-unitary-invariant correction for the empty states.
+
+\clearpage
+\section*{KIPZ}
+Here we first show that the expression for the KIPZ correction given in Eq.~\eqref{eq:kipz-correction} -- introduced in Ref.~\cite{nguyen_koopmans-compliant_2018} -- is consistent with the original definition reported in Ref.~\cite{borghi_koopmans-compliant_2014} [see Eq.~(27) therein].
+%
+\begin{equation}
+    \begin{split}
+    \Pi^{\rm uKIPZ}_i[\rho,\rho_i] =\ &- \int_{0}^{f_i} \braket{\phi_i|\hat{h}^{\rm PZ}_i(s)|\phi_i} ds + 
+    f_i \int_{0}^{1} \braket{\phi_i|\hat{h}^{\rm PZ}_i(s)|\phi_i} ds - E_{\rm Hxc}[\rho_i] \\
+    %
+    =\ &E^{\rm PZ}[\rho-\rho_i] - E^{\rm PZ}[\rho] + f_i \left( E^{\rm PZ}[\rho-\rho_i+n_i] - E^{\rm PZ}[\rho-\rho_i] \right) - E_{\rm Hxc}[\rho_i] \\
+    %
+    =\ &E^{\rm DFA}[\rho-\rho_i] - E^{\rm DFA}[\rho] + f_i \left( E^{\rm DFA}[\rho-\rho_i+n_i] - E^{\rm DFA}[\rho-\rho_i] - E_{\rm Hxc}[n_i] \right) \\
+    %
+    =\ &\Pi^{\text{KI}}_i[\rho,\rho_i] - f_i E_{\rm Hxc}[n_i] ,
+    \end{split}
+    \label{eq:kipz-borghi}
+\end{equation}
+%
+where we used the definition of the PZ functional \eqref{eq:pz-functional}, and the fact that $dE^{\rm PZ} / df_i \big|_{f_i=s} = \braket{\phi_i|\hat{h}^{\rm PZ}_i(s)|\phi_i}$ (Janak's theorem holds for the PZ functional).
+
+The KIPZ functional can be seen also as a correction on top of the PZ functional rather than a DFT one. Considering the expression given on the second line of Eq.~\eqref{eq:kipz-borghi}, we can recast Eq.~\eqref{eq:kipz-functional} and include in the base functional the self-interaction term $E_{\rm Hxc}[\rho_i]$, which brings to the following expression:
+%
+\begin{equation}
+    E^{\rm KIPZ}[\{\rho_i\}] = \underbrace{E^{\rm DFA}[\rho] - \sum_i \alpha_i E_{\rm Hxc}[\rho_i]}_{E^{\alpha\rm PZ}[\{\rho_i\}]} + \sum_i {\alpha_i} \Pi^{\text{uKI@PZ}}_i[\rho,\rho_i] ,
+    \label{eq:kipz-as-ki-on-pz}
+\end{equation}
+%
+where the base functional $E^{\alpha\rm PZ}[\{\rho_i\}]$ is a \emph{screened} Perdew-Zunger functional, and the orbital-dependent SIC term is scaled by the screening parameters $\alpha_i$. The Koopmans correction, $\Pi^{\text{uKI@PZ}}_i$, in this case is given by the KI correction applied on top of the standard PZ functional.
+
+As for KI, the KIPZ potential can be obtained from the functional derivative of the KIPZ correction term:
+%
+\begin{equation}
+    \begin{split}
+        v^{\rm KIPZ}_j(\br) =\ &\frac{\delta \left( \sum_i \Pi^{\rm KIPZ}_i[\rho,\rho_i] \right)}{\delta \rho_j(\br)} \\
+        =\ &\frac{\delta \left( \sum_i \Pi^{\text{KI}}_i[\rho,\rho_i] \right)}{\delta \rho_j(\br)} + 
+        \frac{\delta \left( \sum_i f_i E_{\rm Hxc}[n_i] \right)}{\delta \rho_j(\br)} \\
+        =\ &v^{\text{KI}}_j(\br) + v_{\rm Hxc}([n_j],\br) - \int v_{\rm Hxc}([n_j],\br) n_j(\br) d\br + E_{\rm Hxc}[n_j]
+    \end{split}
+\end{equation}
+
+For occupied states the only non-scalar term is the $v_{\rm Hxc}([n_j],\br)$ and so the KIPZ gradient is almost\footnote{``almost'' in the sense that this self-interaction potential is scaled by the screening factor $\alpha_j$ which, in general, can bring to different variational orbitals with respect to those that one would obtain from the full PZ functional.} equal to the PZ one.

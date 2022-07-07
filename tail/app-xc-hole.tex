@@ -1,0 +1,105 @@
+\chapter{Exchange-correlation hole\label{app:xc-hole}}
+The exchange-correlation hole $\rho_{\rm xc}(\br,\br')$ is an object that has a precise physical meaning and provides an alternative and useful definition of the xc energy. In order to arrive to the definition, one can start from the pair-correlation function $\rho(\br,\br')$ (to ease the notation we omit here the spin coordinates), which defines the joint probability of finding an electron at $\br$ and another at $\br'$ \cite{martin_interacting_2016}:
+%
+\begin{equation}
+    \begin{split}
+    \rho(\br,\br') &= \left\langle \sum_{i \neq j} \delta(\br - \br_i) \delta(\br' - \br_j) \right\rangle \\
+    &= N(N-1) \int d\br_3 d\br_4 \cdots d\br_N \left| \Psi(\br,\br',\br_3,\br_4,\dots,\br_N) \right|^2 .
+    \end{split}
+    \label{eq:pair-corr-function}
+\end{equation}
+%
+For a system of non-interacting electrons the joint probability $\rho(\br,\br')$ is simply the product of the densities of the two electrons; so that, when the interaction is switched on, the pair-correlation function can be written as
+%
+\begin{equation}
+    \rho(\br,\br') = \rho(\br)\rho(\br') + \rho(\br)\rho_{\rm xc}(\br,\br') ,
+    \label{eq:pair-corr-xc-hole}
+\end{equation}
+%
+where $\rho_{\rm xc}(\br,\br')$ describes the effect on the density at $\br$ due to the presence of an electron at $\br'$. In the limit of non-interacting electrons, we find $\rho(\br,\br') = \rho(\br)\rho(\br')$ and the xc hole is zero; on the other hand, the more the system is correlated, the larger will be the difference $\rho(\br,\br') - \rho(\br)\rho(\br')$, and thus $\rho_{\rm xc}(\br,\br')$. In this sense, the xc hole gives a measure of the electronic correlation present in the system.
+
+The xc hole, just as the xc energy, can be split in its exchange and correlation contributions. Because of Pauli exclusion principle, which prevents electrons with the same spin from occupying the same position, each electron is surrounded by a hole due to the absence of electrons. The negative energy resulting from the interaction of the electron with this (exchange) hole yields the exchange energy. Also the correlation energy generally lowers the total energy, which can be easily understood if we consider its definition as the difference between the exact and the Hartree-Fock energy. In Hartree-Fock theory, the energy is defined as the expectation value of the exact many-body Hamiltonian over a single Slater determinant wave function; the whole approximation is contained in the trial wave function and, due to the variational principle, the resulting energy is always larger than the exact ground state energy. As a consequence, also the correlation energy can be expressed as the average interaction of an electron with its correlation hole.
+
+A rigorous derivation of the just discussed relation between xc energy and xc hole is obtained by means of the adiabatic connection formula (here we follow the derivation given in the Appendix of Ref.~\cite{becke_correlation_1988}). Resorting to the same stratagem used in Sec.~\ref{sec:hybrids}, let us consider a non-interacting system where the electron-electron repulsion is slowly switched on via a parameter $\lambda$, and the external potential $v_{\lambda}(\br)$ is designed to yield, for any value of $\lambda$, the ground-state density $\rho$ of the real (fully-interacting) system. The Hamiltonian reads as
+%
+\begin{equation}
+    \hat{H}_{\lambda} = \hat{T} + \lambda \hat{V}_{\rm ee} + \sum_i \hat{v}_{\lambda,i} ,
+    \label{eq:adia-conn-hamiltonian}
+\end{equation}
+%
+where $v_{\lambda=0}(\br)$ takes the form of the KS potential and, when $\lambda$ equals 1, $v_{\lambda}(\br)$ yields the external potential of the real system, $v(\br)$. The ground-state energy is given by the expectation value of $H_{\lambda}$ over the ground-state wave function $\Psi_{\lambda}$, and its variation with respect to $\lambda$ gives
+%
+\begin{equation}
+    \begin{split}
+    \partial_{\lambda} E_{\lambda} &= \partial_{\lambda} \braket{\Psi_{\lambda} | \hat{H}_{\lambda} | \Psi_{\lambda}} \\
+    &= \braket{\Psi_{\lambda} | \partial_{\lambda} \hat{H}_{\lambda} | \Psi_{\lambda}} \\
+    &= \braket{\Psi_{\lambda} | \hat{V}_{\rm ee} | \Psi_{\lambda}} + \sum_i \braket{\Psi_{\lambda} | \partial_{\lambda} \hat{v}_{\lambda,i} | \Psi_{\lambda}} \\
+    &= \braket{\Psi_{\lambda} | \hat{V}_{\rm ee} | \Psi_{\lambda}} + \int d\br \rho(\br) \partial_{\lambda} v_{\lambda}(\br) .
+    \end{split}
+    \label{eq:adia-conn-demonstration-1}
+\end{equation}
+%
+Upon integration between 0 and 1, the left-hand side of Eq.~\eqref{eq:adia-conn-demonstration-1} becomes
+%
+\begin{equation}
+    E_1 - E_0 = (T_0 + E_{\rm H} + E_{\rm xc} + V) - (T_0 + V_0) = E_{\rm H} + E_{\rm xc} + (V - V_0) ,
+    \label{eq:adia-conn-demonstration-2}
+\end{equation}
+%
+with $E_1$ being the energy of the fully-interacting system, and $E_0$ the KS energy; by comparison with the right-hand side of Eq.~\eqref{eq:adia-conn-demonstration-1}, we finally obtain
+%
+\begin{equation}
+    E_{\rm xc} = \int_0^1 d\lambda \braket{\Psi_{\lambda} | \hat{V}_{\rm ee} | \Psi_{\lambda}} - E_{\rm H} .
+    \label{eq:adia-conn-demonstration-3}
+\end{equation}
+%
+The connection with the xc hole is found by solving the remaining integral over $\lambda$, and it follows below:
+%
+\begin{equation}
+    \begin{split}
+    \int_0^1 d\lambda \braket{\Psi_{\lambda} | \hat{V}_{\rm ee} | \Psi_{\lambda}} &= \frac{1}{2} \int_0^1 d\lambda \sum_{i \neq j} \int d\br_1 \cdots d\br_N \frac{\left|\Psi_{\lambda}(\br_1, \dots, \br_N)\right|^2}{|\br_i - \br_j|} \\
+    &= \frac{1}{2} \int_0^1 d\lambda N(N-1) \int d\br d\br' d\br_3 \cdots d\br_N \frac{\left|\Psi_{\lambda}(\br, \br', \br_3, \dots, \br_N)\right|^2}{|\br - \br'|} \\
+    &= \frac{1}{2} \int d\br d\br' \frac{1}{|\br - \br'|} \int_0^1 d\lambda \rho_{\lambda}(\br,\br') ,
+    \end{split}
+    \label{eq:adia-conn-demonstration-4}
+\end{equation}
+%
+where $\rho_{\lambda}(\br,\br')$ is the $\lambda$-dependent pair-correlation function, whose integral over $\lambda$ can be expressed, via Eq.~\eqref{eq:pair-corr-xc-hole}, in terms of the integrated exchange-correlation hole $\Bar{\rho}_{\rm xc}(\br,\br') = \int_0^1 d\lambda \rho_{\rm xc,\lambda}(\br,\br')$:
+%
+\begin{equation}
+    \int_0^1 d\lambda \braket{\Psi_{\lambda} | \hat{V}_{\rm ee} | \Psi_{\lambda}} = \frac{1}{2} \int d\br d\br' \frac{\rho(\br) \rho(\br')}{|\br - \br'|} + \frac{1}{2} \int d\br d\br' \frac{\rho(\br) \Bar{\rho}_{\rm xc}(\br,\br')}{|\br - \br'|}
+    \label{eq:adia-conn-demonstration-5}
+\end{equation}
+
+By identifying the first term on the right-hand side with the Hartree energy, and comparing with 
+Eq.~\eqref{eq:adia-conn-demonstration-3}, we obtain the following expression for the exchange-correlation energy
+%
+\begin{equation}
+    E_{\rm xc} = \frac{1}{2} \int d\br \int d\br' \frac{\rho(\br')\Bar{\rho}_{\rm xc}(\br,\br')}{|\br-\br'|} ,
+    \label{eq:xc-ene-xc-hole}
+\end{equation}
+%
+which, once more, highlights the non-interacting character of the Hartree term and the totally correlated nature of the xc energy (as also discussed in Sec.~\ref{sec:hartree-fock}).
+
+The xc hole must satisfy some important constraints, one of which is the sum rule
+%
+\begin{equation}
+    \int d\br' \rho_{\rm xc}(\br,\br') = -1 ,
+    \label{eq:sum-rule-xc-hole}
+\end{equation}
+%
+which tells us that if an electron is at $\br$, the rest of the system must lack of one electron. The same reasoning can be applied also within the framework of Hartree-Fock theory, that leads to an identical sum rule for the exchange hole only. Combining this result with Eq.~\eqref{eq:sum-rule-xc-hole}, one obtains
+%
+\begin{equation}
+    \int d\br' \rho_{\rm x}(\br,\br') = -1, \qquad \qquad \int d\br' \rho_{\rm c}(\br,\br') = 0 .
+    \label{eq:sum-rule-x-hole-c-hole}
+\end{equation}
+
+To conclude this section, we report the exact exchange-correlation hole for a system with a fractional number of electrons. By means of the adiabatic connection and recalling the formalism used in Sec.~\ref{sec:pwl-energy}, if $\delta$ is the fraction of electron resulting from the mixture of the $(M-1)$- and $M$-electron systems, and $N=M+\delta$ is the average number of electrons, the sum rule on the xc hole reads as \cite{perdew_what_1985}
+%
+\begin{equation}
+    \int d\br' \rho_{\rm xc}^{\rm}(\br,\br') = -1 + \delta(1-\delta) \int_0^1 d\lambda \frac{\rho_{M}^{\lambda}(\br) - \rho_{M-1}^{\lambda}(\br)}{\rho_N(\br)} ,
+    \label{eq:sum-rule-fractional}
+\end{equation}
+%
+where $\lambda$ is the coupling constant between the interacting and non-interacting systems. It is clear that in the limit of integer number of electrons ($\delta \longrightarrow 0$) the result of Eq.~\eqref{eq:sum-rule-xc-hole} is recovered. As discussed in Sec.~\ref{sec:errors-dft}, the self-interaction error present in local functionals affects especially systems at fractional number of electrons. This is a consequence of the fact that such functionals normally satisfy Eq.~\eqref{eq:sum-rule-xc-hole}, but not Eq.~\eqref{eq:sum-rule-fractional}. The PZ functional also obeys to Eq.~\eqref{eq:sum-rule-xc-hole}, but it improves the description of the xc hole also at fractional number of electrons and, in particular, in the limit of non-interacting electrons, it fulfills Eq.~\eqref{eq:sum-rule-fractional} \cite{perdew_what_1985}.

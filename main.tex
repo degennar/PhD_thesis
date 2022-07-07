@@ -1,0 +1,105 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%                                                                       %%%
+%%%            PhD thesis of Riccardo De Gennaro, May-Jul 2022            %%%
+%%%                                                                       %%%
+%%%  This document has been adapted from one of the templates provided    %%%
+%%%  by EPFL. The original template can be found here:                    %%%
+%%%  https://github.com/glederrey/EPFL_thesis_template                    %%%
+%%%                                                                       %%%
+%%%  For more information about importing customized packages and         %%%
+%%%  splitting a document in more .tex files check this page out:         %%%
+%%%  https://www.overleaf.com/learn/latex/Management_in_a_large_project   %%%
+%%%                                                                       %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[a4paper,11pt]{book}
+
+\usepackage{preamble}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  HEAD: thesis' preamble  %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt} % needs to be before titlepage and frontmatter to keep the table of contents lists short
+\frontmatter
+\input{head/titlepage}
+
+\import{head}{dedication}
+\setcounter{page}{0}
+\import{head}{acknowledgments}
+%\import{head}{preface}
+\import{head}{abstracts}
+
+\cleardoublepage
+\pdfbookmark{\contentsname}{toc}
+{\hypersetup{hidelinks} \tableofcontents}
+
+% List of figures
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{List of Figures}
+\listoffigures
+ 
+% List of tables
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{List of Tables}
+\listoftables
+
+% List of symbols
+\cleardoublepage
+\phantomsection
+\import{head}{symbols}
+\addcontentsline{toc}{chapter}{\nomname}
+
+% space before each new paragraph according to the template guidelines.
+\setlength{\parskip}{1em}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  BODY: chapters of the thesis  %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mainmatter
+%
+\import{body}{ch1_introduction}
+\cleardoublepage
+%
+\import{body}{ch2_theoretical}
+\cleardoublepage
+%
+\import{body}{ch3_koopmans-spectral}
+\cleardoublepage
+%
+\import{body}{ch4_koopmans-periodic}
+\cleardoublepage
+%
+\import{body}{ch5_band-structures}
+\cleardoublepage
+%
+\import{body}{ch6_charge-transition}
+\cleardoublepage
+%
+\import{body}{conclusions}
+\cleardoublepage
+
+% use to end the last part if the thesis is composed of parts
+\addtocontents{toc}{\vspace{\normalbaselineskip}}
+\cleardoublepage
+\bookmarksetup{startatroot}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  TAIL: Bibliography, Appendix, CV  %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\import{tail}{appendix}
+\backmatter
+\import{tail}{biblio}
+% Add your glossary here
+% Add your index here
+% Photographic credits (list of pictures&images that have been used with names of the person holding the copyright for them)
+\import{tail}{cv}
+
+
+\end{document}

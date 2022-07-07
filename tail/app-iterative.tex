@@ -1,0 +1,38 @@
+\chapter{Iterative minimization\label{app:iterative-minimization}}
+
+The self-consistent diagonalization of the Hamiltonian is one of the possible ways to solve the Euler-Lagrange equations for the DFT functional. As discussed in Chapter~\ref{ch:koopmans-theory}, this approach cannot be applied to determine the ground state of Koopmans functionals, where the Euler-Lagrange equations (associated to the minimization problem \eqref{eq:minimization-koopmans}) take the form
+%
+\begin{equation}
+    \hat{h}^{\rm KC}_i \ket{\phi_i} = \sum_j \Lambda_{ij} \ket{\phi_j} \qquad \text{or} \qquad
+    \hat{h}^{\rm KC} \ket{\phi_i} = \sum_j \Lambda_{ij} \ket{\phi_j} ,
+    \label{eq:koopmans-euler-lagrange}
+\end{equation}
+%
+with $\hat{h}^{\rm KC}_i$ and $\hat{h}^{\rm KC}$ defined in Eqs.~\eqref{eq:koopmans-functional-derivative} and \eqref{eq:koopmans-hamiltonian}, respectively. The problem of Eq.~\eqref{eq:koopmans-euler-lagrange} is that the matrix of Lagrange multipliers cannot be diagonalized as it is generally non-hermitian, and one normally has to resort to direct minimization techniques. Despite that, the stationary points can still be found by solving Eq.~\eqref{eq:koopmans-euler-lagrange} for each orbital $\phi_i$, without diagonalizing the $\Lambda$-matrix. Below, we propose an algorithm that provides the solutions of Eq.~\eqref{eq:koopmans-euler-lagrange} by means of the \emph{fixed-point iteration method}:
+%
+\begin{enumerate}
+    %
+    \item choose a set of orthonormal wavefunctions $\{ \phi_i^{(0)} \}$ for the occupied states;
+    %
+    \item calculate the corresponding orbital and total densities, $\{ \rho_i^{(0)} \}$ and $\rho^{(0)}$, and define the Hamiltonian as per Eq.~\eqref{eq:koopmans-hamiltonian}:
+    \begin{equation}
+        \hat{h}^{(0)} = \sum_i \hat{h}^{\rm KC}[\rho^{(0)},\rho_i^{(0)}] \ket{\phi_i^{(0)}} \bra{\phi_i^{(0)}} ;
+    \end{equation}
+    %
+    \item if the chosen set $\{ \phi_i^{(0)} \}$ already corresponds to a stationary point for the energy, the application of $\hat{h}^{(0)}$ to any orbital $\phi_i^{(0)}$ yields a state $\phi_i^{(1)}$ that belongs to the subspace spanned by these orbitals: $\hat{\rho}^{(0)} = \sum_i \ket{\phi_i^{(0)}} \bra{\phi_i^{(0)}}$. In other words, $\phi_i^{(1)}$ is a linear combination of the $\{ \phi_i^{(0)} \}$ and Eq.~\eqref{eq:koopmans-euler-lagrange} is solved. $\{ \phi_i^{(0)} \}$ are the variational orbitals of the system;
+    %
+    \item if the application of $\hat{h}^{(0)}$ to the set of orbitals $\{ \phi_i^{(0)} \}$ yields vectors living out of $\hat{\rho}^{(0)}$, there will be a non-zero component $\Delta \phi_i^{(0)}$ defined as
+    \begin{equation}
+        \ket{\Delta \phi_i^{(0)}} = (1 - \hat{\rho}^{(0)}) \hat{h}^{(0)} \ket{\phi_i^{(0)}} = \hat{P}^{(0)}_c \hat{h}^{(0)} \ket{\phi_i^{(0)}} ,
+        \label{eq:vec-comp-out}
+    \end{equation}
+    where $\hat{P}^{(0)}_c = 1 - \hat{\rho}^{(0)}$; the new set of orbitals is defined by adding the component $\Delta \phi_i^{(0)}$ to the old vectors:
+    \begin{equation}
+        \ket{\phi_i^{(1)}} = \ket{\phi_i^{(0)}} + \Delta \phi_i^{(0)} = (1 + \hat{P}^{(0)}_c \hat{h}^{(0)}) \ket{\phi_i^{(0)}} .
+        \label{eq:updated-vector}
+    \end{equation}
+    The new vectors $\{ \phi_i^{(1)} \}$ are then orthonormalized and the whole procedure from point 2 on is repeated. The iteration continues until all the $\Delta \phi_i$ are within the chosen convergence threshold.
+    %
+\end{enumerate}
+
+In principle, this algorithm could replace the direct minimization of the energy and determine self-consistently the variational orbitals of the system. However, as for the outer loop minimization the discussed iterative method might be speeded up -- or even require, in order to reach convergence -- by an inner loop optimization.
