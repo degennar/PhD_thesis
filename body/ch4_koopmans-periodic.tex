@@ -52,12 +52,14 @@ The minimization of the PZ energy naturally brings to a set of localized orbital
 \subsection{Wannier functions\label{sec:wannier-functions}}
 When dealing with periodic systems, the most natural choice for a set of localized orbitals is represented by Wannier functions (WFs). The reason is that WFs possess important properties that carry all the information about the translation symmetries of the system. Moreover, WFs are strictly connected to Bloch functions, as they reciprocally play the role of Fourier transforms of the other, which makes them the dual representation of Bloch states.
 
-In order to draw the attention to the translation properties of WFs, we first consider a simplified definition (for single-band systems), and refer to the second part of this section for the most general definition. Given the set $\{ \psik \}$ of Bloch functions, where $\bk$ are the crystal vectors living within the first Brillouin zone (BZ) of the system, the Wannier function $\wR$ corresponding to the Bravais lattice vector $\bR$ is defined as
+In order to draw the attention to the translation properties of WFs, we first consider a simplified definition (for single-band systems), and refer to the second part of this section for the most general definition. Given the set $\{ \psik \}$ of Bloch functions, where $\bk$ are the crystal vectors living within the (first) Brillouin zone (BZ) of the system, the Wannier function $\wR$ corresponding to the Bravais lattice vector $\bR$ is defined as
 %
 \begin{equation}
-    
+    \wR(\br) = \frac{1}{\Omega} \int_{\Omega} d\bk e^{-i\bk \cdot \bR} \psik(\br) ,
+    \label{eq:wannier-function-simplified}
 \end{equation}
-
+%
+where $\Omega = 8\pi^3 / V$ is the volume of the BZ; it results from the orthogonality of the Bloch functions that also WFs are orthogonal, $\braket{\wR | w_{\bR'}} = \delta_{\bR \bR'}$.
 
 
 \section{Bloch's theorem in ODD functionals\label{sec:bloch-theorem}}
