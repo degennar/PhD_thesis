@@ -1,5 +1,9 @@
 # PhD thesis
-LateX source code to generate my PhD thesis.
+LateX source code to generate the PhD thesis from *Riccardo De Gennaro* titled:
+
+**Spectral properties of extended systems from Koopmans-compliant functionals**
+
+written between May and July 2022.
 
 This document has been adapted from one of the templates provided by EPFL.<br />
 The original template can be found here:<br />
