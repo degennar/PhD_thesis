@@ -1,6 +1,6 @@
 \cleardoublepage
 \chapter{Koopmans functionals for periodic systems\label{ch:koopmans-periodic}}
-In the previous chapter we described the general framework of Koopmans functionals, without focusing on the specific issues that arise when passing from finite to extended systems. Here, we address the issues that are particularly relevant when dealing with infinitely periodic systems, where the need for a localized set of orbitals brings about the apparent breaking of the translation symmetries of the system. The chapter is organized as follows: in Sec.~\ref{sec:localization}, we bring up the importance of having localized sets of variational orbitals in Koopmans functionals and Wannier functions are introduced; in Sec.~\ref{sec:bloch-theorem}, we discuss the validity of Bloch's theorem in the framework of ODD functionals, which represents one of the main results of this thesis; finally, Sec.~\ref{sec:koopmans-pbc} is devoted to the formulation of Koopmans functionals in periodic boundary conditions. As usual, we close with a small section that summarizes the content of the chapter.
+In the previous chapter we described the general framework of Koopmans functionals, without focusing on the specific issues that arise when passing from finite to extended systems. Here, we address the issues that are particularly relevant when dealing with infinitely periodic systems, where the need for a localized set of orbitals brings about the apparent breaking of the translation symmetries of the system. The chapter is organized as follows: in Sec.~\ref{sec:localization}, we bring up the importance of having localized sets of variational orbitals in Koopmans functionals and Wannier functions are introduced; in Sec.~\ref{sec:bloch-theorem-section}, we discuss the validity of Bloch's theorem in the framework of ODD functionals, which represents one of the main results of this thesis; finally, Sec.~\ref{sec:koopmans-pbc} is devoted to the formulation of Koopmans functionals in periodic boundary conditions. As usual, we close with a small section that summarizes the content of the chapter.
 
 Part of the content of this chapter has been published in Refs.~\cite{de_gennaro_blochs_2022} and \cite{colonna_koopmans_2022}.
 
@@ -28,8 +28,8 @@ Eq.~\eqref{eq:pwl-convex-to-linear} shows that the derivative of the energy equa
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.85\linewidth]{IP-alkane-chain.pdf}
-    \caption[PBE, KI, and KIPZ IPs for the alkane chain.]{A study taken from Ref.~\cite{nguyen_koopmans-compliant_2018}, where the authors compared the performance of PBE, KI, and KIPZ for the calculation of the IP of the alkane chain, $C_n H_{2n}$, at different lenghts, and of polyethylene (infinite limit). The KI and KIPZ IPs are taken as the negative of the HO eigenvalue, while for PBE both $\varepsilon_{\rm HO}$ and the $\Delta$SCF value were considered. At the PBE level, while the opposite of $\varepsilon_{\rm HO}$ strongly underestimates the IP at any lenghts, the $\Delta$SCF value provides accurate predictions at small lenghts and, because of the orbital delocalization, it gets progressively worse when the size of the system increases. We remark that, at the thermodynamic limit, the $\Delta$SCF value recovers the negative of the KS HO eigenvalue. On the other hand, both the Koopmans flavors perfectly agree with coupled-cluster and experimental results (red triangles and star), even at the infinite limit, where the orbitals are represented by Wannier functions.}
+    \includegraphics[width=0.80\linewidth]{IP-alkane-chain.pdf}
+    \caption[PBE, KI, and KIPZ IPs for the alkane chain.]{A study taken from Ref.~\cite{nguyen_koopmans-compliant_2018}, where the authors compared the performance of PBE, KI, and KIPZ for the calculation of the IP of the alkane chain, $C_n H_{2n}$, at different lenghts, and of polyethylene (infinite limit). The KI and KIPZ IPs are taken as the negative of the HO eigenvalue, while for PBE both $\varepsilon_{\rm HO}$ and the $\Delta$SCF value were considered. At the PBE level, while the opposite of $\varepsilon_{\rm HO}$ strongly underestimates the IP at any lenghts, the $\Delta$SCF value provides accurate predictions at small lenghts and, because of the orbital delocalization, it gets progressively worse when the size of the system increases. We remark that, at the thermodynamic limit, the $\Delta$SCF value recovers the negative of the KS HO eigenvalue. On the other hand, both the Koopmans flavors perfectly agree with coupled-cluster and experimental results (red triangles and star), even at the infinite limit, where the orbitals are represented by (maximally localized) Wannier functions.}
     \label{fig:ip-alkane-chain}
 \end{figure}
 
@@ -47,26 +47,86 @@ Also in PZ-SIC functionals, the orbitals localization plays a fundamental role: 
     \label{eq:vanishing-ki-correction}
 \end{equation}
 %
-The minimization of the PZ energy naturally brings to a set of localized orbitals\footnote{We point out that, in order to localize the orbitals, SIC schemes often require the initial guess to be already localized, whereas starting from delocalized orbitals might bring to local minima where the orbitals are still delocalized \cite{korzdorfer_relation_2011}.}, for which the magnitude of $E_{\rm Hxc}[\rho_i]$ increases and the system reaches a more energetically favorable configuration (the self-Hxc are preceded by the negative sign, thus the energy is minimized by maximizing such terms). In this sense, the Pederson condition, which provides the energy minima within a particular subspace, is also interpreted as a \emph{localization condition}. Given the close connection between Koopmans and PZ functional gradients -- we remind that KIPZ is the KI correction applied to a screened PZ functional, while KI can be seen as a KIPZ functional with a vanishigly small PZ term -- the minimization of Koopmans functionals benefits from the same ``natural'' predisposition to localize orbitals. Ultimately, this allows to have effective Koopmans corrections also in the limit of extended systems, as demonwhich brings to effective corrections also in extended systems. 
+The minimization of the PZ energy naturally brings to a set of localized orbitals\footnote{We point out that, in order to localize the orbitals, SIC schemes often require the initial guess to be already localized, whereas starting from delocalized orbitals might bring to local minima where the orbitals are still delocalized \cite{korzdorfer_relation_2011}.} -- closely resembling Foster-Boys orbitals \cite{boys_construction_1960,foster_canonical_1960} in finite systems, and maximally localized Wannier functions \cite{marzari_maximally_1997,marzari_maximally_2012} in extended periodic systems \cite{nguyen_koopmans-compliant_2018} -- for which the magnitude of $E_{\rm Hxc}[\rho_i]$ increases, and the system reaches a more energetically favorable configuration (the self-Hxc terms are preceded by the negative sign, thus the energy is minimized by maximizing such terms). In this sense, the Pederson condition, which provides the energy minima within a particular subspace, is also interpreted as a \emph{localization condition}. Given the equivalence between Koopmans' and PZ's gradients -- we remind that KIPZ is the KI correction applied to a screened PZ functional, while KI can be seen as a KIPZ functional with a vanishigly small PZ term -- the minimization of Koopmans functionals benefits from the same ``natural'' predisposition to localize orbitals and, ultimately, allows to have effective Koopmans corrections also in extended systems.
 
 \subsection{Wannier functions\label{sec:wannier-functions}}
-When dealing with periodic systems, the most natural choice for a set of localized orbitals is represented by Wannier functions (WFs). The reason is that WFs possess important properties that carry all the information about the translation symmetries of the system. Moreover, WFs are strictly connected to Bloch functions, as they reciprocally play the role of Fourier transforms of the other, which makes them the dual representation of Bloch states.
+When dealing with periodic systems, the most natural choice for a set of localized orbitals is represented by Wannier functions (WFs) \cite{wannier_structure_1937}. The reason is that WFs possess important properties that carry all the information about the translation symmetries of the system. Moreover, WFs are strictly connected to Bloch functions, as they reciprocally play the role of Fourier transforms of the other, which makes them the dual representation of Bloch states\footnote{To be exact, there is an arbitrary component in the definition which prevents WFs from having a one-to-one correspondence with Bloch functions; this concept will be further discussed in the section.}.
 
-In order to draw the attention to the translation properties of WFs, we first consider a simplified definition (for single-band systems), and refer to the second part of this section for the most general definition. Given the set $\{ \psik \}$ of Bloch functions, where $\bk$ are the crystal vectors living within the (first) Brillouin zone (BZ) of the system, the Wannier function $\wR$ corresponding to the Bravais lattice vector $\bR$ is defined as
+Given the set $\{ \psink \}$ of Bloch functions, where $\bk$ are the crystal vectors living within the (first) Brillouin zone (BZ) of the system, the most general definition for a Wannier function $\wnR$, corresponding to the Bravais lattice (BL) vector $\bR$ and with band index $n$, is
 %
 \begin{equation}
-    \wR(\br) = \frac{1}{\Omega} \int_{\Omega} d\bk e^{-i\bk \cdot \bR} \psik(\br) ,
-    \label{eq:wannier-function-simplified}
+    \ket{\wnR} = \frac{1}{\Omega} \int_{\Omega} d\bk \ e^{-i\bk \cdot \bR} \sum_m U^{(\bk)}_{mn} \ket{\psi_{m\bk}} ,
+    \label{eq:wannier-function}
 \end{equation}
 %
-where $\Omega = 8\pi^3 / V$ is the volume of the BZ; it results from the orthogonality of the Bloch functions that also WFs are orthogonal, $\braket{\wR | w_{\bR'}} = \delta_{\bR \bR'}$.
+where $\Omega = 8\pi^3 / V$ is the volume of the BZ. The $U^{(\bk)}_{mn}$ are unitary matrices mixing Bloch functions with the same crystal momentum, and their presence is a consequence of the gauge freedom that characterizes the definition of WFs. In fact, for a given set of Bloch functions, an infinite set of WFs -- one for each $U^{(\bk)}$ -- can be defined. Such arbitrariness needs to be resolved in order to arrive to an unambiguous definition of WFs: the infamous Marzari-Vanderbilt localization criterion \cite{marzari_maximally_1997}, provides a solution to this problem by means of a minimization procedure, and it will be further discussed at the end of the section. As a consequence of the orthogonality of the Bloch states, also WFs turn out to be orthogonal, i.e.
+%
+\begin{equation}
+    \braket{\wnR | w_{m\bR'}} = \delta_{nm} \delta_{\bR \bR'} .
+    \label{eq:orthogonality-wannier}
+\end{equation}
+%
+It follows from Eq.~\eqref{eq:wannier-function}, that WFs fulfill the translation property
+%
+\begin{equation}
+    \wnR(\br - \bR') = w_{n\bR + \bR'}(\br) ,
+    \label{eq:trans-prop-wannier}
+\end{equation}
+%
+for any pair of BL vectors $(\bR,\bR')$, where $\wnR(\br) = \braket{\br|\wnR}$ is the real-space projection of the Wannier function. In order to highlight the importance of property \eqref{eq:trans-prop-wannier}, let us consider, for simplicity, a simple 1-band case (the band index is dropped), and show that an orthonormal set of one-particle wave functions satisfying such property, can be expressed in terms of the Bloch functions as in Eq.~\eqref{eq:wannier-function}. To prove it, let us assume that the set of orbitals $\{ \wR \}$ is orthonormal and satisfies Eq.~\eqref{eq:trans-prop-wannier}; since the Bloch states represent a basis for the Hilbert space, we can express $\wR$ as a linear combination of Bloch functions,
+%
+\begin{equation}
+    \wR(\br) = \frac{1}{\Omega} \int_{\Omega} d\bk \ C(\bR,\bk) \psik(\br) .
+    \label{eq:wannier-bloch-linear-combination}
+\end{equation}
+%
+By imposing Eq.~\eqref{eq:trans-prop-wannier}, we obtain the following condition for the coefficients:
+%
+\begin{equation}
+    C(\bR + \bR', \bk) = C(\bR, \bk) e^{-i\bk \cdot \bR} ,
+    \label{eq:crk-coefficents-trans-prop}
+\end{equation}
+%
+valid for any pair of BL vectors $(\bR,\bR')$, and for any $\bk$ in the BZ. By choosing $\bR=0$, we can factor out the $\bR$-dependence of the coefficients
+%
+\begin{equation}
+    C(\bR',\bk) = C(\bk) e^{-i\bk \cdot \bR'} ,
+    \label{eq:crk-coefficients-factor-out}
+\end{equation}
+%
+and, finally, the orthonormality of $\{ \wR \}$ forces the coefficients to be unitary, i.e. $|C(\bk)|^2=1$, from which we conclude that
+\begin{equation}
+    C(\bk) = e^{i\varphi(\bk)} ,
+\end{equation}
+%
+for some function $\varphi(\bk)$, which represents the aforemonetioned gauge freedom of WFs -- for 1-band systems the matrix $U^{(\bk)}$ reduces to $e^{i\varphi(\bk)}$.
+
+To conlcude this part, we point out that thanks to property \eqref{eq:trans-prop-wannier}, Wannier functions contain all the information about the translation symmetries of the system, as much as Bloch functions do. Essentially, while for the latter this information is owned by each function independently, in the case of Wannier functions is only by considering the whole set of functions that one can gather the information about the translation symmetries of the system.
+
+\subsubsection*{Maximally localized Wannier functions}
+As mentioned earlier, the definition of Wannier functions is not univocal, as for a given set of Bloch functions, WFs are defined up to a unitary transformation (block-diagonal, over $\bk$). The Marzari-Vanderbilt localization criterion is one of the most successful methods to solve such ambiguity, since it brings to a set of \emph{maximally localized Wannier functions} (MLWFs) \cite{marzari_maximally_1997}, which have proved to be extremely useful to interpolate the electronic bands, and to compute many physical properties \cite{marzari_maximally_2012} -- including the electric polarization, the orbital magnetization, and the electron-phonon coupling -- otherwise difficult to handle with a delocalized set of orbitals.
+
+The method aims to find the unitary transformation $U^{(\bk)}$ which minimizes the variance of the position operator:
+%
+\begin{equation}
+    \min_{\{ U^{(\bk)} \}} \ \sum_n \left[ \langle r^2 \rangle_{w_n} - \langle \br \rangle_{w_n}^2 \right] ,
+    \label{eq:wannier-spread-functional}
+\end{equation}
+%
+where $\langle \cdot \rangle_{w_n}$ indicates the expectation value over $w_{n{\bm 0}}$ -- given the translation property \eqref{eq:trans-prop-wannier}, it is enough to evaluate the spread functional of Eq.~\eqref{eq:wannier-spread-functional} over a single lattice vector, e.g., $\bR = \bm 0$. MLWFs are then an extension of Foster-Boys molecular orbitals (defined by the same localization procedure) \cite{boys_construction_1960,foster_canonical_1960} to periodic systems, and represent a very good guess for the PZ and Koopmans variational orbitals. Indeed, as discussed before, such variational orbitals result from the maximization of the Hxc self-interaction terms which, for local or semi-local approximations, are usually dominated by the self-Hartree energy. The maximization of the Hartree self-interaction represents an alternative localization scheme yielding orbitals that are very similar to MLWFs \cite{marzari_maximally_2012}. Ultimately, all these observations justify the use of MLWFs either as a non-self-consistent guess for the variational orbitals, or as a starting point for the minimization, when performing calculations of Koopmans functionals in periodic systems.
+
+To end this section, we point out that MLWFs are only one of the infinite choices for a set of localized orbitals, even in periodic systems. The previous argument highlights the importance of having a set of (maximally) localized orbitals but, in principle, does not impose any particular constraint, such as the translation property \eqref{eq:trans-prop-wannier}. However, Wannier-like orbitals are compliant the translation symmetries of the system and, as we shall see in the next section, they play a fundamental role in the fulfillment of Bloch's theorem in ODD functionals.
+
+\section{Bloch's theorem in ODD functionals\label{sec:bloch-theorem-section}}
+The need for a set of localized orbitals brings about a fundamental problem in periodic systems: a localized orbital density does not have the periodicity of the primitive cell, which means that a potential built on such density -- such as any ODD potential present in the Koopmans Hamiltonian -- breaks the translation symmetry of the system. The periodicity of the effective potential is required by Bloch's theorem, whereas the lack of this feature prevents from describing the quasiparticle energies via a band structure picture (which represents an actual physical observable that can be gauged from, e.g., the ARPES experiment). In this section -- representing the central result of this thesis -- we show that rather than focusing on the individual non-periodic ODD potentials, the object to consider is the Koopmans Hamiltonian (or the Koopmans potential) introduced in Sec.~\ref{sec:koopmans-hamiltonian}; as long as the localized orbitals keep a Wannier-like form\footnote{With Wannier-like form, we mean that the orbitals fulfill the translation property \eqref{eq:trans-prop-wannier}, and therefore are in effect Wannier functions.}, the Koopmans Hamiltonian is periodic and fulfills Bloch's theorem.
+
+We will start introducing Bloch's theorem in a general framework (Sec.~\ref{sec:bloch-theorem}), and then we will discuss its validity in the case of standard density-functionals (Sec.~\ref{sec:bloch-th-dft}), and of orbital-density-dependent approaches (Sec.~\ref{sec:bloch-th-odd}).
+
+\subsection{Bloch's theorem\label{sec:bloch-theorem}}
+For any approach relying on the independent-particle approximation, Bloch's theorem represents a fundamental result which reduces enormously the complexity of the electronic Hamiltonian a periodic system (usually involving a high number of electrons). As a consequence of the translation symmetries of the system, Bloch's theorem can be seen in the more general context of group theory: 
 
 
-\section{Bloch's theorem in ODD functionals\label{sec:bloch-theorem}}
-
-\subsection{Bloch's theorem\label{sec:bloch-theorem-sub}}
-
-\subsection{Validity in standard DFT\label{bloch-th-dft}}
+\subsection{Validity in standard DFT\label{sec:bloch-th-dft}}
 
 \subsection{Validity in ODD functionals\label{sec:bloch-th-odd}}
 
