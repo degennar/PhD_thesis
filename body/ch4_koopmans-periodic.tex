@@ -69,7 +69,7 @@ where $\Omega = 8\pi^3 / V$ is the volume of the BZ. The $U^{(\bk)}_{mn}$ are un
 It follows from Eq.~\eqref{eq:wannier-function}, that WFs fulfill the translation property
 %
 \begin{equation}
-    \wnR(\br - \bR') = w_{n\bR + \bR'}(\br) ,
+    \wnR(\br + \bR') = w_{n\bR - \bR'}(\br) ,
     \label{eq:trans-prop-wannier}
 \end{equation}
 %
@@ -83,7 +83,7 @@ for any pair of BL vectors $(\bR,\bR')$, where $\wnR(\br) = \braket{\br|\wnR}$ i
 By imposing Eq.~\eqref{eq:trans-prop-wannier}, we obtain the following condition for the coefficients:
 %
 \begin{equation}
-    C(\bR + \bR', \bk) = C(\bR, \bk) e^{-i\bk \cdot \bR} ,
+    C(\bR + \bR', \bk) = C(\bR, \bk) e^{-i\bk \cdot \bR'} ,
     \label{eq:crk-coefficents-trans-prop}
 \end{equation}
 %
@@ -123,9 +123,9 @@ The need for a set of localized orbitals brings about a fundamental problem in p
 We start introducing Bloch's theorem in a general framework (Sec.~\ref{sec:bloch-theorem}), and then we discuss its validity in the case of standard density-functionals (Sec.~\ref{sec:bloch-th-dft}), and of orbital-density-dependent approaches (Sec.~\ref{sec:bloch-th-odd}).
 
 \subsection{Bloch's theorem\label{sec:bloch-theorem}}
-For any approach relying on the independent-particle approximation, Bloch's theorem represents a fundamental result which reduces enormously the complexity of the electronic Hamiltonian of a periodic system. As a consequence of Bloch’s theorem, and more generally of group theory, the irreducible representations -- labeled by the crystal vectors $\bk$ -- of the system's translation group allow for a block-diagonal representation of the Hamiltonian, which brings to a band structure description of the energy spectrum. The only requirement of Bloch's theorem then, is the commutativity of the Hamiltonian with a (closed) set of symmetry operations, which, in a crystal, correspond to the translation group of the underlying BL: $\{ \hat{T}_{\bR} \}$.
+For any approach relying on the independent-particle approximation, Bloch's theorem represents a fundamental result which reduces enormously the complexity of the electronic Hamiltonian of a periodic system. As a consequence of Bloch’s theorem, and more generally of group theory, the irreducible representations -- labeled by the crystal vectors $\bk$ -- of the system's translation group allow for a block-diagonal representation of the Hamiltonian, which brings to a band structure description of the energy spectrum. The only requirement of Bloch's theorem then, is the commutativity of the Hamiltonian with a (closed) set of symmetry operations, which, in a crystal, correspond to the translation group of the underlying BL: $\{ \tR \}$.
 
-In a local mean-field approach, the commutativity of the Hamiltonian with the set of translation operators, reduces to the periodicity of the effective local potential, $v_{\rm eff}(\br)$, over the BL vectors $\bR$. The Hamiltonian can then be co-diagonalized with the set of operators $\{ \hat{T}_{\bR} \}$, and the resulting eigenvectors take the form of \emph{Bloch functions}
+In a local mean-field approach, the commutativity of the Hamiltonian with the set of translation operators, reduces to the periodicity of the effective local potential, $v_{\rm eff}(\br)$, over the BL vectors $\bR$. The Hamiltonian can then be co-diagonalized with the set of operators $\{ \tR \}$, and the resulting eigenvectors take the form of \emph{Bloch functions}
 %
 \begin{equation}
     \psink(\br) = e^{i\bk \cdot \br} u_{n\bk}(\br)
@@ -151,11 +151,88 @@ For local and semi-local approximations of the xc functional, the KS potential i
 When performing standard primitive cell (PC) calculations\footnote{The primitive cell is the smallest possible unit cell; when speaking of primitive cell calculations, we implicitly assume a sufficient sampling of the BZ that allows to model the thermodynamic bulk limit of the material.}, the periodicity of the density is assumed \emph{a priori} and the KS states are defined as BFs: Bloch's theorem is trivially satisfied, and the band structure results effortlessly from the calculation. The same system can be simulated without imposing the translation symmetry, via a supercell (SC) calculation\footnote{In this thesis, for supercell calculations, we always refer to calculations over unit cells with a bigger periodicity of the PC, where the sampling of the BZ consists of a single point ($\Gamma$-point-only sampling); the defined supercell demarcates the whole (simulated) system's volume, and usually demands for a higher computational cost with respect to PC calculations (the latter indeed takes full advantage of Bloch's theorem).}: in this case, unless the system lowers its energy by breaking the translation symmetry, the periodicity of the density emerges naturally during the energy minimization, and Bloch's theorem still holds. However, we point out that in this case, although a band structure description does exist, the KS orbitals are not constrained to be BFs and an unfolding method (like the one discussed in Sec.~\ref{sec:unfolding-method}) that reconstructs the connection between the energy eigenvalues and the points of the PC's BZ, is required.
 
 \subsection{Validity in ODD functionals\label{sec:bloch-th-odd}}
-At odds with DFT, where the total density is the only quantity entering the Hamiltonian, Koopmans functionals (and their Hamiltonians) depend on the set of variational orbital densities, and therefore the periodicity (over the primitive cell) of the total density alone is not sufficient to obtain a periodic potential. In this case a more stringent condition is needed, and in the following we show that this extra condition is given by the Wannier-like character of the variational orbitals. If the variational orbitals satisfy Eq.~\eqref{eq:trans-prop-wannier}, the Koopmans potential \eqref{eq:koopmans-potential} turns out to have the periodicity of the PC and, therefore, the Koopmans Hamiltonian \eqref{eq:koopmans-hamiltonian} fulfills the hypothesis of Bloch's theorem.
+At odds with DFT, where the total density is the only quantity entering the Hamiltonian, Koopmans functionals (and their Hamiltonians) depend on the set of variational orbital densities, and therefore the periodicity (over the primitive cell) of the total density alone is not sufficient to obtain a periodic potential. In this case a more stringent condition is needed, and in the following we show that this extra condition is given by the Wannier-like character of the variational orbitals. If the variational orbitals satisfy Eq.~\eqref{eq:trans-prop-wannier}, the Koopmans potential \eqref{eq:koopmans-potential} turns out to have the periodicity of the PC and, therefore, the Koopmans Hamiltonian \eqref{eq:koopmans-hamiltonian} fulfills the hypothesis of Bloch's theorem \cite{de_gennaro_blochs_2022}.
 
-Below, we show the compliance of the Hamiltonian with Bloch's theorem in three totally equivalent ways. The 
+Below, we show the compliance of the Koopmans Hamiltonian with Bloch's theorem, where the only assumption is the Wannier nature of the variational orbitals (which actually implies the periodicity of the total density). Since the Koopmans potential is a combination of several PZ-like terms, for simplicity here we give the mathematical proof for the PZ potential and for a 1-band system, while we refer to Appendix~\ref{app:periodic-ki-kipz} for the full derivation for the KI and KIPZ Hamiltonians. Definitions \eqref{eq:koopmans-hamiltonian} and \eqref{eq:koopmans-hamiltonian-equivalent-definition} are readily extended to the PZ potential, which on the set of variational WFs $\{ \wR \}$ reads as
+%
+\begin{subequations}
+    \begin{equation}
+        \vpz = \sum_{\bR} \vpz_{\bR} \ket{\wR} \bra{\wR}
+    \end{equation}
+    \begin{equation}
+        \vpz = \sum_{\bR, \bR'} v^{\rm PZ}_{\bR \bR'} \ket{\wR} \bra{\wRp}
+    \end{equation}
+    \label{eq:pz-potential}
+\end{subequations}
+%
+where $\rho_{\bR}(\br) = f_{\bR} |w_{\bR}(\br)|^2$, $\vpz_{\bR} = - \hat{v}_{\rm Hxc}[\rho_{\bR}]$, and $v^{\rm PZ}_{\bR \bR'} = \braket{\wR | \vpz_{\bR'} | \wRp}$. To further show the equivalence between the two definitions, we will prove that in both cases the PZ potential commutes with all the translation operators:
+%
+\begin{equation}
+    \left[ \vpz, \tR \right] = 0 \qquad \qquad \forall \bR \in {\rm BL} .
+    \label{eq:commutativity-pz-potential}
+\end{equation}
+%
+In the following steps, we make use of the properties of the translation operators, whose action over any function $\psi(\br)$ is given by $\tR: \psi(\br) \longrightarrow \psi(\br + \bR)$. In Dirac's notation, the action of the translation operators is defined on the positional kets $\ket{\br}$ as
+%
+\begin{equation}
+    \tR \ket{\br} = \ket{\br - \bR} ,
+    \label{eq:action-trans-operator}
+\end{equation}
+%
+which is, indeed, consistent with the previous definition (we recall that $\braket{\br|\br'} = \delta(\br - \br')$):
+%
+\begin{equation}
+    \begin{split}
+        \tR \psi(\br) &= \braket{\br|\tR|\psi} \\
+        &= \int d\br' \ \braket{\br|\tR|\br'} \braket{\br'|\psi} \\
+        &= \int d\br' \ \braket{\br|\br'-\bR} \psi(\br') \\
+        &= \psi(\br + \bR) .
+    \end{split}
+\end{equation}
 
-In the first case we show that the Koopmans potential is periodic 
+\subsubsection*{Case A: $\vpz = \sum_{\bR} \vpz_{\bR} \ket{\wR} \bra{\wR}$.}
+As shown in Appendix~\ref{app:periodic-ki-kipz}, the occupation number of the Wannier functions are independent from the lattice vector, i.e. $f_{\bR} = f_{\bm 0}$. By definition, the Wannier orbital densities $\rho_{\bR}(\br) = f_{\bm 0} |w_{\bR}(\br)|^2$ fulfill the same translation property \eqref{eq:trans-prop-wannier} as $w_{\bR}(\br)$:
+%
+\begin{equation}
+    \rho_{\bR}(\br + \bR') = \rho_{\bR - \bR'}(\br) .
+    \label{eq:trans-prop-wannier-orb-dens}
+\end{equation}
+%
+The crucial step is to show that also the ODD potentials $\hat{v}_{\rm Hxc}[\rho_{\bR}]$ satisfy the same property. Let us consider the self-Hartree potential first:
+%
+\begin{equation}
+    \begin{split}
+        v_{\rm H}([\rho_{\bR}],\br + \bR') & = \int_V d\br' \frac{\rho_{\bR}(\br')}{|\br + \bR' - \br'|} \\ 
+        & = \int_V d\br' \frac{\rho_{\bR}(\br' + \bR')}{|\br - \br'|} \\
+        & = \int_V d\br' \frac{\rho_{\bR - \bR'}(\br')}{|\br - \br'|} \\
+        & = v_{\rm H}([\rho_{\bR - \bR'}],\br) ,
+    \end{split}
+\end{equation}
+%
+where $V$ is the supercell volume, and we made use of Eq.~\eqref{eq:trans-prop-wannier-orb-dens}. For the self-xc potentials $\hat{v}_{\rm xc}[\rho_{\bR}]$ the situation is even simpler; at LDA and GGA levels, the xc functional is generally given by Eq.~\eqref{eq:gga-xc}, hence the xc potential $v^{\rm xc}([\rho_{\bR}],\br) = \frac{df}{d\rho_{\bR}}(\rho_{\bR}(\br), \nabla\rho_{\bR}(\br))$ inherits the full $\br$-dependence from the density. It is straightforward then, to show that $v_{\rm xc}([\rho_{\bR}],\br + \bR') = v_{\rm xc}([\rho_{\bR - \bR'}],\br)$, which finally yields the following property for the PZ ODD potential terms
+%
+\begin{equation}
+    v^{\rm PZ}_{\bR}(\br + \bR') = v^{\rm PZ}_{\bR - \bR'}(\br) ;
+    \label{eq:trans-prop-pz-pot}
+\end{equation}
+%
+Eq.~\eqref{eq:trans-prop-pz-pot} is sufficient to prove the final argument:
+%
+\begin{equation}
+    \begin{split}
+        \tR \vpz \ket{\psi} &= \sum_{\bR'} \tR \vpz_{\bR'} \ket{\wRp} \braket{\wRp|\psi} \\
+        &= \sum_{\bR'} \int d\br \ \tR \ket{\br} \braket{\br|\vpz_{\bR'}|\wRp} \int d\br' \ \braket{\wRp|\br'} \braket{\br'|\psi} \\
+        &= \sum_{\bR'} \int d\br \ \ket{\br - \bR} v^{\rm PZ}_{\bR'}(\br) \wRp(\br) \int d\br' \ \wRp^*(\br') \psi(\br') \\
+        &= \sum_{\bR'} \int d\br \ \ket{\br} v^{\rm PZ}_{\bR'}(\br + \bR) \wRp(\br + \bR) \int d\br' \ w_{\bR' - \bR}^*(\br') \psi(\br' + \bR) \\
+        &= \sum_{\bR'} \int d\br \ \ket{\br} v^{\rm PZ}_{\bR' - \bR}(\br) w_{\bR' - \bR}(\br) \int d\br' \ \braket{w_{\bR' - \bR}|\br'} \braket{\br'|\tR|\psi} \\
+        &= \int d\br \ \ket{\br} \bra{\br} \left( \sum_{\bR'} \vpz_{\bR' - \bR} \ket{w_{\bR' - \bR}} \bra{w_{\bR' - \bR}} \right) \tR \ket{\psi} \\
+        &= \vpz \tR \ket{\psi} .
+    \end{split}
+\end{equation}
+
+\subsubsection*{Case B: $\vpz = \sum_{\bR, \bR'} v^{\rm PZ}_{\bR \bR'} \ket{\wR} \bra{\wRp}$.}
+
+
 
 \section{Koopmans functionals in periodic boundary conditions\label{sec:koopmans-pbc}}
 
