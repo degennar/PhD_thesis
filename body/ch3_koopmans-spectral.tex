@@ -420,7 +420,7 @@ Let us consider the pair of states $\psi$ and $\phi$ and compute the non-hermiti
 %
 \begin{equation}
     \begin{split}
-    \braket{\psi | \hat{v}^{\rm KC} - (\hat{v}^{\rm KC})^{\dagger} | \phi} &= \sum_{jk} a_j^* b_k \braket{\phi_j|\hat{v}^{\rm KC} - (\hat{v}^{\rm KC})^{\dagger}|\phi_k} \\
+    \braket{\psi|\hat{v}^{\rm KC} - (\hat{v}^{\rm KC})^{\dagger}|\phi} &= \sum_{jk} a_j^* b_k \braket{\phi_j|\hat{v}^{\rm KC} - (\hat{v}^{\rm KC})^{\dagger}|\phi_k} \\
     &= \sum_{jk} a_j^* b_k \sum_i \left( \braket{\phi_j|\hat{v}_i^{\rm KC}|\phi_i}\braket{\phi_i|\phi_k} - \braket{\phi_j|\phi_i}\braket{\phi_i|\hat{v}_i^{\rm KC}|\phi_k} \right) \\
     &= \sum_{jk} a_j^* b_k \left( \braket{\phi_j|\hat{v}_k^{\rm KC}|\phi_k} - \braket{\phi_j|\hat{v}_j^{\rm KC}|\phi_k} \right) ,
     \end{split}
@@ -437,6 +437,17 @@ where $\{ a_j \}$ and $\{ b_k \}$ are the coefficients of $\psi$ and $\phi$, res
 where $\hat{h}_i^{\rm KC} = \hat{h}^{\rm DFT} + \alpha_i \hat{v}_i^{\rm KC}$ is the ODD Hamiltonian defined in Eq.~\eqref{eq:koopmans-functional-derivative}.
 
 The operators in Eqs.~\eqref{eq:koopmans-potential} and \eqref{eq:koopmans-hamiltonian} are fully defined by the set of orbitals $\{ \phi_i \}$, since the latter also define univocally the set of ODD potentials $\{ \hat{v}_i^{\rm KC} \}$. At any step of the minimization, in principle, we can construct such operators, which are generally non-hermitian, and become hermitian in correspondence of the stationary points of the functional -- i.e. when the Pederson condition holds. In particular, the operators realized on the variational orbitals are the Koopmans potential and the Koopmans Hamiltonian. The second can be diagonalized, and its eigenvalues provide the quasiparticle energies of the system.
+
+For the sake of completeness, we remark that the Koopmans Hamiltonian of Eq.~\eqref{eq:koopmans-hamiltonian} could be expressed, in a completely equivalent, way as
+%
+\begin{equation}
+    \hat{h}^{\rm KC} = \sum_{ij} h^{\rm KC}_{ij} \ket{\phi_i} \bra{\phi_j}
+    \qquad \text{with} \qquad
+    h^{\rm KC}_{ij} = \braket{\phi_i | \hat{h}^{\rm KC} | \phi_j} ,
+    \label{eq:koopmans-hamiltonian-equivalent-definition}
+\end{equation}
+%
+where, in general, $h^{\rm KC}_{ij} \neq (h^{\rm KC}_{ji})^*$ and the equality holds when the Pederson condition is satisfied. Knowing that all the arguments and properties discussed for the expression in \eqref{eq:koopmans-hamiltonian} apply also to Eq.~\eqref{eq:koopmans-hamiltonian-equivalent-definition}, in the following discussions we adopt the expression of Eq.~\eqref{eq:koopmans-hamiltonian}.
 
 \subsection{Connection to SIC and performance of Koopmans}
 An important aspect to mention is the fact that the generalized PWL condition imposed by Koopmans functionals applies only to the variational orbitals. After the diagonalization, when we pass from variational to canonical orbitals, we lose the connection between the functional and the orbitals in the sense that: (i) the Koopmans energy computed by varying the occupation of the canonical orbitals is not necessarily linear, (ii) the matrix elements of the Koopmans Hamiltonian over the canonical orbitals (i.e. the eigenvalues) -- which are interpreted as the quasiparticle energies -- do not correspond anymore to the total energy difference $E^{KC}(f_i=1)-E^{KC}(f_i=0)$.
