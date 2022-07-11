@@ -1,5 +1,5 @@
 \cleardoublepage
-\chapter{Koopmans functionals for periodic systems\label{ch:koopmans-periodic}}
+\chapter[Koopmans functionals for periodic systems]{Koopmans functionals\break for periodic systems\label{ch:koopmans-periodic}}
 In the previous chapter we described the general framework of Koopmans functionals, without focusing on the specific issues that arise when passing from finite to extended systems. Here, we address the issues that are particularly relevant when dealing with infinitely periodic systems, where the need for a localized set of orbitals brings about the apparent breaking of the translation symmetries of the system. The chapter is organized as follows: in Sec.~\ref{sec:localization}, we bring up the importance of having localized sets of variational orbitals in Koopmans functionals and Wannier functions are introduced; in Sec.~\ref{sec:bloch-theorem-section}, we discuss the validity of Bloch's theorem in the framework of ODD functionals, which represents one of the main results of this thesis; finally, Sec.~\ref{sec:koopmans-pbc} is devoted to the formulation of Koopmans functionals in periodic boundary conditions. As usual, we close with a small section that summarizes the content of the chapter.
 
 Part of the content of this chapter has been published in Refs.~\cite{de_gennaro_blochs_2022} and \cite{colonna_koopmans_2022}.
@@ -158,9 +158,11 @@ Below, we show the compliance of the Koopmans Hamiltonian with Bloch's theorem, 
 \begin{subequations}
     \begin{equation}
         \vpz = \sum_{\bR} \vpz_{\bR} \ket{\wR} \bra{\wR}
+        \label{eq:pz-potential-def-1}
     \end{equation}
     \begin{equation}
         \vpz = \sum_{\bR, \bR'} v^{\rm PZ}_{\bR \bR'} \ket{\wR} \bra{\wRp}
+        \label{eq:pz-potential-def-2}
     \end{equation}
     \label{eq:pz-potential}
 \end{subequations}
@@ -179,7 +181,7 @@ In the following steps, we make use of the properties of the translation operato
     \label{eq:action-trans-operator}
 \end{equation}
 %
-which is, indeed, consistent with the previous definition (we recall that $\braket{\br|\br'} = \delta(\br - \br')$):
+which is, indeed, consistent with the previous definition:
 %
 \begin{equation}
     \begin{split}
@@ -190,7 +192,7 @@ which is, indeed, consistent with the previous definition (we recall that $\brak
     \end{split}
 \end{equation}
 
-\subsubsection*{Case A: $\vpz = \sum_{\bR} \vpz_{\bR} \ket{\wR} \bra{\wR}$.}
+\subsubsection*{Case A: $\vpz = \sum_{\bR} \vpz_{\bR} \ket{\wR} \bra{\wR}$}
 As shown in Appendix~\ref{app:periodic-ki-kipz}, the occupation number of the Wannier functions are independent from the lattice vector, i.e. $f_{\bR} = f_{\bm 0}$. By definition, the Wannier orbital densities $\rho_{\bR}(\br) = f_{\bm 0} |w_{\bR}(\br)|^2$ fulfill the same translation property \eqref{eq:trans-prop-wannier} as $w_{\bR}(\br)$:
 %
 \begin{equation}
@@ -207,6 +209,7 @@ The crucial step is to show that also the ODD potentials $\hat{v}_{\rm Hxc}[\rho
         & = \int_V d\br' \frac{\rho_{\bR - \bR'}(\br')}{|\br - \br'|} \\
         & = v_{\rm H}([\rho_{\bR - \bR'}],\br) ,
     \end{split}
+    \label{eq:trans-prop-hartree-pot}
 \end{equation}
 %
 where $V$ is the supercell volume, and we made use of Eq.~\eqref{eq:trans-prop-wannier-orb-dens}. For the self-xc potentials $\hat{v}_{\rm xc}[\rho_{\bR}]$ the situation is even simpler; at LDA and GGA levels, the xc functional is generally given by Eq.~\eqref{eq:gga-xc}, hence the xc potential $v^{\rm xc}([\rho_{\bR}],\br) = \frac{df}{d\rho_{\bR}}(\rho_{\bR}(\br), \nabla\rho_{\bR}(\br))$ inherits the full $\br$-dependence from the density. It is straightforward then, to show that $v_{\rm xc}([\rho_{\bR}],\br + \bR') = v_{\rm xc}([\rho_{\bR - \bR'}],\br)$, which finally yields the following property for the PZ ODD potential terms
@@ -225,14 +228,56 @@ Eq.~\eqref{eq:trans-prop-pz-pot} is sufficient to prove the final argument:
         &= \sum_{\bR'} \int d\br \ \ket{\br - \bR} v^{\rm PZ}_{\bR'}(\br) \wRp(\br) \int d\br' \ \wRp^*(\br') \psi(\br') \\
         &= \sum_{\bR'} \int d\br \ \ket{\br} v^{\rm PZ}_{\bR'}(\br + \bR) \wRp(\br + \bR) \int d\br' \ w_{\bR' - \bR}^*(\br') \psi(\br' + \bR) \\
         &= \sum_{\bR'} \int d\br \ \ket{\br} v^{\rm PZ}_{\bR' - \bR}(\br) w_{\bR' - \bR}(\br) \int d\br' \ \braket{w_{\bR' - \bR}|\br'} \braket{\br'|\tR|\psi} \\
-        &= \int d\br \ \ket{\br} \bra{\br} \left( \sum_{\bR'} \vpz_{\bR' - \bR} \ket{w_{\bR' - \bR}} \bra{w_{\bR' - \bR}} \right) \tR \ket{\psi} \\
-        &= \vpz \tR \ket{\psi} .
+        &= \int d\br \ \ket{\br} \bra{\br} \left( \sum_{\bR'} \vpz_{\bR' - \bR} \ket{w_{\bR' - \bR}} \bra{w_{\bR' - \bR}} \right) \tR \ket{\psi} \qquad (\bR' - \bR \longrightarrow \bR') \\
+        &= \vpz \tR \ket{\psi} ,
+    \end{split}
+    \label{eq:demonstration-commutativity}
+\end{equation}
+%
+where we used the fact that $\{ \bR \}$ is a closed set. The result above applies to any state $\ket{\psi}$ and, therefore, proves the validity of Eq.~\eqref{eq:commutativity-pz-potential}.
+
+\subsubsection*{Case B: $\vpz = \sum_{\bR, \bR'} v^{\rm PZ}_{\bR \bR'} \ket{\wR} \bra{\wRp}$}
+In this case, the property that allows to prove the commutativity of the PZ potential regards the matrix elements of the PZ potential. From Eq.~\eqref{eq:trans-prop-pz-pot}, it follows that
+%
+\begin{equation}
+    \begin{split}
+        v^{\rm PZ}_{\bR+\bR'',\bR'} &= \braket{w_{\bR+\bR''} | \hat{v}^{\rm PZ} | w_{\bR'}} \\
+        &= \int d\br\ w^*_{\bR+\bR''}(\br) v^{\rm PZ}_{\bR'}(\br) w_{\bR'}(\br) \\
+        &= \int d\br\ w^*_{\bR}(\br) v^{\rm PZ}_{\bR'-\bR''}(\br) w_{\bR'-\bR''}(\br) \\
+        &= \braket{w_{\bR} | \hat{v}^{\rm PZ} | w_{\bR'-\bR''}} \\
+        &= v^{\rm PZ}_{\bR,\bR'-\bR''} .
+    \end{split}
+    \label{eq:trans-prop-matrix-element}
+\end{equation}
+%
+This can then be used to prove the commutativity of the PZ potential defined as in Eq.~\eqref{eq:pz-potential-def-2}:
+%
+\begin{equation}
+    \begin{split}
+        \tR \vpz \ket{\psi} &= \sum_{\bR',\bR''} v^{\rm PZ}_{\bR' \bR''} \tR \ket{\wRp} \braket{w_{\bR''}|\psi} \\
+        &= \sum_{\bR',\bR''} v^{\rm PZ}_{\bR' \bR''} \int d\br \ \ket{\br - \bR} \wRp(\br) \braket{w_{\bR''}|\psi} \\
+        &= \sum_{\bR',\bR''} v^{\rm PZ}_{\bR' \bR''} \int d\br \ \ket{\br} w_{\bR'- \bR}(\br) \braket{w_{\bR''}|\psi} \qquad (\bR' - \bR \longrightarrow \bR') \\
+        &= \sum_{\bR',\bR''} v^{\rm PZ}_{\bR'+\bR,\bR''} \int d\br \ \ket{\br} \braket{\br|\wRp} \braket{w_{\bR''}|\psi} \\
+        &= \sum_{\bR',\bR''} v^{\rm PZ}_{\bR',\bR''-\bR} \ket{\wRp} \braket{w_{\bR''}|\psi} \qquad \qquad \qquad (\bR''-\bR \longrightarrow \bR'') \\
+        &= \sum_{\bR',\bR''} v^{\rm PZ}_{\bR',\bR''} \ket{\wRp} \int d\br \ w_{\bR''+\bR}^*(\br) \psi(\br) \\
+        &= \sum_{\bR',\bR''} v^{\rm PZ}_{\bR',\bR''} \ket{\wRp} \bra{w_{\bR''}} \int d\br \ \ket{\br-\bR} \psi(\br) \\
+        &= \vpz \int d\br \ \tR \ket{\br} \braket{\br|\psi} \\
+        &= \vpz \tR \ket{\psi} ,
     \end{split}
 \end{equation}
+%
+where, also here, we used the closure of $\{ \bR \}$, together with the properties of the translation operators.
 
-\subsubsection*{Case B: $\vpz = \sum_{\bR, \bR'} v^{\rm PZ}_{\bR \bR'} \ket{\wR} \bra{\wRp}$.}
+The extension to the whole PZ Hamiltonian is trivial, since the remainder part is the DFT Hamiltonian which commutes already with all the translation operators. Although the Koopmans Hamiltonian is more complex than the PZ one discussed here, it is made of orbital-density-dependent potentials of the very same nature of the PZ ones, alongside scalar terms -- meaning that they do not depend on $\br$ -- or terms that depend only on the total density $\rho$. The latter are trivially periodic on the primitive cell because of the periodicity of the total density (see Appendix~\ref{app:periodic-ki-kipz} for a detailed derivation). The proof given above thus readily applies also to the Koopmans Hamiltonian \eqref{eq:koopmans-hamiltonian} -- and actually to any PZ-like ODD approach -- which then fulfills the hypotesis of Bloch's theorem, i.e.
+%
+\begin{equation}
+    \left[ \tR, \hat{h}^{\rm KC} \right] = 0 .
+    \label{eq:commutativity-koopmans-ham}
+\end{equation}
+%
+It is important to stress that Eq.~\eqref{eq:commutativity-koopmans-ham} proves the existence of a band structure description of the quasiparticle spectrum resulting from the Koopmans Hamiltonian, however, the computation of the self-interaction terms on the localized orbitals still requires to deal with non-periodic orbital densities. The standard approach then requires calculations in a supercell, where the information about the $\bk$-dependence of the eigenenergies is not given explicitly. An unfolding method that allows to reconstruct this information is needed, and in the following chapter we will describe the strategy used in this work
 
-
+To summarize, we have shown that when the variational orbitals are Wannier functions (i.e.\ they satisfy Eq.~\eqref{eq:trans-prop-wannier}) the potential $\hat{v}^{\rm KC}$ defined in Eq.~\eqref{eq:koopmans-hamiltonian} is periodic over the PC, making the Koopmans Hamiltonian Bloch-compliant. As an aside, the Wannier-like nature of the orbitals and the Bloch-compliance of Koopmans functionals also makes it possible to develop a PC implementation of Koopmans functionals, for direct access to the band structure without the need of supercell calculations and of an unfolding procedure \cite{colonna_koopmans_2022}; a brief overview of this implementation is given in the following section. As we already mentioned above, the assumption of having Wannier-like variational orbitals is justified by the observation that the minimization of Koopmans and PZ functionals in extended systems leads to orbitals with these properties. While this has occurred in all the systems so far considered, it is important to remark that the lack of the Wannier-like character in the variational orbitals would prevent from applying the Bloch's theorem and implies the actual breaking of the translation symmetry of the system. Such situations are presumably as sporadic as when in standard DFT the periodicity of the ground-state density is not commensurate to that of the lattice potential and they should not be confused with special system-dependent gauge invariances that Koopmans functionals might have. Despite the non-unitary invariance of the functionals, there is indeed no guarantee for the uniqueness of the set of variational orbitals and we cannot exclude \emph{a priori} that there might exist some gauges for which the translation symmetry of the lattice is broken.
 
 \section{Koopmans functionals in periodic boundary conditions\label{sec:koopmans-pbc}}
 

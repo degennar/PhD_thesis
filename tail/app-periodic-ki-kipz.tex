@@ -1,1 +1,77 @@
 \chapter{Periodicity of KI and KIPZ potentials\label{app:periodic-ki-kipz}}
+In this appendix, we first show the independence of the Wannier occupation numbers from the $\bR$-vectors, then we give a proof for the commutativity of the KI and KIPZ potentials with the translation operators $\tR$.
+
+\subsubsection*{Occupation numbers of Wannier functions}
+In terms of the KS (Bloch-like) eigenstates, the total electronic density is
+%
+\begin{equation}
+    \rho(\br) = \sum_{\bk,n} f_{\bk n} \psi^*_{\bk n}(\br) \psi_{\bk n}(\br)
+    \label{eq:density-bloch}
+\end{equation}
+%
+where the occupations $f_{\bk n}$ follow the Fermi-Dirac statistics. We now consider the transformation connecting BFs and WFs given in Eq.~\eqref{eq:wannier-function}, which inverted gives
+%
+\begin{equation}
+    \ket{\psink} = \sum_{\bR,m} e^{i\bk \cdot \bR} U^{(\bk)*}_{nm} \ket{w_{\bR m}} .
+    \label{eq:bloch-wannier}
+\end{equation}
+%
+On the Wannier basis the density takes the form
+%
+\begin{equation}
+    \rho(\br) = \sum_{\bR,\bR',m,n} f_{mn}^{\bR\bR'} w^*_{\bR m}(\br) w_{\bR' n}(\br) , 
+\end{equation}
+%
+where $f_{mn}^{\bR\bR'} = \sum_{\bk p} f_{\bk p} e^{-i\bk(\bR-\bR')} U^{(\bk)}_{pm} U^{(\bk)*}_{pn}$. Therefore, the matrix elements $f_{mn}^{\bR\bR'}$ depend only on the difference between $\bR$ and $\bR'$:
+\begin{equation}
+    f_{mn}^{\bR\bR'} = f_{mn}^{\bR-\bR'} .
+    \label{eq:matrix-elements-occupations-wannier}
+\end{equation}
+%
+As a consequence of Eq.~\eqref{eq:matrix-elements-occupations-wannier}, the occupancies on the Wannier orbitals, i.e. the diagonal elements of the matrix $f_{mn}^{\bR\bR'}$, are independent from the lattice vector as claimed:
+%
+\begin{equation}
+    f_{\bR n} = f_{nn}^{\bR\bR} = f_{nn}^{\bR-\bR} = f_{nn}^{\bm 0} = f_{{\bm 0}n} .
+\end{equation}
+
+\subsubsection*{Commutativity of the Koopmans potential}
+In order to show the commutativity of the Koopmans potential is sufficient to prove that, when built on WFs, the ODD terms possess the translation property of Eq.~\eqref{eq:trans-prop-pz-pot}. Starting from KI, the full expression of the potential is given by Eq.~\eqref{eq:ki-pot-final}, and is made of a scalar term \eqref{eq:ki-pot-scalar} and of a $\br$-dependent term \eqref{eq:ki-pot-real}. The scalar terms are clearly invariant under any spatial translations, and therefore satisfy a more stringent condition than Eq.~\eqref{eq:trans-prop-pz-pot}, namely
+%
+\begin{equation}
+    E_{\rm Hxc}[\rho_{n\bR}] = E_{\rm Hxc}[\rho_{n\bR'}] ;
+\end{equation}
+%
+As a consequence, the scalar part of the KI potential possesses the same property, and thus satisfies Eq.~\eqref{eq:trans-prop-pz-pot}. Among the non-scalar terms, some depend solely on the total density and are, therefore, periodic, whereas the ODD terms are essentially of two types:
+%
+\begin{equation}
+    v_{\rm Hxc}([\rho-\rho_{n\bR}+n_{n\bR}],\br)
+    \qquad , \qquad
+    v_{\rm Hxc}([\rho-\rho_{n\bR}],\br) ;
+\end{equation}
+%
+given the similarity between the two terms, we will show the compliance with Eq.~\eqref{eq:trans-prop-pz-pot} only for the second term, since the extension to the other type does not require any particular manipulation. As done in Sec.~\ref{sec:bloch-th-odd}, we treat the Hartree and xc terms separately; given the linearity of the Hartree potential with respect to the density, we obtain
+%
+\begin{equation}
+    v_{\rm H}([\rho-\rho_{n\bR}],\br) = v_{\rm H}([\rho],\br) - v_{\rm H}([\rho_{n\bR}],\br) ;
+\end{equation}
+%
+upon a translation of $\bR$, the first term on the right-hand side is invariant, while the second was already analyzed in Eq.~\eqref{eq:trans-prop-hartree-pot}. With regards to the xc term, following the argument of Sec.~\ref{sec:bloch-th-odd}, we find that
+%
+\begin{equation}
+    \begin{split}
+        v_{\rm xc}([\rho-\rho_{n\bR}],\br+\bR') &= v_{\rm xc} (\rho(\br+\bR') - \rho_{n\bR}(\br+\bR')) \\
+        &= v_{\rm xc}(\rho(\br) - \rho_{n\bR-\bR'}(\br)) \\
+        &= v_{\rm xc}([\rho-\rho_{n\bR-\bR'}],\br) ,
+    \end{split}
+\end{equation}
+%
+which shows that the ODD Hxc potential corresponding to the density $\rho-\rho_{n\bR}$, fulfills Eq.~\eqref{eq:trans-prop-pz-pot}.
+
+Finally, for the KIPZ potential, from Eq.~\eqref{eq:kipz-pot-full} we see that the additional terms belong to one of the aforemonetioned categories, meaning that the Wannier-like property \eqref{eq:trans-prop-pz-pot} readily applies also to the ODD KIPZ potentials:
+%
+\begin{equation}
+    v^{\rm KI/KIPZ}_{\bR}(\br+\bR') = v^{\rm KI/KIPZ}_{\bR-\bR'}(\br) .
+    \label{eq:commutativity-ki-kipz-potentials}
+\end{equation}
+%
+    The result above is sufficient to prove the compliance of the KI and KIPZ Hamiltonians with Bloch's theorem, as the second part of the demonstration [see Eq.~\eqref{eq:demonstration-commutativity}] is totally agnostic of the type of ODD potential considered, as long as this Eq.~\eqref{eq:commutativity-ki-kipz-potentials} is satisfied.
