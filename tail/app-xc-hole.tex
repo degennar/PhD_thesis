@@ -39,14 +39,14 @@ where $v_{\lambda=0}(\br)$ takes the form of the KS potential and, when $\lambda
     \label{eq:adia-conn-demonstration-1}
 \end{equation}
 %
-Upon integration between 0 and 1, the left-hand side of Eq.~\eqref{eq:adia-conn-demonstration-1} becomes
+Upon integration between 0 and 1, the left-hand side of \cref{eq:adia-conn-demonstration-1} becomes
 %
 \begin{equation}
     E_1 - E_0 = (T_0 + E_{\rm H} + E_{\rm xc} + V) - (T_0 + V_0) = E_{\rm H} + E_{\rm xc} + (V - V_0) ,
     \label{eq:adia-conn-demonstration-2}
 \end{equation}
 %
-with $E_1$ being the energy of the fully-interacting system, and $E_0$ the KS energy; by comparison with the right-hand side of Eq.~\eqref{eq:adia-conn-demonstration-1}, we finally obtain
+with $E_1$ being the energy of the fully-interacting system, and $E_0$ the KS energy; by comparison with the right-hand side of \cref{eq:adia-conn-demonstration-1}, we finally obtain
 %
 \begin{equation}
     E_{\rm xc} = \int_0^1 d\lambda \braket{\Psi_{\lambda} | \hat{V}_{\rm ee} | \Psi_{\lambda}} - E_{\rm H} .
@@ -64,7 +64,7 @@ The connection with the xc hole is found by solving the remaining integral over 
     \label{eq:adia-conn-demonstration-4}
 \end{equation}
 %
-where $\rho_{\lambda}(\br,\br')$ is the $\lambda$-dependent pair-correlation function, whose integral over $\lambda$ can be expressed, via Eq.~\eqref{eq:pair-corr-xc-hole}, in terms of the integrated exchange-correlation hole $\Bar{\rho}_{\rm xc}(\br,\br') = \int_0^1 d\lambda \rho_{\rm xc,\lambda}(\br,\br')$:
+where $\rho_{\lambda}(\br,\br')$ is the $\lambda$-dependent pair-correlation function, whose integral over $\lambda$ can be expressed, via \cref{eq:pair-corr-xc-hole}, in terms of the integrated exchange-correlation hole $\Bar{\rho}_{\rm xc}(\br,\br') = \int_0^1 d\lambda \rho_{\rm xc,\lambda}(\br,\br')$:
 %
 \begin{equation}
     \int_0^1 d\lambda \braket{\Psi_{\lambda} | \hat{V}_{\rm ee} | \Psi_{\lambda}} = \frac{1}{2} \int d\br d\br' \frac{\rho(\br) \rho(\br')}{|\br - \br'|} + \frac{1}{2} \int d\br d\br' \frac{\rho(\br) \Bar{\rho}_{\rm xc}(\br,\br')}{|\br - \br'|}
@@ -72,7 +72,7 @@ where $\rho_{\lambda}(\br,\br')$ is the $\lambda$-dependent pair-correlation fun
 \end{equation}
 
 By identifying the first term on the right-hand side with the Hartree energy, and comparing with 
-Eq.~\eqref{eq:adia-conn-demonstration-3}, we obtain the following expression for the exchange-correlation energy
+\cref{eq:adia-conn-demonstration-3}, we obtain the following expression for the exchange-correlation energy
 %
 \begin{equation}
     E_{\rm xc} = \frac{1}{2} \int d\br \int d\br' \frac{\rho(\br')\Bar{\rho}_{\rm xc}(\br,\br')}{|\br-\br'|} ,
@@ -88,7 +88,7 @@ The xc hole must satisfy some important constraints, one of which is the sum rul
     \label{eq:sum-rule-xc-hole}
 \end{equation}
 %
-which tells us that if an electron is at $\br$, the rest of the system must lack of one electron. The same reasoning can be applied also within the framework of Hartree-Fock theory, that leads to an identical sum rule for the exchange hole only. Combining this result with Eq.~\eqref{eq:sum-rule-xc-hole}, one obtains
+which tells us that if an electron is at $\br$, the rest of the system must lack of one electron. The same reasoning can be applied also within the framework of Hartree-Fock theory, that leads to an identical sum rule for the exchange hole only. Combining this result with \cref{eq:sum-rule-xc-hole}, one obtains
 %
 \begin{equation}
     \int d\br' \rho_{\rm x}(\br,\br') = -1, \qquad \qquad \int d\br' \rho_{\rm c}(\br,\br') = 0 .
@@ -102,4 +102,4 @@ To conclude this section, we report the exact exchange-correlation hole for a sy
     \label{eq:sum-rule-fractional}
 \end{equation}
 %
-where $\lambda$ is the coupling constant between the interacting and non-interacting systems. It is clear that in the limit of integer number of electrons ($\delta \longrightarrow 0$) the result of Eq.~\eqref{eq:sum-rule-xc-hole} is recovered. As discussed in Sec.~\ref{sec:errors-dft}, the self-interaction error present in local functionals affects especially systems at fractional number of electrons. This is a consequence of the fact that such functionals normally satisfy Eq.~\eqref{eq:sum-rule-xc-hole}, but not Eq.~\eqref{eq:sum-rule-fractional}. The PZ functional also obeys to Eq.~\eqref{eq:sum-rule-xc-hole}, but it improves the description of the xc hole also at fractional number of electrons and, in particular, in the limit of non-interacting electrons, it fulfills Eq.~\eqref{eq:sum-rule-fractional} \cite{perdew_what_1985}.
+where $\lambda$ is the coupling constant between the interacting and non-interacting systems. It is clear that in the limit of integer number of electrons ($\delta \longrightarrow 0$) the result of \cref{eq:sum-rule-xc-hole} is recovered. As discussed in Sec.~\ref{sec:errors-dft}, the self-interaction error present in local functionals affects especially systems at fractional number of electrons. This is a consequence of the fact that such functionals normally satisfy \cref{eq:sum-rule-xc-hole}, but not \cref{eq:sum-rule-fractional}. The PZ functional also obeys to \cref{eq:sum-rule-xc-hole}, but it improves the description of the xc hole also at fractional number of electrons and, in particular, in the limit of non-interacting electrons, it fulfills \cref{eq:sum-rule-fractional} \cite{perdew_what_1985}.
