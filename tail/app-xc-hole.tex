@@ -20,7 +20,7 @@ where $\rho_{\rm xc}(\br,\br')$ describes the effect on the density at $\br$ due
 
 The xc hole, just as the xc energy, can be split in its exchange and correlation contributions. Because of Pauli exclusion principle, which prevents electrons with the same spin from occupying the same position, each electron is surrounded by a hole due to the absence of electrons. The negative energy resulting from the interaction of the electron with this (exchange) hole yields the exchange energy. Also the correlation energy generally lowers the total energy, which can be easily understood if we consider its definition as the difference between the exact and the Hartree-Fock energy. In Hartree-Fock theory, the energy is defined as the expectation value of the exact many-body Hamiltonian over a single Slater determinant wave function; the whole approximation is contained in the trial wave function and, due to the variational principle, the resulting energy is always larger than the exact ground state energy. As a consequence, also the correlation energy can be expressed as the average interaction of an electron with its correlation hole.
 
-A rigorous derivation of the just discussed relation between xc energy and xc hole is obtained by means of the adiabatic connection formula (here we follow the derivation given in the Appendix of Ref.~\cite{becke_correlation_1988}). Resorting to the same stratagem used in Sec.~\ref{sec:hybrids}, let us consider a non-interacting system where the electron-electron repulsion is slowly switched on via a parameter $\lambda$, and the external potential $v_{\lambda}(\br)$ is designed to yield, for any value of $\lambda$, the ground-state density $\rho$ of the real (fully-interacting) system. The Hamiltonian reads as
+A rigorous derivation of the just discussed relation between xc energy and xc hole is obtained by means of the adiabatic connection formula (here we follow the derivation given in the Appendix of Ref.~\cite{becke_correlation_1988}). Resorting to the same stratagem used in \cref{sec:hybrids}, let us consider a non-interacting system where the electron-electron repulsion is slowly switched on via a parameter $\lambda$, and the external potential $v_{\lambda}(\br)$ is designed to yield, for any value of $\lambda$, the ground-state density $\rho$ of the real (fully-interacting) system. The Hamiltonian reads as
 %
 \begin{equation}
     \hat{H}_{\lambda} = \hat{T} + \lambda \hat{V}_{\rm ee} + \sum_i \hat{v}_{\lambda,i} ,
@@ -79,7 +79,7 @@ By identifying the first term on the right-hand side with the Hartree energy, an
     \label{eq:xc-ene-xc-hole}
 \end{equation}
 %
-which, once more, highlights the non-interacting character of the Hartree term and the totally correlated nature of the xc energy (as also discussed in Sec.~\ref{sec:hartree-fock}).
+which, once more, highlights the non-interacting character of the Hartree term and the totally correlated nature of the xc energy (as also discussed in \cref{sec:hartree-fock}).
 
 The xc hole must satisfy some important constraints, one of which is the sum rule
 %
@@ -95,11 +95,11 @@ which tells us that if an electron is at $\br$, the rest of the system must lack
     \label{eq:sum-rule-x-hole-c-hole}
 \end{equation}
 
-To conclude this section, we report the exact exchange-correlation hole for a system with a fractional number of electrons. By means of the adiabatic connection and recalling the formalism used in Sec.~\ref{sec:pwl-energy}, if $\delta$ is the fraction of electron resulting from the mixture of the $(M-1)$- and $M$-electron systems, and $N=M+\delta$ is the average number of electrons, the sum rule on the xc hole reads as \cite{perdew_what_1985}
+To conclude this section, we report the exact exchange-correlation hole for a system with a fractional number of electrons. By means of the adiabatic connection and recalling the formalism used in \cref{sec:pwl-energy}, if $\delta$ is the fraction of electron resulting from the mixture of the $(M-1)$- and $M$-electron systems, and $N=M+\delta$ is the average number of electrons, the sum rule on the xc hole reads as \cite{perdew_what_1985}
 %
 \begin{equation}
     \int d\br' \rho_{\rm xc}^{\rm}(\br,\br') = -1 + \delta(1-\delta) \int_0^1 d\lambda \frac{\rho_{M}^{\lambda}(\br) - \rho_{M-1}^{\lambda}(\br)}{\rho_N(\br)} ,
     \label{eq:sum-rule-fractional}
 \end{equation}
 %
-where $\lambda$ is the coupling constant between the interacting and non-interacting systems. It is clear that in the limit of integer number of electrons ($\delta \longrightarrow 0$) the result of \cref{eq:sum-rule-xc-hole} is recovered. As discussed in Sec.~\ref{sec:errors-dft}, the self-interaction error present in local functionals affects especially systems at fractional number of electrons. This is a consequence of the fact that such functionals normally satisfy \cref{eq:sum-rule-xc-hole}, but not \cref{eq:sum-rule-fractional}. The PZ functional also obeys to \cref{eq:sum-rule-xc-hole}, but it improves the description of the xc hole also at fractional number of electrons and, in particular, in the limit of non-interacting electrons, it fulfills \cref{eq:sum-rule-fractional} \cite{perdew_what_1985}.
+where $\lambda$ is the coupling constant between the interacting and non-interacting systems. It is clear that in the limit of integer number of electrons ($\delta \longrightarrow 0$) the result of \cref{eq:sum-rule-xc-hole} is recovered. As discussed in \cref{sec:errors-dft}, the self-interaction error present in local functionals affects especially systems at fractional number of electrons. This is a consequence of the fact that such functionals normally satisfy \cref{eq:sum-rule-xc-hole}, but not \cref{eq:sum-rule-fractional}. The PZ functional also obeys to \cref{eq:sum-rule-xc-hole}, but it improves the description of the xc hole also at fractional number of electrons and, in particular, in the limit of non-interacting electrons, it fulfills \cref{eq:sum-rule-fractional} \cite{perdew_what_1985}.
