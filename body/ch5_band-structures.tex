@@ -4,8 +4,15 @@ In this chapter we discuss the details of practical calculations, and the result
 
 Part of the content of this chapter, as well as the reported results, have been published in Refs.~\cite{de_gennaro_blochs_2022,colonna_koopmans_2022}.
 
-\cleardoublepage
+\clearpage
 \section{Calculations with Koopmans functionals\label{sec:calculations-koopmans}}
+Electronic-structure calculations using Koopmans spectral functionals are performed following two different approaches, based on the two strategies to compute the screening parameters discussed in \cref{sec:screening-parameters}: the first makes use of the finite energy differences strategy and relies on the SC method, the second resorts to linear response theory and takes full advantage of the system's symmetries by exploiting the Wannier-like nature of the variational orbitals.
+
+The former represents the original approach used to perform the first calculations in crystalline materials \cite{nguyen_koopmans-compliant_2018}, although, in that case, the quasiparticle energies were computed only at the $\Gamma$-point of the SC (no information about the $\bk$-dispersion). By means of an unfolding technique -- which, once again seizes on the fact that the variational orbitals are WFs, to reconstruct the $\bk$-dependence of the Koopmans Hamiltonian -- here we show, for the very first time, band structures calculations from Koopmans functionals along any path in the BZ \cite{de_gennaro_blochs_2022}. From now on, when speaking of the BZ, we will implicitly refer to the PC's BZ, since the one of the SC always consists of the $\Gamma$-point only.
+
+The second approach came out more recently \cite{colonna_koopmans_2022} and, since it relies on a second-order approximation of the $\Pi_i$ terms, so far it has been developed only for the KI functional. Differently from the SC approach, it does not compute the ground state in a variational way, but rather opts for the very reasonable 
+
+A big part of this thesis was dedicated to the development of some parts of the computational code, to reach a stable implementation working for periodic systems, together with an optimization of the entire workflow required to perform calculations of Koopmans functionals in crystalline materials. In the following sections we give a detailed description of these aspects.
 
 
 \subsection{Unfolding method\label{sec:unfolding-method}}
@@ -31,4 +38,8 @@ Part of the content of this chapter, as well as the reported results, have been 
 \subsection{Computational details\label{sec:computational-details}}
 
 \section{Results\label{sec:results-bands}}
+
+\subsection{Finite differences\label{sec:results-dscf}}
+
+\subsection{DFPT\label{sec:results-dfpt}}
 
