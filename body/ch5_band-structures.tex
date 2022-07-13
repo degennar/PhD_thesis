@@ -17,34 +17,55 @@ A big part of this thesis was dedicated to the development of some parts of the 
 
 
 \subsection{Unfolding and interpolation method\label{sec:unfolding-method}}
-
-\begin{equation}
-    h^{\rm KC}(\bk,\bk') = \sum_{\bR,\bR'} e^{-i\bk \cdot \bR} e^{i\bk' \cdot \bR'} \braket{w_{\bR} | \hat{h}^{\rm KC}_{\bR'} | w_{\bR'}} .
-    \label{eq:double-k-ham}
-\end{equation}
-
-When simulating a bulk crystalline material, the infinite system is usually studied with Born-von Karman (BvK) boundary conditions, which introduces a discretization of the $\bk$-points inside the first Brillouin zone (BZ). Equivalently, one can study explicitly the BvK supercell containing the $N$ periodic replicas of the primitive cell, but in this case one no longer has direct access to the band structure of the primitive cell.
-
-In order to recover this band structure, several methods have been developed \cite{boykin_practical_2005, lee_band_2005, ku_unfolding_2010, popescu_extracting_2012, huang_general_2014, medeiros_effects_2014, zheng_quantum_2015}; our approach follows the same strategy of \cite{lee_band_2005} and exploits the Wannier nature of the variational orbitals. The matrix elements of the $\bk$-space Hamiltonian are obtained from those given by the variational orbitals via a (double) Fourier transform as in \cref{eq:double-k-ham}. If the Wannier Hamiltonian is compliant with the translation symmetries of the system, the expression reduces to
-%
-\begin{equation}
-    h^{\rm KC}_{mn}(\bk) = \braket{\psi_{m\bk} | \hat{h}^{\rm KC} | \psi_{n\bk}} = \sum_{\bR} e^{i \bk \cdot \bR} \braket{w_{\bm{0}m} | \hat{h}^{\rm KC}[\rho_{\bR n}] | w_{\bR n}} = \sum_{\bR} e^{i \bk \cdot \bR} h^{\rm KC}_{mn}(\bR) ,
-    \label{eq:hk-unfold}
-\end{equation}
-%
-where we have defined $h^{\rm KC}_{mn}(\bR) = \braket{w_{\bm{0}m} | \hat{h}^{\rm KC}[\rho_{\bR n}] | w_{\bR n}}$. The diagonalization of this matrix yields the energies $\varepsilon_{n\bk}$ at any $\bk$-point.
-
-In the supercell approach the Brillouin zone reduces to a single point; as a consequence, the supercell Hamiltonian in the Wannier representation loses the information about the lattice vectors $\{\bR\}$ and its matrix elements are labeled by the supercell index only. In order to reconstruct the $\bk$-space Hamiltonian of \cref{eq:hk-unfold}, one must reconstruct the composite index $\{\bR,n\}$ of each WF from its supercell-picture index ${\alpha}$ (see \cref{fig:map-wf}). An effective way to do this is to first choose a reference primitive cell and define the orbitals with the centers inside it as the $\bR=\bm{0}$ Wannier functions. The second step consists of comparing all the other WFs in the supercell with those in the reference cell. If the Wannier translation property holds, we are able to connect each WF to its reference function $w_{\bm{0} n}$ and lattice vector $\bR$, defined as the distance between the centers of the two functions. If the system has more functions sharing the same center, one can look at the second-order moments ($\braket{x^2}$, $\braket{y^2}$, $\braket{z^2}$) to have a more detailed signature of WFs and, if needed, can move towards higher-order spatial moments until the character of each Wannier function is unequivocally defined \cite{shelley_automated_2011}.
-
-As argued in Ref.~\cite{lee_band_2005}, \cref{eq:hk-unfold} not only applies to the points belonging to the $\bk$-mesh commensurate with the chosen supercell, but it is also an excellent interpolator. So, in order to calculate the band structure along any path in the Brillouin zone, we obtain the matrix elements of the $\bk$-space Hamiltonian by simply applying \cref{eq:hk-unfold} to any arbitrary $\bk$-point. In doing so, the matrix elements $h^{\rm KC}_{mn}(\bR)$, for any $\bR$-vector larger than the supercell are implicitly neglected; the accuracy of the approximation is higher the smaller the contribution from these terms, i.e.\ the more localized the variational orbitals are, or the larger the supercell becomes. A poorly interpolated band structure is usually a symptom of a significant contribution coming from the matrix elements corresponding to larger $\bR$-vectors, and increasing the size of the supercell improves the results.
+When simulating a bulk crystalline material, the infinite system is usually studied with Born-von Karman (BvK) boundary conditions, which introduce a discretization of the $\bk$-points inside the BZ. Equivalently, one can study explicitly the BvK supercell containing the $N$ periodic replicas of the primitive cell but, as was already mentioned, in this case one no longer has direct access to the band structure of the primitive cell.
 
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{WF-pcell-scell.pdf}
-    \caption[]{Schematic representation of a two-dimensional 2-band model showing the connection between the primitive and supercell Wannier representations. In the primitive picture with a $2\times 2$ sampling of the BZ, the WFs are identified with the pair of labels $\{\bR,n\}$ (red labels): the cell index $\bm{R}$ taking four values and the band index $n$ taking two values. In the $2\times 2$ supercell with $\Gamma$-sampling of the BZ, the eight WFs are labeled by only one quantum number (black labels), i.e.\ the supercell band index $\alpha$ running over the eight states.}
+    \caption[Schematic representation of the map connecting PC's and SC's Wannier functions]{Schematic representation of a two-dimensional 2-band model showing the connection between the PC and SC Wannier representations. In the primitive picture with a $4\times 4$ sampling of the BZ, the WFs are identified with the pair of labels $\{ n,\bR \}$ (red labels): the cell index $\bR$ taking four values and the band index $n$ taking two values. In the $4\times 4$ SC with $\Gamma$-sampling of the BZ, the eight WFs are labeled by only one quantum number (black labels), i.e.\ the SC band index $\alpha$ running over the eight states.}
     \label{fig:map-wf}
 \end{figure}
 
+In order to recover this band structure, several methods have been developed \cite{boykin_practical_2005, lee_band_2005, ku_unfolding_2010, popescu_extracting_2012, huang_general_2014, medeiros_effects_2014, zheng_quantum_2015}; our approach follows the same strategy of \cite{lee_band_2005} and exploits the Wannier nature of the variational orbitals. By means of the transformation linking WFs and BFs [see \cref{eq:wannier-function}], the matrix elements of the $\bk$-space Hamiltonian are obtained from those given by the Wannier-like variational orbitals via a (double) Fourier transform:
+%
+\begin{equation}
+    \begin{split}
+        h^{\rm KC}_{mn}(\bk,\bk') &= \sum_{\bR,\bR'} e^{-i\bk \cdot \bR} e^{i\bk' \cdot \bR'} \braket{w_{m\bR} | \hat{h}^{\rm KC}_{n\bR'} | w_{n\bR'}} \\
+        &= \sum_{\bR,\bR'} e^{-i\bk \cdot \bR} e^{i\bk' \cdot \bR'} h^{\rm KC}_{mn}(\bR,\bR') ,
+    \end{split}
+    \label{eq:double-k-ham}
+\end{equation}
+%
+where we introduced the matrix elements $h^{\rm KC}_{mn}(\bR,\bR') = \braket{w_{m\bR} | \hat{h}^{\rm KC}_{n\bR'} | w_{n\bR'}}$. If the Koopmans Hamiltonian is compliant with the translation symmetries of the system, the matrix elements satisfy the property
+%
+\begin{equation}
+    \begin{split}
+        h^{\rm KC}_{mn}(\bR,\bR') &= \braket{w_{m\bR} | \hat{h}^{\rm KC}_{n\bR'} | w_{n\bR'}} \\
+        &= \braket{w_{m{\bm 0}} | \hat{h}^{\rm KC}_{n\bR'-\bR} | w_{n\bR'-\bR}} \\
+        &= h^{\rm KC}_{mn}({\bm 0},\bR'-\bR) \equiv h^{\rm KC}_{mn}(\bR'-\bR) ,
+    \end{split}
+    \label{eq:trans-prop-koopmans-matrix-elements}
+\end{equation}
+%
+that, if used in \cref{eq:double-k-ham}, yields a block-diagonal matrix (as expected from Bloch's theorem)
+%
+\begin{equation}
+    h^{\rm KC}_{mn}(\bk,\bk') = h^{\rm KC}_{mn}(\bk) \delta(\bk - \bk')
+    \label{eq:block-diagonal-koopmans-ham}
+\end{equation}
+%
+with
+%
+\begin{equation}
+    h^{\rm KC}_{mn}(\bk) = \sum_{\bR} e^{i \bk \cdot \bR} \braket{w_{m\bm{0}} | \hat{h}^{\rm KC}_{n\bR} | w_{n\bR}} = \sum_{\bR} e^{i \bk \cdot \bR} h^{\rm KC}_{mn}(\bR) ,
+    \label{eq:hk-unfold}
+\end{equation}
+%
+The diagonalization of the Hamiltonian with matrix elements defined by \cref{eq:hk-unfold}, yields the energies $\varepsilon_{n\bk}$ at any $\bk$-point.
+
+In the SC approach the Brillouin zone reduces to a single point; as a consequence, the SC Hamiltonian in the Wannier representation loses the information about the lattice vectors $\{\bR\}$ and its matrix elements are labeled by the SC index only. In order to reconstruct the $\bk$-space Hamiltonian of \cref{eq:hk-unfold}, one must reconstruct the composite index $\{n,\bR\}$ of each WF from its supercell-picture index ${\alpha}$ (see \cref{fig:map-wf}). An effective way to do this is to first choose a reference PC and define the orbitals with the centers inside it as the ``$\bR=\bm{0}$ Wannier functions''. The second step consists of comparing all the other WFs in the supercell with those in the reference cell. If the Wannier translation property holds, we are able to connect each WF to its reference function $w_{\bm{0} n}$ and lattice vector $\bR$, defined as the distance between the centers of the two functions. If the system has more functions sharing the same center, one can look at the second-order moments ($\braket{x^2}$, $\braket{y^2}$, $\braket{z^2}$) to have a more detailed signature of WFs and, if needed, can move towards higher-order spatial moments until the character of each Wannier function is unequivocally defined \cite{shelley_automated_2011}.
+
+As argued in Ref.~\cite{lee_band_2005}, \cref{eq:hk-unfold} not only applies to the points belonging to the $\bk$-mesh commensurate with the chosen supercell, but it is also an excellent interpolator. So, in order to calculate the band structure along any path in the Brillouin zone, we obtain the matrix elements of the $\bk$-space Hamiltonian by simply applying \cref{eq:hk-unfold} to any arbitrary $\bk$-point. In doing so, the matrix elements $h^{\rm KC}_{mn}(\bR)$, for any $\bR$-vector larger than the supercell are implicitly neglected; the accuracy of the approximation is higher the smaller the contribution from these terms, i.e.\ the more localized the variational orbitals are, or the larger the supercell becomes. A poorly interpolated band structure is usually a symptom of a significant contribution coming from the matrix elements corresponding to larger $\bR$-vectors, and increasing the size of the supercell improves the results.
 
 \subsection{Workflow\label{sec:workflow}}
 
