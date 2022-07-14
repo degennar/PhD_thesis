@@ -167,7 +167,10 @@ Below, we show the compliance of the Koopmans Hamiltonian with Bloch's theorem, 
     \label{eq:pz-potential}
 \end{subequations}
 %
-where $\rho_{\bR}(\br) = f_{\bR} |w_{\bR}(\br)|^2$, $\vpz_{\bR} = - \hat{v}_{\rm Hxc}[\rho_{\bR}]$, and $v^{\rm PZ}_{\bR \bR'} = \braket{\wR | \vpz_{\bR'} | \wRp}$. To further show the equivalence between the two definitions, we will prove that in both cases the PZ potential commutes with all the translation operators:
+where $\rho_{\bR}(\br) = f_{\bR} |w_{\bR}(\br)|^2$, $\vpz_{\bR} = - \hat{v}_{\rm Hxc}[\rho_{\bR}]$\footnote{
+We remark that, since the ODD PZ (but also Koopmans) potentials are given by Hxc self-interaction terms, they are local in space, i.e. $\braket{\br|\vpz_{\bR}|\br'} = \vpz_{\bR}(\br) \delta(\br - \br')$.
+},
+and $v^{\rm PZ}_{\bR \bR'} = \braket{\wR | \vpz_{\bR'} | \wRp}$. To further show the equivalence between the two definitions, we will prove that in both cases the PZ potential commutes with all the translation operators:
 %
 \begin{equation}
     \left[ \vpz, \tR \right] = 0 \qquad \qquad \forall \bR \in {\rm BL} .
@@ -187,8 +190,7 @@ which is, indeed, consistent with the previous definition:
     \begin{split}
         \tR \psi(\br) &= \braket{\br|\tR|\psi} \\
         &= \int d\br' \ \braket{\br|\tR|\br'} \braket{\br'|\psi} \\
-        &= \int d\br' \ \braket{\br|\br'-\bR} \psi(\br') \\
-        &= \psi(\br + \bR) .
+        &= \int d\br' \ \braket{\br|\br'-\bR} \psi(\br') = \psi(\br + \bR) .
     \end{split}
 \end{equation}
 
@@ -277,7 +279,7 @@ The extension to the whole PZ Hamiltonian is trivial, since the remainder part i
 %
 It is important to stress that \cref{eq:commutativity-koopmans-ham} proves the existence of a band structure description of the quasiparticle spectrum resulting from the Koopmans Hamiltonian, however, the computation of the self-interaction terms on the localized orbitals still requires to deal with non-periodic orbital densities. The standard approach then requires calculations in a supercell, where the information about the $\bk$-dependence of the eigenenergies is not given explicitly. An unfolding method that allows to reconstruct this information is needed, and in the following chapter we will describe the strategy used in this work
 
-To summarize, we have shown that when the variational orbitals are Wannier functions [i.e.\ they satisfy \cref{eq:trans-prop-wannier}] the potential $\hat{v}^{\rm KC}$ defined in \cref{eq:koopmans-hamiltonian} is periodic over the PC, making the Koopmans Hamiltonian Bloch-compliant. As an aside, the Wannier-like nature of the orbitals and the Bloch-compliance of Koopmans functionals also makes it possible to develop a PC implementation of Koopmans functionals, for direct access to the band structure without the need of supercell calculations and of an unfolding procedure \cite{colonna_koopmans_2022}; a brief overview of this implementation is given in the following section. As we already mentioned above, the assumption of having Wannier-like variational orbitals is justified by the observation that the minimization of Koopmans and PZ functionals in extended systems leads to orbitals with these properties. While this has occurred in all the systems so far considered, it is important to remark that the lack of the Wannier-like character in the variational orbitals would prevent from applying the Bloch's theorem and implies the actual breaking of the translation symmetry of the system. Such situations are presumably as sporadic as when in standard DFT the periodicity of the ground-state density is not commensurate to that of the lattice potential and they should not be confused with special system-dependent gauge invariances that Koopmans functionals might have. Despite the non-unitary invariance of the functionals, there is indeed no guarantee for the uniqueness of the set of variational orbitals and we cannot exclude \emph{a priori} that there might exist some gauges for which the translation symmetry of the lattice is broken.
+To summarize, we have shown that when the variational orbitals are Wannier functions [i.e.\ they satisfy \cref{eq:trans-prop-wannier}] the potential $\hat{v}^{\rm KC}$ defined in \cref{eq:koopmans-hamiltonian} is periodic over the PC, making the Koopmans Hamiltonian Bloch-compliant. As an aside, the Wannier-like nature of the orbitals and the Bloch-compliance of Koopmans functionals also makes it possible to develop a PC implementation of Koopmans functionals, for direct access to the band structure without the need of supercell calculations and of an unfolding procedure \cite{colonna_koopmans_2022}; a brief overview of this implementation is given in the following section. As we already mentioned above, the assumption of having Wannier-like variational orbitals is justified by the observation that the minimization of Koopmans and PZ functionals in extended systems leads to orbitals with these properties. While this has occurred in all the systems so far considered, it is important to remark that the lack of the Wannier-like character in the variational orbitals would prevent from applying the Bloch's theorem and implies the actual breaking of the translation symmetry of the system. Such situations are presumably as sporadic as when in standard DFT the periodicity of the ground-state density is not commensurate to that of the lattice potential and they should not be confused with special system-dependent gauge invariances that Koopmans functionals might have. Despite the non-unitary invariance of the functionals, there is indeed no guarantee for the uniqueness of the set of variational orbitals and we cannot exclude \emph{a priori} that there might exist some gauges for which the translation symmetry of the lattice is broken. Eventually, in ODD functionals, the assumption of a Wannier-like character for the variational orbitals can be considered equivalent to the hypotesis of periodicity for the total density made in standard density-functional approaches.
 
 \section{Koopmans functionals in periodic boundary conditions\label{sec:koopmans-pbc}}
 
