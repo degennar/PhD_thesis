@@ -115,15 +115,15 @@ with the input wave functions expected by the \kcp code. The problem with this s
 
 \begin{figure}
     \centering
-    \subfloat[]{\includegraphics[width=\linewidth]{dscf_workflow.png}} \\
-    \subfloat[]{\includegraphics[width=\linewidth]{dfpt_workflow.png}}
+    \subfloat[]{\includegraphics[width=\linewidth]{dscf_workflow.pdf}} \\
+    \subfloat[]{\includegraphics[width=\linewidth]{dfpt_workflow.pdf}}
     \caption[]{Schematic representation of the workflows for the (a) SC-based finite-differences approach and the (b) PC-based linear response approach, using PBE as base DFT functional.}
     \label{fig:workflow}
 \end{figure}
 
 Once the initialization step is concluded, two different directions can be taken: a non-self-consistent road, where the computed MLWFs are taken as variational orbitals with no further optimization, or a self-consistent road, where the MLWFs are the starting point for the energy minimization which brings to the actual self-consistent variational orbitals. For KI calculations, where the ground-state density is the same of the underlying DFT functional -- this corresponds also to the density given by the computed WFs -- the default strategy is represented by the first option; alternatively, given the interpretation of the KI functional as a KIPZ functional with a vanishingly small PZ term (see paragraph at the end of \cref{sec:variational-procedure}), the self-consistent variational orbitals can be obtained via an inner loop only minimization of the energy functional (no outer loop since we do not need to update the total density). For KIPZ calculations, since also the ground-state density changes, the variational orbitals are normally computed self-consistently via a combined outer-inner loop minimization. In this thesis we often report results obtained from a \emph{perturbative KIPZ} (pKIPZ) approach: essentially, this consists of a KIPZ calculation where the variational orbitals, as well as the screening parameters, are taken from a prior KI calculation.
 
-After the variational orbitals have been obtained, the orbital-dependent screening parameters are computed. As discussed in \cref{sec:screening-parameters}, these are obtained performing constrained self-consistent calculations where the selected orbital is each time kept frozen, and its occupation is set to zero (for occupied states) or to one (for empty states). This allows to calculate the energy difference $\Delta E^{\rm KC}_i$ appearing in \cref{eq:screening-parameter-dscf} which, together with the expectation values of the DFT and Koopmans Hamiltonians over the frozen orbital, represent all the ingredients needed to compute $\alpha_i$. We point out that in this phase, counter-charge corrections are introduced in order to account for the spurious interactions between the periodic replicas of the introduced electric charge. Details about this aspect are given in \cref{sec:makov-payne}.
+After the variational orbitals have been obtained, the orbital-dependent screening parameters are computed. As discussed in \cref{sec:screening-parameters}, these are obtained performing constrained self-consistent calculations where the selected orbital is each time kept frozen, and its occupation is set to zero (for occupied states) or to one (for empty states). This allows to calculate the energy difference $\Delta E^{\rm KC}_i$ appearing in \cref{eq:screening-parameter-dscf} which, together with the expectation values of the DFT and Koopmans Hamiltonians over the frozen orbital, represent all the ingredients needed to compute $\alpha_i$. We point out that in this phase, counter-charge corrections are introduced in order to account for the spurious interactions between the periodic replicas of the introduced electric charge. Details about this aspect are given in \cref{sec:counter-charge}.
 
 Finally, we perform a conclusive Koopmans calculation with the computed screening parameters. The resulting Hamiltonian is then unfolded to the PC and interpolated along a chosen path in the BZ; its eigenvalues provide the band structure of the system.
 
@@ -132,7 +132,8 @@ The \kcw code contains a primitive cell implementation of Koopmans functionals (
 
 Since the release of the version 7.1 of QE (June 2022), \kcw is officially part of the QE package suite. On the other hand, \kcp, as well as the Python package handling the workflows, are part of a private repository which will be soon released \cite{linscott_koopmans_2022}.
 
-\subsection{Counter-charge corrections\label{sec:makov-payne}}
+\subsection{Counter-charge corrections\label{sec:counter-charge}}
+
 
 \section{Results\label{sec:results-bands}}
 
