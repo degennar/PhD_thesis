@@ -117,13 +117,13 @@ with the input wave functions expected by the \kcp code. The problem with this s
     \centering
     \subfloat[]{\includegraphics[width=\linewidth]{dscf_workflow.pdf}} \\
     \subfloat[]{\includegraphics[width=\linewidth]{dfpt_workflow.pdf}}
-    \caption[]{Schematic representation of the workflows for the (a) SC-based finite-differences approach and the (b) PC-based linear response approach, using PBE as base DFT functional.}
+    \caption[Finite-differences and DFPT workflow schemes]{Schematic representation of the workflows for the (a) SC-based finite-differences approach and the (b) PC-based linear response approach, using PBE as base DFT functional.}
     \label{fig:workflow}
 \end{figure}
 
 Once the initialization step is concluded, two different directions can be taken: a non-self-consistent road, where the computed MLWFs are taken as variational orbitals with no further optimization, or a self-consistent road, where the MLWFs are the starting point for the energy minimization which brings to the actual self-consistent variational orbitals. For KI calculations, where the ground-state density is the same of the underlying DFT functional -- this corresponds also to the density given by the computed WFs -- the default strategy is represented by the first option; alternatively, given the interpretation of the KI functional as a KIPZ functional with a vanishingly small PZ term (see paragraph at the end of \cref{sec:variational-procedure}), the self-consistent variational orbitals can be obtained via an inner loop only minimization of the energy functional (no outer loop since we do not need to update the total density). For KIPZ calculations, since also the ground-state density changes, the variational orbitals are normally computed self-consistently via a combined outer-inner loop minimization. In this thesis we often report results obtained from a \emph{perturbative KIPZ} (pKIPZ) approach: essentially, this consists of a KIPZ calculation where the variational orbitals, as well as the screening parameters, are taken from a prior KI calculation.
 
-After the variational orbitals have been obtained, the orbital-dependent screening parameters are computed. As discussed in \cref{sec:screening-parameters}, these are obtained performing constrained self-consistent calculations where the selected orbital is each time kept frozen, and its occupation is set to zero (for occupied states) or to one (for empty states). This allows to calculate the energy difference $\Delta E^{\rm KC}_i$ appearing in \cref{eq:screening-parameter-dscf} which, together with the expectation values of the DFT and Koopmans Hamiltonians over the frozen orbital, represent all the ingredients needed to compute $\alpha_i$. We point out that in this phase, counter-charge corrections are introduced in order to account for the spurious interactions between the periodic replicas of the introduced electric charge. Details about this aspect are given in \cref{sec:counter-charge}.
+After the variational orbitals have been obtained, the orbital-dependent screening parameters are computed. As discussed in \cref{sec:screening-parameters}, these are obtained performing constrained self-consistent calculations where the selected orbital is each time kept frozen, and its occupation is set to zero (for occupied states) or to one (for empty states). This allows to calculate the energy difference $\Delta E^{\rm KC}_i$ appearing in \cref{eq:screening-parameter-dscf} which, together with the expectation values of the DFT and Koopmans Hamiltonians over the frozen orbital, represent all the ingredients needed to compute $\alpha_i$. We point out that in this phase, finite-size corrections are introduced in order to account for the spurious interactions between the periodic replicas of the introduced electric charge. Details about this aspect are given in \cref{sec:makov-payne}.
 
 Finally, we perform a conclusive Koopmans calculation with the computed screening parameters. The resulting Hamiltonian is then unfolded to the PC and interpolated along a chosen path in the BZ; its eigenvalues provide the band structure of the system.
 
@@ -132,8 +132,41 @@ The \kcw code contains a primitive cell implementation of Koopmans functionals (
 
 Since the release of the version 7.1 of QE (June 2022), \kcw is officially part of the QE package suite. On the other hand, \kcp, as well as the Python package handling the workflows, are part of a private repository which will be soon released \cite{linscott_koopmans_2022}.
 
-\subsection{Counter-charge corrections\label{sec:counter-charge}}
+\subsection{Finite-size corrections\label{sec:makov-payne}}
+In periodic boundary conditions, calculations performed on charged systems require accounting for the spurious interactions between the introduced electric charge and its periodic replicas. Given the slow decay of the Coulomb potential, the size of the cell required to kill such self-interactions is usually impracticable -- even though, for quasi-metallic systems the dielectric screening of the material often damps sufficiently the electrostatic potential generated by a localized charge -- and demands for a different treatment of these finite-size effects. Several methods have been developed in the past years to tackle this problem \cite{gygi_self-consistent_1986,martyna_reciprocal_1999,dabo_electrostatics_2008,freysoldt_fully_2009,komsa_finite-size_2012}; here we followed the strategy proposed by Makov and Payne (MP), who computed the electrostatic energy of a point charge in a cubic system \cite{makov_periodic_1995}:
+%
+\begin{equation}
+    E = E^{\rm pbc}(L) + \frac{q^2 \alpha}{2L} + \frac{2\pi q Q}{3L^3} + \mathcal{O}(L^{-5}) ,
+    \label{eq:makov-payne-corrections}
+\end{equation}
+%
+where $E^{\rm pbc}$, is the electrostatic energy of the point-charge in periodic boundary conditions embodying the interaction with the replicas, $L$ is the side of the cubic cell, $q$ is the charge, and $Q$ is the quadrupole moment -- if the introduced charge has a density $\rho_{\rm c}(\br)$, the quadrupole is defined as $Q = \int d\br \rho_{\rm c}(\br)r^2$. In this context $\alpha$ represents the Madelung constant which is given for any cubic lattice; here, $\alpha$ is calculated during the Koopmans workflow via a technique resembling the Ewald summation, which allows to compute a MP-like first-order correction also for non-cubic systems. In a dielectric medium, the natural extension of \cref{eq:makov-payne-corrections} includes the dielectric constant and reads as
+%
+\begin{equation}
+    E = E^{\rm pbc}(L) + \frac{q^2 \alpha}{2\epsilon L} + \frac{2\pi q Q}{3\epsilon L^3} + \mathcal{O}(L^{-5}) .
+    \label{eq:makov-payne-corrections-dielectric}
+\end{equation}
 
+Within the Koopmans workflow, the only part of the calculation that involves a system with a net charge is during the computation of the screening parameters, by means of the finite-differences method. The energy differences obtained by emptying (filling) an occupied (empty) variational orbital are then corrected \emph{a posteriori} in the following way:
+%
+\begin{equation}
+    \begin{split}
+        E(N) - E_i(N-1) \ &\longrightarrow \ E(N) - E_i(N-1) - \frac{q^2 \alpha}{2\epsilon L} \\
+        E_i(N+1) - E(N) \ &\longrightarrow \ E_i(N+1) - E(N) + \frac{q^2 \alpha}{2\epsilon L} ,
+    \end{split}
+    \label{eq:dscf-corrected-makov-payne}
+\end{equation}
+%
+where the quadrupole term of \cref{eq:makov-payne-corrections} has been excluded due to technical reasons (these are linked to the difficulty to compute the quadrupole moment for a generic variational orbital). When it was possible, the corrections of \cref{eq:dscf-corrected-makov-payne} were tested on the systems considered in this thesis. Few examples of convergence studies for the first-order MP corrections are showed in \cref{fig:convergence-makov-payne}: the corrected and uncorrected energy differences, resulting from the emptying of one of the occupied Wannier-like variational orbitals, were compared at increasing system's sizes for LiF, C, and Si. The difficulty of this study lies in the necessity of keeping the same Wannier function when passing from one SC to another, in order to have a meaningful comparison between the energies at different system's sizes. For LiF and C, we observe a consistency between the corrected and uncorrected extrapolated energies at infinite distances; as expected, the MP-corrected energies converge much more rapidly and justify the use of such corrections as long as the considered orbitals are sufficiently localized. On the other hand, for systems with a very small band gap like Si, the screening MP corrections poorly fail: this is not surprising, as in these situations the screening effects of the material become dominant, and the simple extension of the MP model via the insertion of the dielectric constant is not sufficient to account for the actual response of the material. On the bright side, for such systems, the screening of the material naturally damps the Coulomb potential, and the residual energy coming from the interaction between the periodic replicas is not very significant and can be neglected.
+
+\begin{figure}
+    \centering
+    \subfloat[]{\includegraphics[width=0.5\linewidth]{c_mp.png}} 
+    \subfloat[]{\includegraphics[width=0.5\linewidth]{lif_mp.png}} \\
+    \subfloat[]{\includegraphics[width=0.5\linewidth]{si_mp.png}}
+    \caption[Convergence finite-size corrections for the finite-differences method]{The bare (in red) and corrected (in green) [as in \cref{eq:makov-payne-corrections-dielectric}] energy differences are compared at different sizes for three prototypical systems: (a) a wide band gap insulator, i.e. lithium fluoride, (b) a medium band gap semiconductor, i.e. diamond, and (c) a small band gap material, i.e. silicon. The energies were computed at the PBE level, and for each system the orbitals frozen were taken from the valence band.}
+    \label{fig:convergence-makov-payne}
+\end{figure}
 
 \section{Results\label{sec:results-bands}}
 
