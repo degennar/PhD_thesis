@@ -121,14 +121,14 @@ with the input wave functions expected by the \kcp code. The problem with this s
     \label{fig:workflow}
 \end{figure}
 
-Once the initialization step is concluded, two different directions can be taken: a non-self-consistent road, where the computed MLWFs are taken as variational orbitals with no further optimization, or a self-consistent road, where the MLWFs are the starting point for the energy minimization which brings to the actual self-consistent variational orbitals. For KI calculations, where the ground-state density is the same of the underlying DFT functional -- this corresponds also to the density given by the computed WFs -- the default strategy is represented by the first option; alternatively, given the interpretation of the KI functional as a KIPZ functional with a vanishingly small PZ term (see paragraph at the end of \cref{sec:variational-procedure}), the self-consistent variational orbitals can be obtained via an inner loop only minimization of the energy functional (no outer loop since we do not need to update the total density). For KIPZ calculations, since also the ground-state density changes, the variational orbitals are normally computed self-consistently via a combined outer-inner loop minimization. In this thesis we often report results obtained from a \emph{perturbative KIPZ} (pKIPZ) approach: essentially, this consists of a KIPZ calculation where the variational orbitals, as well as the screening parameters, are taken from a prior KI calculation.
+Once the initialization step is concluded, two different directions can be taken: a non-self-consistent road, where the computed MLWFs are taken as variational orbitals with no further optimization, or a self-consistent road, where the MLWFs are the starting point for the energy minimization which brings to the actual self-consistent variational orbitals. For KI calculations, where the ground-state density is the same of the underlying DFT functional -- this corresponds also to the density given by the computed WFs -- the default strategy is represented by the first option (followed also in this thesis); alternatively, given the interpretation of the KI functional as a KIPZ functional with a vanishingly small PZ term (see paragraph at the end of \cref{sec:variational-procedure}), the self-consistent variational orbitals can be obtained via an inner loop only minimization of the energy functional (no outer loop since we do not need to update the total density). For KIPZ calculations, since also the ground-state density changes, the variational orbitals are normally computed self-consistently via a combined outer-inner loop minimization. In this thesis we often report results obtained from a \emph{perturbative KIPZ} (pKIPZ) approach: essentially, this consists of a KIPZ calculation where the variational orbitals, as well as the screening parameters, are taken from a prior KI calculation.
 
 After the variational orbitals have been obtained, the orbital-dependent screening parameters are computed. As discussed in \cref{sec:screening-parameters}, these are obtained performing constrained self-consistent calculations where the selected orbital is each time kept frozen, and its occupation is set to zero (for occupied states) or to one (for empty states). This allows to calculate the energy difference $\Delta E^{\rm KC}_i$ appearing in \cref{eq:screening-parameter-dscf} which, together with the expectation values of the DFT and Koopmans Hamiltonians over the frozen orbital, represent all the ingredients needed to compute $\alpha_i$. We point out that in this phase, finite-size corrections are introduced in order to account for the spurious interactions between the periodic replicas of the introduced electric charge. Details about this aspect are given in \cref{sec:makov-payne}.
 
 Finally, we perform a conclusive Koopmans calculation with the computed screening parameters. The resulting Hamiltonian is then unfolded to the PC and interpolated along a chosen path in the BZ; its eigenvalues provide the band structure of the system.
 
 \subsubsection{\kcw code and the DFPT workflow}
-The \kcw code contains a primitive cell implementation of Koopmans functionals (only for the KI functional, for the moment), where the screening parameters are computed from DFPT for a second-order approximation of the Koopmans correction terms \cite{colonna_koopmans_2022}. As for the standard KI workflow in the finite-differences approach, MLWFs are taken as a guess for the variational orbitals. The workflow then is pretty much the same of the one depicted for the finite-differences approach, with the only \emph{caveat} of the different method for the computation of $\{ \alpha_i \}$. Also, the absence of a ``PC to SC transition'' prevents the need for an unfolding technique to extend the WFs to the SC first, and to unfold the Koopmans Hamiltonian back to the PC after.
+The \kcw code (standing for Koopmans-Compliant Wannier method) contains a primitive cell implementation of Koopmans functionals (only for the KI functional, for the moment), where the screening parameters are computed from DFPT for a second-order approximation of the Koopmans correction terms \cite{colonna_koopmans_2022}. As for the standard KI workflow in the finite-differences approach, MLWFs are taken as a guess for the variational orbitals. The workflow then is pretty much the same of the one depicted for the finite-differences approach, with the only \emph{caveat} of the different method for the computation of $\{ \alpha_i \}$. Also, the absence of a ``PC to SC transition'' prevents the need for an unfolding technique to extend the WFs to the SC first, and to unfold the Koopmans Hamiltonian back to the PC after.
 
 Since the release of the version 7.1 of QE (June 2022), \kcw is officially part of the QE package suite. On the other hand, \kcp, as well as the Python package handling the workflows, are part of a private repository which will be soon released \cite{linscott_koopmans_2022}.
 
@@ -168,9 +168,175 @@ where the quadrupole term of \cref{eq:makov-payne-corrections} has been excluded
     \label{fig:convergence-makov-payne}
 \end{figure}
 
-\section{Results\label{sec:results-bands}}
+\section{Results and discussions\label{sec:results-bands}}
+In this section we report the results obtained for a set of benchmark semiconductors and insulators using the two approaches described in the previous section. The base DFT functionals used in these calculations are PBE, for the finite-differences approach, and LDA, for the linear response approach. As for QE's implementation of DFT, we take advantage of the pseudopotential method to model the electron-ion interactions: more specifically, we used the optimized norm-conserving Vanderbilt pseudopotentials \cite{hamann_optimized_2013,hamann_erratum_2017} taken from the SG15 \cite{schlipf_optimization_2015} and DOJO \cite{van_setten_pseudodojo_2018} libraries. For the elemental compounds, the energy cutoffs have been chosen from the convergence studies provided by the standard solid state pseudopotentials precision protocol \cite{prandini_precision_2018}, while for the five binary compounds the cutoff was chosen by converging the KS-DFT band gap within 5~\si{\milli\electronvolt}.
+
+The band structure of Si, C, BN, Ge, GaAs, MgO, and LiF, computed with the finite-differences approach, are showed in \cref{sec:results-dscf}, whereas in \cref{sec:results-dfpt} we report the band structure of GaAs and ZnO as obtained from the linear response approach. All the materials have been modeled using their stable experimental structure under standard conditions of temperature and pressure: cubic rock-salt for MgO and LiF, hexagonal wurtzite for ZnO, and diamond (or zincblende) for all the rest. Experimental values for the lattice constants have been taken from Ref.~\cite{madelung_semiconductors_2004} or from the inorganic crystal structure database (ICSD) \cite{icsd_website}.
 
 \subsection{Finite differences\label{sec:results-dscf}}
 
+\begin{figure}
+    \centering
+    %
+    \subfloat[Si: KI]{\includegraphics[width=0.5\linewidth]{Si_ki_bands.png}}
+    \subfloat[Si: KIPZ]{\includegraphics[width=0.5\linewidth]{Si_kipz_bands.png}} \\
+    \subfloat[C: KI]{\includegraphics[width=0.5\linewidth]{C_ki_bands.png}}
+    \subfloat[C: KIPZ]{\includegraphics[width=0.5\linewidth]{C_kipz_bands.png}} \\
+    \subfloat[BN: KI]{\includegraphics[width=0.5\linewidth]{BN_ki_bands.png}}
+    \subfloat[BN: KIPZ]{\includegraphics[width=0.5\linewidth]{BN_kipz_bands.png}}
+    %
+    \vspace{5mm}
+    %
+    \begin{tabularx}{\linewidth}{*{4}{>{\centering\arraybackslash}X}}
+        \hline
+        \hline
+        & Si & C & BN \\
+        \hline
+        occupied & $sp^3$ & $sp^3$ & N: $s$, $p$ \\
+        empty    & $sp^3$ & $sp^3$ & B: $s$, $p$ \\
+        \hline
+    \end{tabularx}
+    %
+    \caption[KI and KIPZ band structures of Si, C, and BN]{Band structure of Si, C, and BN: the red dots represent the PBE band structure calculated explicitly, while the blue lines are the interpolated PBE bands obtained with Wannier90; the green lines give the interpolated KI and KIPZ bands. The zero of the energy was set at the PBE Fermi level. At the bottom we report the initial atomic projectors for the Wannierization.}
+    \label{fig:bands-1-si-c-bn}
+\end{figure}
+
+\begin{figure}
+    \centering
+    %
+    \subfloat[Ge: KI]{\includegraphics[width=0.5\linewidth]{Ge_ki_bands.png}}
+    \subfloat[Ge: KIPZ]{\includegraphics[width=0.5\linewidth]{Ge_kipz_bands.png}} \\
+    \subfloat[GaAs: KI]{\includegraphics[width=0.5\linewidth]{GaAs_ki_bands.png}}
+    \subfloat[GaAs: KIPZ]{\includegraphics[width=0.5\linewidth]{GaAs_kipz_bands.png}}
+    %
+    \vspace{5mm}
+    %
+    \begin{tabularx}{\linewidth}{*{3}{>{\centering\arraybackslash}X}}
+        \hline
+        \hline
+        & Ge & GaAs \\
+        \hline
+        occupied & $d$, $d$, $sp^3$ & $d$, $sp^3$ \\
+        empty    & $sp^3$           & $sp^3$      \\
+        \hline
+    \end{tabularx}
+    %
+    \caption[KI and KIPZ band structures of Ge and GaAs]{As per \cref{fig:bands-1-si-c-bn}, here we show the band structures of Ge and GaAs obtained from the KI and KIPZ functionals.}
+    \label{fig:bands-2-ge-gaas}
+\end{figure}
+
+\begin{figure}
+    \centering
+    %
+    \subfloat[MgO: KI]{\includegraphics[width=0.5\linewidth]{MgO_ki_bands.png}}
+    \subfloat[MgO: KIPZ]{\includegraphics[width=0.5\linewidth]{MgO_kipz_bands.png}} \\
+    \subfloat[LiF: KI]{\includegraphics[width=0.5\linewidth]{LiF_ki_bands.png}}
+    \subfloat[LiF: KIPZ]{\includegraphics[width=0.5\linewidth]{LiF_kipz_bands.png}}
+    %
+    \vspace{5mm}
+    %
+    \begin{tabularx}{\linewidth}{*{3}{>{\centering\arraybackslash}X}}
+        \hline
+        \hline
+        & MgO & LiF \\
+        \hline
+        occupied & Mg: $s$, $p$ / O: $s$, $p$ & Li: $s$, F: $s$, $p$ \\
+        empty    & Mg: $s$ / O: $s$, $p$      & Li: $s$, F: $s$      \\
+        \hline
+    \end{tabularx}
+    %
+    \caption[KI and KIPZ band structures of MgO and LiF]{As per \cref{fig:bands-1-si-c-bn}, here we show the band structures of MgO and LiF obtained from the KI and KIPZ functionals.}
+    \label{fig:bands-3-mgo-lif}
+\end{figure}
+
+In order to avoid ambiguity in the choice of MLWFs mixing different subspaces, we relied on the projected density-of-states to select the ``physically motivated'' initial projections. For covalent semiconductors like Si, C, Ge and GaAs, where the $s$ and $p$ orbitals contribute more or less equally in the energy range corresponding to the valence bands, the natural choice is that of $sp^3$ orbitals. In the case of GaAs and Ge, where $d$ semicore states are present, the Wannierization procedure gave rise to two sets of well distinguished groups of MLWFs ($d$-like and $sp^3$-bonding orbitals); however, for Ge we observed an unphysical mixing of the two types of orbitals. In this case, the two subsets of isolated valence bands were Wannierized separately in order to preserve the natural atomic character of the orbitals and to not mix Bloch functions corresponding to bands well separated in energy. This selection of the WFs follows also that of orbitalets used by Li \emph{et al.} \cite{li_localized_2018}, where the optimal orbitals are chosen via a localization procedure both in space and energy. A similar situation is observed in BN, MgO and LiF: $s$ and $p$ atomic orbitals contribute to separate ranges of energy and, for this reason, the hybridized choice $sp^3$ was considered ``less'' physical. In all cases, the KIPZ minimization reshapes the orbitals while maintaining the same atomic-like character.
+
+We report in \crefrange{fig:bands-1-si-c-bn}{fig:bands-3-mgo-lif} the band structures for bulk Si, C-diamond, BN, Ge, GaAs, MgO, and LiF. The Koopmans correction is very smooth with respect to $\bk$, thereby applying an almost constant shift (different for each group of bands) to the KS-DFT bands. As a consequence, the major contribution to the dispersion of the energy in $\bk$-space comes from the DFT part; in order to distinguish between possible variations due to a flawed interpolation or effectively caused by the KC correction, we report also the interpolated DFT band structure. This has been obtained using the Wannier90 code, that applies the same interpolation method explained in \cref{sec:unfolding-method} to the DFT Hamiltonian only.
+
+The calculated band gaps are reported in \cref{tab:gaps}, where we see that in most of the cases the agreement with the experiment is remarkable. In the case of diamond, all the Koopmans flavours significantly overestimate the gap of about 1~$\si{\electronvolt}$. The reason might be related to the high degree of localization of the variational orbitals (see \cref{tab:sp3-sh}) that generally results in larger Koopmans corrections. We observe that, with respect to the other covalent semiconductors, the shift of the conduction bands of diamond is much larger. Using a different type of orbitals, e.g. starting from separate $s$- and $p$-like WFs, reduces the band gap, thanks to the smaller localization of the orbitals; however, this requires further study and justification, and it is not considered in this work. This case also unveils one of the limitations of the Koopmans approach: while the occupied variational orbitals are unambiguously defined as those that minimize the total energy, for the empty orbitals no analogous criterion exists. Here, the use of MLWFs represents a reasonable but nevertheless heuristic choice.
+
+\begin{table}
+    \centering
+    \begin{tabularx}{\linewidth}{*{8}{>{\centering\arraybackslash}X}}% <-- changed
+        \hline
+        \hline
+             &   PBE & QS$G\tilde{W}$ &    KI & pKIPZ &  KIPZ & Exp     &   ZPR \\
+        \hline
+        Si   &  0.55 &          1.24  &  1.18 &  1.17 &  1.19 &    1.17 &  $-0.05$ \\
+        Ge   &  0.06 &          0.81  &  0.84 &  0.81 &  0.84 &    0.74 &  $-0.04$ \\
+        GaAs &  0.50 &          1.61  &  1.53 &  1.49 &  1.50 &    1.52 &  $-0.05$ \\
+        \hline
+        C    &  4.16 &          5.90  &  6.48 &  6.51 &  6.58 &    5.50 &  $-0.36$ \\
+        BN   &  4.52 &          6.59  &  6.83 &  6.67 &  6.73 &    6.20 &  $-0.42$ \\
+        \hline
+        MgO  &  4.73 &          8.30  &  8.23 &  8.04 &  8.40 &    7.83~\cite{shishkin_accurate_2007} &  $-0.64$ \\
+        LiF  &  9.15 &         14.50  & 14.43 & 13.98 & 14.21 &   14.20~\cite{shishkin_accurate_2007} &  $-1.15$~\cite{nery_quasiparticles_2018} \\
+        \hline
+    \end{tabularx}
+    \caption{Fundamental band gaps (in \si{\electronvolt}) as obtained from the three Koopmans flavours mentioned above; the reported band gaps include already the corrections due to zero-point effects. The values for Ge and GaAs are corrected by 0.1 $\si{\electronvolt}$ due to spin-orbit coupling. The QS$G\tilde{W}$ values are taken from Refs.~\cite{chen_accurate_2015,shishkin_accurate_2007}. If not specified otherwise, the experimental band gaps and the corresponding corrections due to zero-point motion effects are taken, respectively, from Refs. \cite{madelung_semiconductors_2004} and \cite{miglio_predominance_2020}. 
+    }
+    \label{tab:gaps}
+\end{table}
+
+For Si, Ge, GaAs and BN the agreement with previously published Koopmans results \cite{nguyen_koopmans-compliant_2018} is within 0.1~$\si{\electronvolt}$. In the other cases the disagreement is probably due to the differences in the WFs used. We remark that, in Ref.~\cite{nguyen_koopmans-compliant_2018}, the whole procedure took place entirely within a supercell approach: the MLWFs were obtained from supercell $\Gamma$-sampling calculations where the additional degrees of freedom can give rise to qualitatively different Wannier functions. In fact, while in the supercell approach there is no constraint on the unitary transformation connecting Wannier and Bloch functions, in the primitive cell approach the unitary transformation is a block-diagonal (over $\bk$) matrix and so the mixing is different in the two approaches. This difference is even more marked when dealing with empty states: the presence of an entangled group of bands calls for a disentanglement procedure in order to define the Wannier functions, namely the selection of an optimal subset of Bloch states. This procedure is also $\bk$-dependent, thus the optimal set of Bloch functions selected in the supercell and primitive cell (even when the same energy windows are used) is generally different.
+
+With regard to the rest of the spectrum, by looking at \crefrange{fig:bands-1-si-c-bn}{fig:bands-3-mgo-lif} we see that the main effect of the Koopmans correction is a shift of the DFT band groups -- downward for the valence, upward for the conduction -- quite smoothly with respect to $\bk$, and fairly constant for bands corresponding to orbitals with the same chemical character. In principle, the only situation where the correction consists of a rigid shift of the bands is for the case of the KI potential acting on equivalent occupied states. From \cref{eq:ki-pot-occ}, we know that the KI potential for the occupied states is scalar, thus its representation on the variational orbitals yields a diagonal matrix. When the occupied orbitals have all the same character, which is for instance the case of the $sp^3$ orbitals in Si or C, the KI potential reduces to a multiple of the identity and the correction is a simple shift applied to all the DFT eigenvalues. On the other hand, in the presence of valence orbitals with a different character -- e.g. $sp^3$ and $d$ orbitals in GaAs -- although still diagonal, the KI potential is not anymore a multiple of the identity matrix and the effect of the correction is non-trivial. This becomes even more pronounced for the potential acting on the empty states or for the KIPZ potential: because of the presence of space-dependent terms, the matrix representation of the potential is non-diagonal and the Koopmans correction can affect also the bandwidth as well as the inter- and intra-band distances. Yet, the effect of these off-diagonal elements is minor: in a localized representation, such as that of the variational orbitals, and because of the local nature of the Koopmans Hamiltonian, the dominant matrix elements are diagonal, whereas the contribution from the off-diagonal matrix elements is second-order.
+
+\begin{table}
+    \centering
+    \begin{tabularx}{\linewidth}{*{3}{>{\centering\arraybackslash}X}}% <-- changed
+        \hline
+        \hline
+             & occupied & empty \\
+        \hline
+        Si   &    6.219         & 2.980         \\
+        Ge   &    5.757         & 3.120         \\
+        GaAs &    6.068         & 3.093         \\
+        C    &    9.344         & 5.925         \\
+        BN   &    8.407 / 7.714 & 4.681 / 5.313 \\
+        \hline
+    \end{tabularx}
+    \caption{Self-Hartree energies (in $\si{\electronvolt}$) of the (occupied and empty) MLWFs for the four covalent semiconductors and for boron nitride.}
+    \label{tab:sp3-sh}
+\end{table}
+
+Finally, in \cref{tab:ene-special-points} we can see that for Si the relative distance between valence bands (first block of points), well described already at the PBE level, is not modified by the KI correction. The second block of points shows the energies which are different from the fundamental band gap: the remarkable agreement with the results from photoemission experiments, and not only with the first ionization energies, further emphasizes the capability of KC functionals in predicting the full band structure.
+
+\begin{table}
+    \centering
+    \begin{tabularx}{\linewidth}{*{1}{>{\arraybackslash}>{\hsize=2.0\hsize}X}*{6}{>{\centering\arraybackslash}X}}% <-- changed
+        \hline
+        \hline
+                                                 &   PBE &  QS$GW$ &    KI &  KIPZ &   Exp  \\
+        \hline
+        Si & & & & & \\
+        $\Gamma_{1v} \rightarrow \Gamma'_{25v}$  & 11.96 & 12.04 & 11.96 & 12.09 & 12.5(6)  \\
+        $X_{4v} \rightarrow \Gamma'_{25v}$       &  2.84 &  2.99 &  2.84 &  2.86 &  2.9     \\
+        $L_{1v} \rightarrow \Gamma'_{25v}$       &  6.96 &  7.18 &  6.96 &  7.04 &  6.8(2)  \\
+        $L'_{2v} \rightarrow \Gamma'_{25v}$      &  9.63 &  9.79 &  9.63 &  9.74 &  9.3(4)  \\
+        \\
+        $\Gamma'_{25v} \rightarrow \Gamma_{15c}$ &  2.56 &  3.35 &  3.24 &  3.26 &  3.35(1) \\
+        $\Gamma'_{25v} \rightarrow \Gamma'_{2c}$ &  3.33 &  4.08 &  4.00 &  4.01 &  4.15(1) \\
+        $\Gamma'_{25v} \rightarrow X_{1c}$       &  0.69 &  1.44 &  1.36 &  1.37 &  1.13    \\
+        $\Gamma'_{25v} \rightarrow L_{1c}$       &  1.51 &  2.27 &  2.18 &  2.19 &  2.04(6) \\
+        $\Gamma'_{25v} \rightarrow L_{3c}$       &  3.33 &  4.24 &  3.99 &  4.00 &  3.9(1)  \\
+        \hline
+        GaAs & & & & & \\
+        $\braket{\varepsilon_d}$                 & 14.9  & 17.6  & 16.9  & 17.7  & 18.9     \\
+        \hline
+        LiF & & & & & \\
+        $\braket{\varepsilon_{1s({\rm Li})}}$    & 40.8  &  --   & 46.2  & 47.1  & 49.8     \\
+        $\braket{\varepsilon_{2s({\rm F})}}$     & 19.5  &  --   & 20.2  & 21.0  & 23.9     \\
+        \hline
+    \end{tabularx}
+    \caption{In the upper part we report the energy differences (in $\si{\electronvolt}$) for Si at special symmetry points in the BZ, wrt to the top of the valence band ($\Gamma'_{25v}$). The results from $GW$ calculations and the experimental values are taken, respectively, from Refs.~\cite{hybertsen_electron_1986} and \cite{madelung_semiconductors_2004}. The central part of the table contains the average position of the $d$-bands of GaAs; in this case the experimental and theoretical (self-consistent $GW$) values are taken from Ref.~\cite{shishkin_accurate_2007}. At the bottom we report the position of the $1s$ bands of Li and $2s$ bands of F in LiF; experimental values are taken from Ref.~\cite{johansson_core_1976}.}
+    \label{tab:ene-special-points}
+\end{table}
+
 \subsection{DFPT\label{sec:results-dfpt}}
+With regard to the rest of the spectrum, by looking at \crefrange{fig:bands-1-si-c-bn}{fig:bands-3-mgo-lif} we see that the main effect of the Koopmans correction is a shift of the DFT band groups -- downward for the valence, upward for the conduction -- quite smoothly with respect to $\bk$, and fairly constant for bands corresponding to orbitals with the same chemical character. In principle, the only situation where the correction consists of a rigid shift of the bands is for the case of the KI potential acting on equivalent occupied states. From \cref{eq:ki-pot-occ}, we know that the KI potential for the occupied states is scalar, thus its representation on the variational orbitals yields a diagonal matrix. When the occupied orbitals have all the same character, which is for instance the case of the $sp^3$ orbitals in Si or C, the KI potential reduces to a multiple of the identity and the correction is a simple shift applied to all the DFT eigenvalues. On the other hand, in the presence of valence orbitals with a different character -- e.g. $sp^3$ and $d$ orbitals in GaAs -- although still diagonal, the KI potential is not anymore a multiple of the identity matrix and the effect of the correction is non-trivial. This becomes even more pronounced for the potential acting on the empty states or for the KIPZ potential: because of the presence of space-dependent terms, the matrix representation of the potential is non-diagonal and the Koopmans correction can affect also the bandwidth as well as the inter- and intra-band distances. Yet, the effect of these off-diagonal elements is minor: in a localized representation, such as that of the variational orbitals, and because of the local nature of the Koopmans Hamiltonian, the dominant matrix elements are diagonal, whereas the contribution from the off-diagonal matrix elements is second-order.
+
+With regard to the rest of the spectrum, by looking at \crefrange{fig:bands-1-si-c-bn}{fig:bands-3-mgo-lif} we see that the main effect of the Koopmans correction is a shift of the DFT band groups -- downward for the valence, upward for the conduction -- quite smoothly with respect to $\bk$, and fairly constant for bands corresponding to orbitals with the same chemical character. In principle, the only situation where the correction consists of a rigid shift of the bands is for the case of the KI potential acting on equivalent occupied states. From \cref{eq:ki-pot-occ}, we know that the KI potential for the occupied states is scalar, thus its representation on the variational orbitals yields a diagonal matrix. When the occupied orbitals have all the same character, which is for instance the case of the $sp^3$ orbitals in Si or C, the KI potential reduces to a multiple of the identity and the correction is a simple shift applied to all the DFT eigenvalues. On the other hand, in the presence of valence orbitals with a different character -- e.g. $sp^3$ and $d$ orbitals in GaAs -- although still diagonal, the KI potential is not anymore a multiple of the identity matrix and the effect of the correction is non-trivial. This becomes even more pronounced for the potential acting on the empty states or for the KIPZ potential: because of the presence of space-dependent terms, the matrix representation of the potential is non-diagonal and the Koopmans correction can affect also the bandwidth as well as the inter- and intra-band distances. Yet, the effect of these off-diagonal elements is minor: in a localized representation, such as that of the variational orbitals, and because of the local nature of the Koopmans Hamiltonian, the dominant matrix elements are diagonal, whereas the contribution from the off-diagonal matrix elements is second-order.
+
+\subsection{Conclusions}
 
