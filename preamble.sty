@@ -196,12 +196,23 @@
 
 \newsavebox{\measurebox}
 
+% Changing defaults to avoid moving text to new pages rather than below big pictures
+\setcounter{topnumber}{6}
+\setcounter{bottomnumber}{6}
+\setcounter{totalnumber}{6}
+\renewcommand{\topfraction}{0.99}
+\renewcommand{\bottomfraction}{0.99}
+\renewcommand{\textfraction}{0.01}
+\renewcommand{\floatpagefraction}{0.9}
+
 % Bold vectors
 \newcommand{\bk}{{\bm k}}
 \newcommand{\br}{{\bm r}}
 \newcommand{\bR}{{\bm R}}
 \newcommand{\bq}{{\bm q}}
 \newcommand{\bG}{{\bm G}}
+
+% other quick definitions
 \newcommand{\meV}{\si{\milli\electronvolt}}
 \newcommand{\gw}{\emph{GW~}}
 \newcommand{\wR}{w_{\bR}}

@@ -2,7 +2,7 @@
 \chapter[Koopmans functionals for periodic systems]{Koopmans functionals\break for periodic systems\label{ch:koopmans-periodic}}
 In the previous chapter we described the general framework of Koopmans functionals, without focusing on the specific issues that arise when passing from finite to extended systems. Here, we address the issues that are particularly relevant when dealing with infinitely periodic systems, where the need for a localized set of orbitals brings about the apparent breaking of the translation symmetries of the system. The chapter is organized as follows: in \cref{sec:localization}, we bring up the importance of having localized sets of variational orbitals in Koopmans functionals and Wannier functions are introduced; in \cref{sec:bloch-theorem-section}, we discuss the validity of Bloch's theorem in the framework of ODD functionals, which represents one of the main results of this thesis; finally, \cref{sec:koopmans-pbc} is devoted to the formulation of Koopmans functionals in periodic boundary conditions. As usual, we close with a small section that summarizes the content of the chapter.
 
-Part of the content of this chapter has been published in Refs.~\cite{de_gennaro_blochs_2022,colonna_koopmans_2022}.
+Some extracts of this chapter have been published in scientific journals \cite{de_gennaro_blochs_2022,colonna_koopmans_2022}.
 
 \clearpage
 \section{The importance of localization\label{sec:localization}}
@@ -282,6 +282,11 @@ It is important to stress that \cref{eq:commutativity-koopmans-ham} proves the e
 To summarize, we have shown that when the variational orbitals are Wannier functions [i.e.\ they satisfy \cref{eq:trans-prop-wannier}] the potential $\hat{v}^{\rm KC}$ defined in \cref{eq:koopmans-hamiltonian} is periodic over the PC, making the Koopmans Hamiltonian Bloch-compliant. As an aside, the Wannier-like nature of the orbitals and the Bloch-compliance of Koopmans functionals also makes it possible to develop a PC implementation of Koopmans functionals, for direct access to the band structure without the need of supercell calculations and of an unfolding procedure \cite{colonna_koopmans_2022}; a brief overview of this implementation is given in the following section. As we already mentioned above, the assumption of having Wannier-like variational orbitals is justified by the observation that the minimization of Koopmans and PZ functionals in extended systems leads to orbitals with these properties. While this has occurred in all the systems so far considered, it is important to remark that the lack of the Wannier-like character in the variational orbitals would prevent from applying the Bloch's theorem and implies the actual breaking of the translation symmetry of the system. Such situations are presumably as sporadic as when in standard DFT the periodicity of the ground-state density is not commensurate to that of the lattice potential and they should not be confused with special system-dependent gauge invariances that Koopmans functionals might have. Despite the non-unitary invariance of the functionals, there is indeed no guarantee for the uniqueness of the set of variational orbitals and we cannot exclude \emph{a priori} that there might exist some gauges for which the translation symmetry of the lattice is broken. Eventually, in ODD functionals, the assumption of a Wannier-like character for the variational orbitals can be considered equivalent to the hypotesis of periodicity for the total density made in standard density-functional approaches.
 
 \section{Koopmans functionals in periodic boundary conditions\label{sec:koopmans-pbc}}
+
+\begin{equation}
+    \Pi_i^{\rm KI(2)}
+    \label{eq:pi-ki-second-order}
+\end{equation}
 
 \section{Summary\label{sec:ch4-summary}}
 
