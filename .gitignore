@@ -13,6 +13,8 @@
 *.dpth
 *.auxlock
 *.nav
+*.ilg
+*.nls
 *.out
 *.snm
 
