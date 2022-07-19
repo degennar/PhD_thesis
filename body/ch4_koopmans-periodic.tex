@@ -153,7 +153,7 @@ When performing standard primitive cell (PC) calculations\footnote{The primitive
 \subsection{Validity in ODD functionals\label{sec:bloch-th-odd}}
 At odds with DFT, where the total density is the only quantity entering the Hamiltonian, Koopmans functionals (and their Hamiltonians) depend on the set of variational orbital densities, and therefore the periodicity (over the primitive cell) of the total density alone is not sufficient to obtain a periodic potential. In this case a more stringent condition is needed, and in the following we show that this extra condition is given by the Wannier-like character of the variational orbitals. If the variational orbitals satisfy \cref{eq:trans-prop-wannier}, the Koopmans potential \eqref{eq:koopmans-potential} turns out to have the periodicity of the PC and, therefore, the Koopmans Hamiltonian \eqref{eq:koopmans-hamiltonian} fulfills the hypothesis of Bloch's theorem \cite{de_gennaro_blochs_2022}.
 
-Below, we show the compliance of the Koopmans Hamiltonian with Bloch's theorem, where the only assumption is the Wannier nature of the variational orbitals (which actually implies the periodicity of the total density). Since the Koopmans potential is a combination of several PZ-like terms, for simplicity here we give the mathematical proof for the PZ potential and for a 1-band system, while we refer to \cref{app:periodic-ki-kipz} for the full derivation for the KI and KIPZ Hamiltonians. Definitions \eqref{eq:koopmans-hamiltonian} and \eqref{eq:koopmans-hamiltonian-equivalent-definition} are readily extended to the PZ potential, which on the set of variational WFs $\{ \wR \}$ reads as
+Below, we show the compliance of the Koopmans Hamiltonian with Bloch's theorem, where the only assumption is the Wannier nature of the variational orbitals (which actually implies the periodicity of the total density). Since the Koopmans potential is a combination of several PZ-like terms, for simplicity here we give the mathematical proof for the PZ potential and for a 1-band system, while we refer to \cref{app:commutativity-ki-kipz} for the full derivation for the KI and KIPZ Hamiltonians. Definitions \eqref{eq:koopmans-hamiltonian} and \eqref{eq:koopmans-hamiltonian-equivalent-definition} are readily extended to the PZ potential, which on the set of variational WFs $\{ \wR \}$ reads as
 %
 \begin{subequations}
     \begin{equation}
@@ -195,7 +195,7 @@ which is, indeed, consistent with the previous definition:
 \end{equation}
 
 \subsubsection*{Case A: $\vpz = \sum_{\bR} \vpz_{\bR} \ket{\wR} \bra{\wR}$}
-As shown in \cref{app:periodic-ki-kipz}, the occupation number of the Wannier functions are independent from the lattice vector, i.e. $f_{\bR} = f_{\bm 0}$. By definition, the Wannier orbital densities $\rho_{\bR}(\br) = f_{\bm 0} |w_{\bR}(\br)|^2$ fulfill the same translation property \eqref{eq:trans-prop-wannier} as $w_{\bR}(\br)$:
+As shown in \cref{app:commutativity-ki-kipz}, the occupation number of the Wannier functions are independent from the lattice vector, i.e. $f_{\bR} = f_{\bm 0}$. By definition, the Wannier orbital densities $\rho_{\bR}(\br) = f_{\bm 0} |w_{\bR}(\br)|^2$ fulfill the same translation property \eqref{eq:trans-prop-wannier} as $w_{\bR}(\br)$:
 %
 \begin{equation}
     \rho_{\bR}(\br + \bR') = \rho_{\bR - \bR'}(\br) .
@@ -270,7 +270,7 @@ This can then be used to prove the commutativity of the PZ potential defined as 
 %
 where, also here, we used the closure of $\{ \bR \}$, together with the properties of the translation operators.
 
-The extension to the whole PZ Hamiltonian is trivial, since the remainder part is the DFT Hamiltonian which commutes already with all the translation operators. Although the Koopmans Hamiltonian is more complex than the PZ one discussed here, it is made of orbital-density-dependent potentials of the very same nature of the PZ ones, alongside scalar terms -- meaning that they do not depend on $\br$ -- or terms that depend only on the total density $\rho$. The latter are trivially periodic on the primitive cell because of the periodicity of the total density (see \cref{app:periodic-ki-kipz} for a detailed derivation). The proof given above thus readily applies also to the Koopmans Hamiltonian \eqref{eq:koopmans-hamiltonian} -- and actually to any PZ-like ODD approach -- which then fulfills the hypotesis of Bloch's theorem, i.e.
+The extension to the whole PZ Hamiltonian is trivial, since the remainder part is the DFT Hamiltonian which commutes already with all the translation operators. Although the Koopmans Hamiltonian is more complex than the PZ one discussed here, it is made of orbital-density-dependent potentials of the very same nature of the PZ ones, alongside scalar terms -- meaning that they do not depend on $\br$ -- or terms that depend only on the total density $\rho$. The latter are trivially periodic on the primitive cell because of the periodicity of the total density (see \cref{app:commutativity-ki-kipz} for a detailed derivation). The proof given above thus readily applies also to the Koopmans Hamiltonian \eqref{eq:koopmans-hamiltonian} -- and actually to any PZ-like ODD approach -- which then fulfills the hypotesis of Bloch's theorem, i.e.
 %
 \begin{equation}
     \left[ \tR, \hat{h}^{\rm KC} \right] = 0 .
