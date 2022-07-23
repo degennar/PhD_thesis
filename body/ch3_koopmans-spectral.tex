@@ -5,7 +5,7 @@ In this chapter, we describe in detail the theoretical framework of Koopmans fun
 
 \clearpage
 \section{Koopmans spectral functionals\label{sec:koopmans-spectral-functionals}}
-In density-functional theory any observable, including the direct and inverse photoemission spectra, is a functional of the ground-state electronic density. However, often the challenge is to find a way to extract such information once the ground state of the system is determined. Moreover, the existence of an implicit connection does not imply that any observable has an explicit expression in terms of the density, and often we have to rely on different strategies to compute some physical properties. As discussed in \cref{ch:theoretical-background}, computing spectral properties at the DFT level is generally complicate, and even for the first ionization energies we have to resort to GKS schemes or on the $\Delta$SCF method\footnote{The $\Delta$SCF method allows to compute the first ionization energies of the system from total energy differences; it involves calculations on systems at different particle numbers -- $N$, $N-1$, and $N+1$ -- whose ground-state energy differences directly relate to IP and EA.}; the latter, in particular, works only when the densities of the HO and LU orbitals do not delocalize too much, and therefore it inevitably fails in extended systems. Alternatively, we can resort to dynamical approaches -- such as MBPT -- but this normally requires a high computational cost.
+In density-functional theory any observable, including the direct and inverse photoemission spectra, is a functional of the ground-state electronic density. However, often the challenge is to find a way to extract such information once the ground state of the system is determined. Moreover, the existence of an implicit connection does not imply that any observable has an explicit expression in terms of the density, and often we have to rely on different strategies to compute some physical properties. As discussed in \cref{ch:theoretical-background}, computing spectral properties at the DFT level is generally complicated, and even for the first ionization energies we have to resort to GKS schemes or on the $\Delta$SCF method\footnote{The $\Delta$SCF method allows to compute the first ionization energies of the system from total energy differences; it involves calculations on systems at different particle numbers -- $N$, $N-1$, and $N+1$ -- whose ground-state energy differences directly relate to IP and EA.}; the latter, in particular, works only when the densities of the HO and LU orbitals do not delocalize too much, and therefore it inevitably fails in extended systems. Alternatively, we can resort to dynamical approaches -- such as MBPT -- but this normally requires a high computational cost.
 
 Koopmans spectral functionals take place in this framework targeting the electron addition and removal energies, by means of a variational approach. As we shall see, this requires to go beyond the boundaries of KS-DFT and to embody some features of the dynamical self-energy, in order to better describe the quasiparticles. This is achieved via the imposition of a state-dependent condition that shapes Koopmans functionals and makes them dependent on the density of each individual orbital (rather than the total electronic density); effective potentials resulting from such functionals inherit the same orbital-density-dependence (ODD) and closely resemble a simplified version of the frequency-dependent self-energy.
 
@@ -463,13 +463,103 @@ where, in general, $h^{\rm KC}_{ij} \neq (h^{\rm KC}_{ji})^*$ and the equality h
 %An important aspect to mention is the fact that the generalized PWL condition imposed by Koopmans functionals applies only to the variational orbitals. After the diagonalization, when we pass from variational to canonical orbitals, we lose the connection between the functional and the orbitals in the sense that: (i) the Koopmans energy computed by varying the occupation of the canonical orbitals is not necessarily linear, (ii) the matrix elements of the Koopmans Hamiltonian over the canonical orbitals (i.e. the eigenvalues) -- which are interpreted as the quasiparticle energies -- do not correspond anymore to the total energy difference $E^{KC}(f_i=1)-E^{KC}(f_i=0)$.
 
 \section{Connection to MBPT\label{sec:koopmans-vs-mbpt}}
+In the previous section we introduced Koopmans spectral functionals, a class of orbital-density-dependent functionals that aim to describe charged excitations. As we saw, the ODD character makes the framework more intricated with respect to standard density-functional approaches, mainly because of the lack of unitary-invariance. However, this feature is possibly the reason for the success of Koopmans functionals, as it hints at a connection with frequency-dependent MBPT approaches. In this section, we detail this aspect of the theory by analyzing three fundamental results that lay the foundations for the bridge between ODD schemes -- and, particularly, Koopmans functionals -- and MBPT.
 
 \subsection{The spectral potential\label{sec:spectral-potential}}
+The first milestone is represented by the work of Gatti \emph{et al.}, who identified what are the important features for the self-energy, if one is mainly interested in describing photoemission spectra \cite{gatti_transforming_2007}. One has indeed to keep in mind that the Green's function -- or objects possibly even more complex, such as the many-body wave function -- generally carry much more information than needed, and when targeting specific properties it might not be necessary to resort to the Green's function in its full complexity. In their work, Gatti and collaborators make use of the Sham-Schl\"{u}ter-like equation \cite{sham_density-functional_1983}, to derive an expression for the so-called \emph{spectral potential}. Following their argument, we define $p\{ G \}$ as the part of the Green's function $G$ that we want to predict, and introduce another Green's function $\tilde{G}$ which shares with $G$ the same part, namely $p\{ \tilde{G} \} = p\{ G \}$. If $\tilde{V}$ is the self-energy for $\tilde{G}$, from \cref{eq:dyson-equation} we obtain the following Dyson equation connecting $G$ and $\tilde{G}$:
+%
+\begin{equation}
+    G = \tilde{G} + \tilde{G}\left( \Sigma - V_T \right) G .
+    \label{eq:dyson-property-p}
+\end{equation}
+%
+Assuming $p\{ \cdot \}$ to be linear, the equation that follows from the fact that $p$ is the same for the two Green's functions is
+%
+\begin{equation}
+    p \left\{ \tilde{G} \left( \Sigma - \tilde{V} \right) G \right\} = 0 .
+    \label{eq:sham-shluter}
+\end{equation}
+%
+When the targeted property is the static density $\rho(\br)$, $\tilde{G}$ takes the form of the Green's fucntion of the KS system, and the self-energy $\tilde{V}$ solving \cref{eq:sham-shluter} is the xc potential. If we are interested instead in spectral properites, we may aim for the trace of the imaginary part of $G$ -- i.e. the spectral function $A$ introduced in \cref{eq:spectral-function} -- which, as discussed in \cref{ch:theoretical-background}, gives direct access to photoemission spectra. By introducing the Green's function $G_{\rm SF}$, whose imaginary part shares the same trace of the real $G$, the corresponding self-energy $V_{\rm SF}$ is given, from \cref{eq:sham-shluter} by
+%
+\begin{equation}
+    V_{\rm SF}(\br,\omega) = \int d\br_1 d\br_2 d\br_3 \ \zeta^{-1}(\br,\br_3,\omega) {\rm Im} \left[ G_{\rm SF}(\br_3,\br_1,\omega) \Sigma(\br_1,\br_2,\omega) G(\br_2,\br_3,\omega) \right] ,
+    \label{eq:spectral-potential}
+\end{equation}
+%
+where we reasonably assumed $V_{\rm SF}$ to be a real and local -- yet, frequency-dependent -- function. The quantity $V_{\rm SF}$ is called \emph{spectral potential} and its existence is guaranteed by that of the inverse of $\zeta(\br,\br',\omega) = {\rm Im} \left[ G_{\rm SF}(\br,\br',\omega) G(\br',\br,\omega) \right]$. \cref{eq:spectral-potential} is a fundamental result which shows that in order to predict the photoemission spectrum of the system, the effective electronic interaction can be modeled in terms of a dynamic but \emph{local} potential, meaning that the non-local part of the self-energy that contributes to spectral properties can be transformed into a frequency-dependence.
 
-\subsection{Orbital-density-dependence vs. frequency-dependence\label{sec:odd-vs-omega-dependence}}
+\subsection{Orbital-density-dependent potentials\label{sec:odd-potentials}}
+In \cref{sec:green-function-methods}, we saw that the Dyson equation for $G$ can be remapped into the non-linear eigenvalue problem
+%
+\begin{equation}
+    \left[ \hat{h}_0 + \hat{\Sigma}(\omega) \right] \ket{\phi_k(\omega)} = \varepsilon_k(\omega) \ket{\phi_k(\omega)} ,
+    \label{eq:dyson-equation-eigenvalues}
+\end{equation}
+%
+where $\phi_k(\omega)$ are the Dyson orbitals appearing in the numerator of \cref{eq:lehmann-representation}, and $\varepsilon_k(\omega)$ are the poles of the Green's function. A useful  way of dealing with \cref{eq:dyson-equation-eigenvalues} consists in applying the \emph{quasiparticle approximation}, which rather than considering the full (continuous) frequency-dependence, focuses on the solutions corresponding to a set of representative poles $\{ \omega_n \}$, for which $\varepsilon_k(\omega_n) = \omega_n$. Within the quasiparticle approximation, the $\omega$-dependence dissapears and \cref{eq:dyson-equation-eigenvalues} takes the form
+%
+\begin{equation}
+    \left[ \hat{h}_0 + \hat{\Sigma}_n \right] \ket{\phi_n} = \omega_n \ket{\phi_n} ,
+    \label{eq:dyson-equation-eigenvalues-quasiparticle-approx}
+\end{equation}
+%
+where $\hat{\Sigma}_n = \hat{\Sigma}(\omega_n)$. As pointed out by Ferretti \emph{et al.} \cite{ferretti_bridging_2014}, \cref{eq:dyson-equation-eigenvalues-quasiparticle-approx} closely resembles the eigenvalue problem for an ODD Hamiltonian -- compare to, e.g., \cref{eq:euler-lagrange-koopmans} in its diagonal form -- and highlights the similarities between the ODD potentials and the quasiparticle representation for the self-energy. Moreover, in a framework that retains only the relevant information for the computation of spectral properties, the non-local part of the self-energy can be dropped (as discussed in \cref{sec:spectral-potential}) and the correspondence with local ODD potentials becomes perfect. Ultimately, these observations suggest that ODD local approaches could provide effective approximations to many-body spectral potentials \cite{ferretti_bridging_2014}.
 
 \subsection{Physics of KIPZ\label{sec:kipz-cohsex}}
-When discussing about KC vs. COHSEX, keep in mind the fact that Koopmans contain a part of the screening, similarly to the screening contained in $\Delta$SCF calculations, which is a static screening, while GW contains also a dynamical part of the screening. This is to support the connection of KC functionals with COHSEX (static GW).
+Backed by the evident correspondence between many-body self-energies and ODD potentials, we now specify to the case of Koopmans potentials -- particularly, in the KIPZ flavor -- to highlight what kind of physics is embodied in this method. Following the approach of Colonna \emph{et al.} \cite{colonna_koopmans-compliant_2019}, we consider a second-order approximation for the KIPZ functional: from the definition given in \cref{eq:kipz-correction}, and the second-order expression for the KI correction terms of \cref{eq:relaxed-ki-second-order}, the relaxed second-order KIPZ correction reads as
+%
+\begin{equation}
+    \begin{split}
+        \Pi_i^{\rm rKIPZ(2)} &= \Pi_i^{\rm rKI(2)} - f_i E_{\rm Hxc}[n_i] \\
+        &= \frac{1}{2} f_i(1-f_i) \braket{n_i|\mathcal{F_{\rm Hxc}}|n_i} - f_i E_{\rm Hxc}[n_i] ,
+    \end{split}
+    \label{eq:relaxed-kipz-second-order}
+\end{equation}
+%
+where we adopted the notation of Ref.~\cite{colonna_koopmans-compliant_2019} to express double integrals -- i.e. $\braket{n_i|\mathcal{F_{\rm Hxc}}|n_i} = \int d\br d\br' n_i(\br) \mathcal{F}_{\rm Hxc}(\br,\br') n_i(\br')$ -- and we introduced the screened kernel $\mathcal{F}_{\rm Hxc} = \varepsilon^{-1} f_{\rm Hxc}$; as usual in this thesis, we dropped the spin indeces to lighten the notation. The second-order KIPZ ODD potentials are obtained by deriving \cref{eq:relaxed-kipz-second-order} with respect to $\rho_i$. While the full derivation is given in \cref{app:ki-kipz} (there the details are given for the full Koopmans potentials, whereas the simpler derivation for the expressions at the second-order is left to the reader), here we just report the final expression:
+%
+\begin{equation}
+    \begin{split}
+        v^{\rm rKIPZ(2)}_i(\br) = &- \frac{1}{2} \braket{n_i|\mathcal{F}_{\rm Hxc}|n_i} + (1-f_i) \int d\br' \ \mathcal{F}_{\rm Hxc}(\br,\br') n_i(\br') - \\
+        & E_{\rm Hxc}[n_i] + \int d\br \ v_{\rm Hxc}([n_i],\br) n_i(\br) - v_{\rm Hxc}([n_i],\br) .
+    \end{split}
+    \label{eq:kipz-potential-second-order}
+\end{equation}
+%
+In the following, we consider two special cases: we first neglect both xc terms (Hartree-only approximation) and the screening effects, i.e. $\mathcal{F}_{\rm Hxc} \approx f_{\rm Hxc}$, and then we account again for the screening (still within the Hartree-only approximation).
+
+\subsubsection*{Unscreened Hartree-only approximation}
+Recalling that $f_{\rm H}(\br,\br') = 1/|\br-\br'|$, the second-order KIPZ potential reduces to
+%
+\begin{equation}
+    \begin{split}
+        v^{\rm uKIPZ(2)}_i(\br) \approx &- \frac{1}{2} \braket{n_i|f_{\rm H}|n_i} + (1-f_i) \int d\br' \ f_{\rm H}(\br,\br') n_i(\br') - \\
+        &E_{\rm H}[n_i] + \int d\br \ v_{\rm H}([n_i],\br) n_i(\br) - v_{\rm H}([n_i],\br) \\
+        = &- E_{\rm H}[n_i] + (1-f_i) v_{\rm H}([n_i],\br) - E_{\rm H}[n_i] + 2 E_{\rm H}[n_i] - v_{\rm H}([n_i],\br) \\
+        = &- f_i  v_{\rm H}([n_i],\br) .
+    \end{split}
+    \label{eq:kipz-potential-hartree-unscreened}
+\end{equation}
+%
+We can easily show that the matrix elements of this approximated KIPZ potential are very similar to those of the Fock exchange, pointing out the equivalence between the second-order unscreened Hartree-only KIPZ and the HF Hamiltonians. To prove it, let us write down the expression for the matrix elements of the Fock exchange: given its unitary-invariance we can represent $\hat{v}_{\rm x}$ on any basis of the occupied subspace $\hat{\rho}$, and we choose the representation of the KIPZ variational orbitals, $\{ \phi_i \}$. As mentioned already, and discussed in detail in \cref{sec:localization}, the Koopmans variational orbitals are usually very localized in space -- thus, they have a minimal overlap -- which allows to neglect the off-diagonal elements:
+%
+\begin{equation}
+    \begin{split}
+        \braket{\phi_j|\hat{v}_x|\phi_i} &= - \sum_k \int d\br d\br' \ \frac{\phi_j^*(\br) \phi_k^*(\br) \phi_k(\br') \phi_i(\br')}{|\br-\br'|} \\
+        &\approx - \int d\br d\br' \ \frac{\phi_j^*(\br) \phi_i^*(\br) n_i(\br')}{|\br-\br'|} \\
+        &\approx - \braket{n_i|f_{\rm H}|n_i} \delta_{ij} ,
+    \end{split}
+    \label{eq:fock-ex-matrix-elements-approx}
+\end{equation}
+%
+and we see that for occupied states ($f_i=1$), the matrix elements of $\hat{v}^{\rm uKIPZ(2)}_i$ match with \cref{eq:fock-ex-matrix-elements-approx}. We highlight that within this approximation the KIPZ and PZ potentials are equal (for fully occupied states), meaning that the argument above applies also to the PZ functional.
+
+\subsubsection*{Hartree-only approximation with static RPA screening}
+
+
+While the Hartree-only second-order approximation leads to a correspondence with a static non-local self-energy, the inclusion of the xc terms and, ultimately, of higher orders of the Taylor expansion could possibly include dynamical effects. Difficult tretment but maybe vertex corrections to DFT?
+
 
 \clearpage
 \section{Summary\label{sec:ch3-summary}}
