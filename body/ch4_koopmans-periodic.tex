@@ -282,6 +282,65 @@ It is important to stress that \cref{eq:commutativity-koopmans-ham} proves the e
 To summarize, we have shown that when the variational orbitals are Wannier functions [i.e.\ they satisfy \cref{eq:trans-prop-wannier}] the potential $\hat{v}^{\rm KC}$ defined in \cref{eq:koopmans-hamiltonian} is periodic over the PC, making the Koopmans Hamiltonian Bloch-compliant. As an aside, the Wannier-like nature of the orbitals and the Bloch-compliance of Koopmans functionals also makes it possible to develop a PC implementation of Koopmans functionals, for direct access to the band structure without the need of supercell calculations and of an unfolding procedure \cite{colonna_koopmans_2022}; a brief overview of this implementation is given in the following section. As we already mentioned above, the assumption of having Wannier-like variational orbitals is justified by the observation that the minimization of Koopmans and PZ functionals in extended systems leads to orbitals with these properties. While this has occurred in all the systems so far considered, it is important to remark that the lack of the Wannier-like character in the variational orbitals would prevent from applying the Bloch's theorem and implies the actual breaking of the translation symmetry of the system. Such situations are presumably as sporadic as when in standard DFT the periodicity of the ground-state density is not commensurate to that of the lattice potential and they should not be confused with special system-dependent gauge invariances that Koopmans functionals might have. Despite the non-unitary invariance of the functionals, there is indeed no guarantee for the uniqueness of the set of variational orbitals and we cannot exclude \emph{a priori} that there might exist some gauges for which the translation symmetry of the lattice is broken. Eventually, in ODD functionals, the assumption of a Wannier-like character for the variational orbitals can be considered equivalent to the hypotesis of periodicity for the total density made in standard density-functional approaches.
 
 \section{Koopmans functionals in periodic boundary conditions\label{sec:koopmans-pbc}}
+In the previous section, we saw that the Wannier translation property guarantees the compliance of Koopmans Hamiltonians with Bloch's theorem, despite the non-periodic character of the variational orbitals. Here, we show that this feature can be further exploited to arrive to a primitive cell formulation of Koopmans functionals \cite{colonna_koopmans_2022}. This requires to ``fold'' into the PC the expressions for the ODD terms, and to compute the screening parameters without relying on the supercell method. In particular, this second requirement prevents us from using the finite-differences method to compute $\alpha_i$, which inevitably relies on supercell calculations. On the other hand, the linear response approach does not require to compute the energy at different numbers of electrons, and below we show that it can be actually performed fully in the PC. For the moment, this formalism is restricted to the KI functional only and, as for the linear response method, it relies on a second-order approximation of the Koopmans corrections.
 
+As displayed by \cref{eq:koopmans-functional-derivative}, the Koopmans Hamiltonian is made of the DFT Hamiltonian, trivially periodic over the PC, and an ODD term. In \cref{sec:unfolding-method}, we show that the matrix elements of (any part of) the $\bk$-space Hamiltonian are obtained by Fourier transforming the matrix elements in the Wannier representation [see \cref{eq:block-diagonal-koopmans-ham}]:
+%
+\begin{equation}
+    v^{\rm KI}_{mn}(\bk) = \sum_{\bR} \ e^{i \bk \cdot \bR} \braket{w_{m{\bm 0}}|\hat{v}^{\rm KI}|\wnR} = \sum_{\bR} \ e^{i \bk \cdot \bR} \braket{w_{m{\bm 0}}|\hat{v}^{\rm KI}_{n\bR}|\wnR} .
+    \label{eq:ki-hamiltonian-k-space}
+\end{equation}
+%
+The idea then is to find a way to compute within the primitive unit cell, the SC integrals over the Wannier functions. Below we show that, with the only hypothesis of the Wannier character for the variational orbitals, this can be done by combining integrals over the PC with sums over the $\bk$-points. While we refer to Ref.~\cite{colonna_koopmans_2022} (and to the supplementary material therein) for a more complete description of the whole formalism and its actual implementation, here we report the most important steps.
+
+We start with the expression for the Wannier orbital densities $\rho_{n\bR}(\br)$ (in this context we use the notation $\rho_i$, rather than $n_i$, to refer to the fully-occupied orbital densities):
+%
+\begin{equation}
+    \begin{split}
+        \rho_{n\bR}(\br) &= |\wnR(\br)|^2 \\
+        &= \sum_{\bk} \sum_{\bk'} e^{i \bk \cdot \bR} e^{-i \bk' \cdot \bR} \tp^*_{n \bk}(\br) \tp_{n \bk'}(\br) \qquad \qquad (\bk' - \bk) \rightarrow \bq \\
+        & = \sum_{\bk} \sum_{\bq} e^{-i \bq \cdot \bR} \tp^*_{n \bk}(\br) \tp_{n \bk+\bq}(\br) \\
+        & = \sum_{\bk} \sum_{\bq} e^{-i \bq \cdot \bR} e^{-i \bk \cdot \br} \tu^*_{n \bk}(\br) e^{i (\bk+\bq) \cdot \br}\tu_{n \bk+\bq}(\br) \\
+        & = \sum_{\bq} e^{i \bq \cdot \br} \bigg\{ e^{-i \bq \cdot \bR} \sum_{\bk} \tu^*_{n \bk}(\br)\tu_{n \bk+\bq}(\br) \bigg\} \\
+        & = \sum_{\bq} e^{i \bq \cdot \br} \rho_{\bq}^{n \bR}(\br) ,
+    \end{split}
+    \label{eq:wannier-densities-kcw}
+\end{equation}
+%
+where we used \cref{eq:bloch-functions} to explicit the periodic part of BFs, and where the ``tilde'' over $\psink$ (or $u_{n \bk}$) serves to remind that the WFs are defined up to a unitary transformation of BFs. The quantity $\rho_{\bq}^{n \bR}(\br) = e^{-i \bq \cdot \bR} \sum_{\bk} \tu^*_{n \bk}(\br)\tu_{n \bk+\bq}(\br)$ is clearly periodic over the PC, in this way we made explicit the periodic part of the Wannier orbital densities (similarly to what is done for BFs). A similar expression can be obtained for the off-diagonal (or mixed) orbital densities,
+%
+\begin{equation}
+    w_{m{\bm 0}}^*(\br) \wnR(\br) = \sum_{\bq} e^{i \bq \cdot \br} \rho_{\bq}^{mn \bR}(\br)
+    \qquad {\rm with} \qquad
+    \rho_{\bq}^{mn \bR}(\br) = e^{-i \bq \cdot \bR} \sum_{\bk} e^{-i \bk \cdot \bR} \tu^*_{m \bk}(\br)\tu_{n \bk+\bq}(\br) ,
+    \label{eq:mixed-wannier-densities-kcw}
+\end{equation}
+%
+where the quantities $\rho_{\bq}^{mn \bR}(\br)$ are again periodic over the PC.
+
+The next step is to write down the expressions for the matrix elements of the KI potential. In order to do that, we recall the second-order expression for the KI corrective terms given in \cref{eq:relaxed-ki-second-order}, and derive it with respect to $\rho_{n{\bm 0}}$ to obtain the second-order unrelaxed KI potential
+%
+\begin{equation}
+    v^{\rm uKI(2)}_{n{\bm 0}} = - \frac{1}{2} \int_{\rm SC} d\br d\br' \ \rho_{n{\bm 0}}(\br) f_{\rm Hxc}(\br,\br') \rho_{n{\bm 0}}(\br') =
+    - \frac{1}{2} \int_{\rm SC} d\br \ \rho_{n{\bm 0}}(\br) v_{\rm Hxc}([\rho_{n{\bm 0}}],\br) ,
+    \label{eq:ki-pot-second-order}
+\end{equation}
+%
+where we specified to occupied states ($f_{n{\bm 0}} = 1$), since the following arguments readily apply to the potentials for the empty states as well. Also, here we considered just the potential corresponding to the Wannier function $w_{n{\bm 0}}$ since any other potential can be easily obtained via \cref{eq:trans-prop-pz-pot}. We remark that the KI potential for the occupied states is fully scalar (for a detailed discussion see \cref{app:ki-kipz}). In order to determine the expression for $v^{\rm uKI(2)}_{n{\bm 0}}$, we first compute the self-Hartree and self-xc potentials
+%
+\begin{equation}
+    \begin{split}
+        v_{\rm H}([\rho_{n{\bm 0}}],\br) &= \int_{\rm SC} d\br' \ f_{\rm H}(\br,\br') \rho_{n{\bm 0}}(\br') \\
+        &= \sum_{\bq} \int_{\rm SC} d\br' \ \frac{1}{|\br - \br'|} e^{i \bq \cdot \br'} \rho_{\bq}^{n{\bm 0}}(\br') \\
+        &= \sum_{\bq} \int d\br' \ \frac{1}{|\br - \br'|} e^{i \bq \cdot \br'} \sum_{\bg} \rho_{\bq+\bg}^{n \bR} e^{i \bg \cdot \br'} \\
+        & = \sum_{\bq} \sum_{\bg} \int d\br' \frac{1}{|\br -\br'|} e^{i(\bq+\bg) \cdot \br'} \rho_{\bq+\bg}^{n \bR} e^{i(\bq+\bg) \cdot (\br'-\br)} e^{-i(\bq+\bg) \cdot (\br' -\br)} \\
+        &= \sum_{\bq} \sum_{\bg} \left\{ \int d\br' \ \frac{1}{|\br -\br'|} e^{-i(\bq+\bg) \cdot (\br -\br')} \right\}\rho_{\bq+\bg}^{n \bR} e^{-i(\bq+\bg) \cdot \br} \\
+        %& = \sum_{\bq} \left\{ \sum_{\bg} e^{-i\bg \cdot \br} \frac{4\pi}{|\bq+\bg|^2} \rho_{\bq+\bg}^{\bR n}  \right\} e^{-i\bq \cdot \br} \nonumber \\
+        %& = \sum_{\bq}  e^{-i\bq \cdot \br}\ \Delta V_{\rm H,\bq}^{\bR n}(\br)
+    \end{split}
+\end{equation}
+
+
+\clearpage
 \section{Summary\label{sec:ch4-summary}}
 

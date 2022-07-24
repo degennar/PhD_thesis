@@ -517,7 +517,7 @@ Backed by the evident correspondence between many-body self-energies and ODD pot
     \label{eq:relaxed-kipz-second-order}
 \end{equation}
 %
-where we adopted the notation of Ref.~\cite{colonna_koopmans-compliant_2019} to express double integrals -- i.e. $\braket{n_i|\mathcal{F_{\rm Hxc}}|n_i} = \int d\br d\br' n_i(\br) \mathcal{F}_{\rm Hxc}(\br,\br') n_i(\br')$ -- and we introduced the screened kernel $\mathcal{F}_{\rm Hxc} = \varepsilon^{-1} f_{\rm Hxc}$; as usual in this thesis, we dropped the spin indeces to lighten the notation. The second-order KIPZ ODD potentials are obtained by deriving \cref{eq:relaxed-kipz-second-order} with respect to $\rho_i$. While the full derivation is given in \cref{app:ki-kipz} (there the details are given for the full Koopmans potentials, whereas the simpler derivation for the expressions at the second-order is left to the reader), here we just report the final expression:
+where we adopted the notation of Ref.~\cite{colonna_koopmans-compliant_2019} to express double integrals -- i.e. $\braket{n_i|\mathcal{F_{\rm Hxc}}|n_i} = \int d\br d\br' n_i(\br) \mathcal{F}_{\rm Hxc}(\br,\br') n_i(\br')$ -- and we introduced the screened kernel $\mathcal{F}_{\rm Hxc} = \epsilon^{-1} f_{\rm Hxc}$; as usual in this thesis, we dropped the spin indeces to lighten the notation. The second-order KIPZ ODD potentials are obtained by deriving \cref{eq:relaxed-kipz-second-order} with respect to $\rho_i$. While the full derivation is given in \cref{app:ki-kipz} (there the details are given for the full Koopmans potentials, whereas the simpler derivation for the expressions at the second-order is left to the reader), here we just report the final expression:
 %
 \begin{equation}
     \begin{split}
@@ -527,7 +527,7 @@ where we adopted the notation of Ref.~\cite{colonna_koopmans-compliant_2019} to 
     \label{eq:kipz-potential-second-order}
 \end{equation}
 %
-In the following, we consider two special cases: we first neglect both xc terms (Hartree-only approximation) and the screening effects, i.e. $\mathcal{F}_{\rm Hxc} \approx f_{\rm Hxc}$, and then we account again for the screening (still within the Hartree-only approximation).
+In the following, we consider two special cases: we first neglect both xc terms (Hartree-only approximation) and the screening effects, i.e. $\mathcal{F}_{\rm Hxc} \approx f_{\rm Hxc}$, and then we account again for the screening (still within the Hartree-only approximation) \cite{colonna_koopmans-compliant_2019}.
 
 \subsubsection*{Unscreened Hartree-only approximation}
 Recalling that $f_{\rm H}(\br,\br') = 1/|\br-\br'|$, the second-order KIPZ potential reduces to
@@ -542,25 +542,77 @@ Recalling that $f_{\rm H}(\br,\br') = 1/|\br-\br'|$, the second-order KIPZ poten
     \label{eq:kipz-potential-hartree-unscreened}
 \end{equation}
 %
-We can easily show that the matrix elements of this approximated KIPZ potential are very similar to those of the Fock exchange, pointing out the equivalence between the second-order unscreened Hartree-only KIPZ and the HF Hamiltonians. To prove it, let us write down the expression for the matrix elements of the Fock exchange: given its unitary-invariance we can represent $\hat{v}_{\rm x}$ on any basis of the occupied subspace $\hat{\rho}$, and we choose the representation of the KIPZ variational orbitals, $\{ \phi_i \}$. As mentioned already, and discussed in detail in \cref{sec:localization}, the Koopmans variational orbitals are usually very localized in space -- thus, they have a minimal overlap -- which allows to neglect the off-diagonal elements:
+We can easily show that the matrix elements of this approximated KIPZ potential are very similar to those of the Fock exchange, pointing out the equivalence between the second-order unscreened Hartree-only KIPZ and the HF Hamiltonians. To prove it, let us write down the expression for the matrix elements of the Fock exchange: given its unitary-invariance we can represent $\hat{v}_{\rm x}$ on any basis of the occupied subspace $\hat{\rho}$, and we choose the representation of the KIPZ variational orbitals, $\{ \phi_i \}$. We remark that while the density matrix might be non-diagonal in this representation, here we represent it for simplicity in its diagonal form, i.e. form $\gamma(\br,\br') = \sum_{k} f_{k} \phi_k^*(\br') \phi_k(\br)$. As mentioned already, and discussed in detail in \cref{sec:localization}, the Koopmans variational orbitals are usually very localized in space -- thus, they have a minimal overlap -- which allows to neglect the off-diagonal elements:
 %
 \begin{equation}
     \begin{split}
-        \braket{\phi_j|\hat{v}_x|\phi_i} &= - \sum_k \int d\br d\br' \ \frac{\phi_j^*(\br) \phi_k^*(\br) \phi_k(\br') \phi_i(\br')}{|\br-\br'|} \\
-        &\approx - \int d\br d\br' \ \frac{\phi_j^*(\br) \phi_i^*(\br) n_i(\br')}{|\br-\br'|} \\
-        &\approx - \braket{n_i|f_{\rm H}|n_i} \delta_{ij} ,
+        \braket{\phi_j|\hat{v}_x|\phi_i} &= - \sum_k f_k \int d\br d\br' \ \frac{\phi_j^*(\br) \phi_k(\br) \phi_k^*(\br') \phi_i(\br')}{|\br-\br'|} \\
+        &\approx - f_i \int d\br d\br' \ \frac{\phi_j^*(\br) \phi_i(\br) n_i(\br')}{|\br-\br'|} \\
+        &\approx - f_i \braket{n_i|f_{\rm H}|n_i} \delta_{ij} ,
     \end{split}
     \label{eq:fock-ex-matrix-elements-approx}
 \end{equation}
 %
-and we see that for occupied states ($f_i=1$), the matrix elements of $\hat{v}^{\rm uKIPZ(2)}_i$ match with \cref{eq:fock-ex-matrix-elements-approx}. We highlight that within this approximation the KIPZ and PZ potentials are equal (for fully occupied states), meaning that the argument above applies also to the PZ functional.
+which match with the matrix elements of $\hat{v}^{\rm uKIPZ(2)}_i$. We highlight that within this approximation the KIPZ and PZ potentials are equal (for fully occupied states), meaning that the argument above applies also to the PZ functional.
 
 \subsubsection*{Hartree-only approximation with static RPA screening}
+Let us account now for screening effects (still within the Hartree-only approximation) in the form of RPA statically screened interaction $W = \epsilon^{-1}_{\rm RPA} f_{\rm H}$. \cref{eq:kipz-potential-second-order} gets then approximated as
+%
+\begin{equation}
+    v^{\rm rKIPZ(2)}_i(\br) \approx - \frac{1}{2} \braket{n_i|W|n_i} + (1-f_i) \int d\br' \ W(\br,\br') n_i(\br') + E_{\rm H}[n_i] - v_{\rm H}([n_i],\br) ,
+    \label{eq:kipz-pot-second-order-rpa}
+\end{equation}
+%
+and the matrix elements over any pair of (localized) orbitals $(\phi_i,\phi_j)$ are given by
+%
+\begin{equation}
+    \braket{\phi_j|\hat{v}^{\rm rKIPZ(2)}_i|\phi_i} \approx \left\{ \left( \frac{1}{2} - f_i \right) \braket{n_i|W|n_i} - E_{\rm H}[n_i] \right\} \delta_{ij} .
+    \label{eq:kipz-pot-rpa-matrix-elements}
+\end{equation}
+%
+We consider now the Coulomb-hole with screened-exchange (COHSEX) self-energy, representing a static \gw approximation. By neglecting as usual the spin coordinates (irrelevant for the purposes of the present discussion), the COHSEX self-energy is given by
+%
+\begin{equation}
+    \Sigma^{\rm COHSEX}(\br,\br') = \underbrace{\frac{1}{2} \left[ W(\br,\br') - f_{\rm H}(\br,\br') \right] \delta(\br-\br')}_{\Sigma^{\rm COH}} \ \ + \underbrace{\bfrac{\ }{\ } \left[ - \gamma(\br,\br') W(\br,\br') \right]}_{\Sigma^{\rm SEX}} .
+    \label{eq:cohsex-self-energy}
+\end{equation}
+%
+As for the Fock exchange, the COHSEX self-energy is invariant under unitary transformation, and its matrix elements over the variational orbitals benefit from the same approximations used to derive \cref{eq:fock-ex-matrix-elements-approx,eq:kipz-pot-rpa-matrix-elements}:
+%
+\begin{equation}
+    \begin{split}
+        \braket{\phi_j|\hat{\Sigma}^{\rm COH}|\phi_i} &= \frac{1}{2}(\epsilon^{-1}_{\rm RPA} - 1) \int d\br d\br' \ \frac{\phi_i^*(\br) \phi_j(\br')}{|\br-\br'|} \braket{\br|\br'} \\
+        &= \frac{1}{2}(\epsilon^{-1}_{\rm RPA} - 1) \sum_k \int d\br d\br' \ \frac{\phi_i^*(\br) \phi_j(\br') \phi_k^*(\br') \phi_k(\br)}{|\br-\br'|} \\
+        &\approx \frac{1}{2}(\epsilon^{-1}_{\rm RPA} - 1) \int d\br d\br' \ \frac{n_i(\br) n_i(\br')}{|\br-\br'|} \delta_{ij} \\
+        &= \left\{ \frac{1}{2} \braket{n_i|W|n_i} - E_{\rm H}[n_i] \right\} \delta_{ij},
+    \end{split}
+    \label{eq:matrix-elements-coh-self-energy}
+\end{equation}
+%
+for the Coulomb term -- where we made use of $\delta(\br-\br')=\braket{\br|\br'}$ and of the completeness relation over the basis set $\{ \phi_i \}$ -- and
+%
+\begin{equation}
+    \begin{split}
+        \braket{\phi_j|\hat{\Sigma}^{\rm SEX}|\phi_i} &= - \int d\br d\br' \ \phi_i^*(\br) \phi_j(\br') \gamma(\br,\br') W(\br,\br') \\
+        &= - \sum_k f_k \int d\br d\br' \ \phi_i^*(\br) \phi_j(\br') \phi_k^*(\br') \phi_k(\br) W(\br,\br') \\
+        &\approx - f_i \int d\br d\br' \ n_i^*(\br) n_i(\br') W(\br,\br') \delta_{ij} \\
+        &= - f_i \braket{n_i|W|n_i} \delta_{ij} ,
+    \end{split}
+    \label{eq:matrix-elements-sex-self-energy}
+\end{equation}
+%
+for the exchange term.
 
+Finally, by putting together \crefrange{eq:cohsex-self-energy}{eq:matrix-elements-sex-self-energy}, we obtain the matrix elements for the COHSEX self-energy
+%
+\begin{equation}
+    \braket{\phi_j|\hat{\Sigma}^{\rm COHSEX}|\phi_i} \approx \left\{ \left( \frac{1}{2} - f_i \right) \braket{n_i|W|n_i} - E_{\rm H}[n_i] \right\} \delta_{ij},
+\end{equation}
+%
+that perfectly match those of the KIPZ potential, given in \cref{eq:kipz-pot-rpa-matrix-elements}.
 
-While the Hartree-only second-order approximation leads to a correspondence with a static non-local self-energy, the inclusion of the xc terms and, ultimately, of higher orders of the Taylor expansion could possibly include dynamical effects. Difficult tretment but maybe vertex corrections to DFT?
-
+The two cases discussed above highlight the connection between KIPZ ODD potentials and many-body self-energies. In particular, already at the second order of expansion and neglecting all the exchange-correlation terms, KIPZ embodies the physics of static and non-local self-energies, such as the Hartree-Fock potential and the screened Hartree-Fock self-energy, also called COHSEX. In line with what was stated in Refs.~\cite{gatti_transforming_2007,ferretti_bridging_2014}, Koopmans functionals account for non-local interactions by means of local and orbital-dependent potentials, and thus map the non-local part of the interaction into an approximated frequency-dependence. By overcoming the Hartree-only approximation and, ultimately, including higher orders of perturbation, it is reasonable to assume that also dynamical effects might be accounted for. Although the correspondence between full Koopmans potentials and diagrammatic expansions of the self-energy is non-trivial -- mainly due to the presence of the xc kernel -- a qualitative analysis brought to the conclusion that, eventually, Koopmans potentials might embody vertex corrections to the \gw self-energy \cite{colonna_koopmans-compliant_2019}.
 
 \clearpage
 \section{Summary\label{sec:ch3-summary}}
-The orbital-density-dependence characterizing the total energy, is passed down to the Koopmans potential giving it a form that resembles a local but frequency-dependent self-energy
+In this chapter we introduced the framework of Koopmans spectral functionals, a variational approach which assigns to the orbital energies the meaning of electron addition and removal energies. The construction of Koopmans functionals grounds on a generalization of the piecewise-linearity condition, which extends to all the orbitals of the system and introduces an explicit orbital-density-dependence. The complications brought about by the ODD character -- which include the breaking of unitary-invariance and the appearance of a duality in the set of orbitals minimizing the energy and diagonalizing the Hamiltonian -- hint at a connection with many-body perturbation theory: indeed, the orbital-density-dependence is passed down to the Koopmans potential giving it a form that resembles a local but frequency-dependent self-energy. Such connection possibly explains the success of Koopmans functionals for the prediction of spectral properties, and sets the stage for the interpretation of Koopmans functionals as a method to provide effective approximations to spectral potentials.

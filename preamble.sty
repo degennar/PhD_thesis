@@ -197,6 +197,9 @@
 
 \newsavebox{\measurebox}
 
+% fraction with invisible bar
+\newcommand*{\bfrac}[2]{\genfrac{}{}{0pt}{}{#1}{#2}}
+
 % Changing defaults to avoid moving text to new pages rather than below big pictures
 \setcounter{topnumber}{6}
 \setcounter{bottomnumber}{6}
@@ -212,6 +215,7 @@
 \newcommand{\bR}{{\bm R}}
 \newcommand{\bq}{{\bm q}}
 \newcommand{\bG}{{\bm G}}
+\newcommand{\bg}{{\bm g}}
 
 % other quick definitions
 \newcommand{\gw}{\emph{GW}\xspace}
@@ -222,6 +226,8 @@
 \newcommand{\psink}{\psi_{n\bk}}
 \newcommand{\tR}{\hat{T}_{\bR}}
 \newcommand{\vpz}{\hat{v}^{\rm PZ}}
+\newcommand{\tp}{\tilde{\psi}}
+\newcommand{\tu}{\tilde{u}}
 \newcommand{\kcp}{\texttt{KCP}\xspace}
 \newcommand{\kcw}{\texttt{KCW}\xspace}
 \newcommand{\qe}{\textsc{Quantum ESPRESSO}\xspace}
