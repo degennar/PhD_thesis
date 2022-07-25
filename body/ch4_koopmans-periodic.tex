@@ -288,7 +288,7 @@ As displayed by \cref{eq:koopmans-functional-derivative}, the Koopmans Hamiltoni
 %
 \begin{equation}
     v^{\rm KI}_{mn}(\bk) = \sum_{\bR} \ e^{i \bk \cdot \bR} \braket{w_{m{\bm 0}}|\hat{v}^{\rm KI}|\wnR} = \sum_{\bR} \ e^{i \bk \cdot \bR} \braket{w_{m{\bm 0}}|\hat{v}^{\rm KI}_{n\bR}|\wnR} .
-    \label{eq:ki-hamiltonian-k-space}
+    \label{eq:ki-ham-kcw}
 \end{equation}
 %
 The idea then is to find a way to compute within the primitive unit cell, the SC integrals over the Wannier functions. Below we show that, with the only hypothesis of the Wannier character for the variational orbitals, this can be done by combining integrals over the PC with sums over the $\bk$-points. While we refer to Ref.~\cite{colonna_koopmans_2022} (and to the supplementary material therein) for a more complete description of the whole formalism and its actual implementation, here we report the most important steps.
@@ -326,21 +326,91 @@ The next step is to write down the expressions for the matrix elements of the KI
     \label{eq:ki-pot-second-order}
 \end{equation}
 %
-where we specified to occupied states ($f_{n{\bm 0}} = 1$), since the following arguments readily apply to the potentials for the empty states as well. Also, here we considered just the potential corresponding to the Wannier function $w_{n{\bm 0}}$ since any other potential can be easily obtained via \cref{eq:trans-prop-pz-pot}. We remark that the KI potential for the occupied states is fully scalar (for a detailed discussion see \cref{app:ki-kipz}). In order to determine the expression for $v^{\rm uKI(2)}_{n{\bm 0}}$, we first compute the self-Hartree and self-xc potentials
+where we specified to occupied states ($f_{n{\bm 0}} = 1$), knowing that the following arguments readily apply to the potentials for the empty states as well. Also, here we considered just the potential corresponding to the Wannier function $w_{n{\bm 0}}$ since any other potential can be easily obtained via \cref{eq:trans-prop-pz-pot}. We remark that the KI potential for the occupied states is fully scalar (for a detailed discussion see \cref{app:ki-kipz}). In order to determine the expression for $v^{\rm uKI(2)}_{n{\bm 0}}$, we first compute the self-Hartree and self-xc potentials
 %
 \begin{equation}
     \begin{split}
         v_{\rm H}([\rho_{n{\bm 0}}],\br) &= \int_{\rm SC} d\br' \ f_{\rm H}(\br,\br') \rho_{n{\bm 0}}(\br') \\
+        %
         &= \sum_{\bq} \int_{\rm SC} d\br' \ \frac{1}{|\br - \br'|} e^{i \bq \cdot \br'} \rho_{\bq}^{n{\bm 0}}(\br') \\
-        &= \sum_{\bq} \int d\br' \ \frac{1}{|\br - \br'|} e^{i \bq \cdot \br'} \sum_{\bg} \rho_{\bq+\bg}^{n \bR} e^{i \bg \cdot \br'} \\
-        & = \sum_{\bq} \sum_{\bg} \int d\br' \frac{1}{|\br -\br'|} e^{i(\bq+\bg) \cdot \br'} \rho_{\bq+\bg}^{n \bR} e^{i(\bq+\bg) \cdot (\br'-\br)} e^{-i(\bq+\bg) \cdot (\br' -\br)} \\
-        &= \sum_{\bq} \sum_{\bg} \left\{ \int d\br' \ \frac{1}{|\br -\br'|} e^{-i(\bq+\bg) \cdot (\br -\br')} \right\}\rho_{\bq+\bg}^{n \bR} e^{-i(\bq+\bg) \cdot \br} \\
-        %& = \sum_{\bq} \left\{ \sum_{\bg} e^{-i\bg \cdot \br} \frac{4\pi}{|\bq+\bg|^2} \rho_{\bq+\bg}^{\bR n}  \right\} e^{-i\bq \cdot \br} \nonumber \\
-        %& = \sum_{\bq}  e^{-i\bq \cdot \br}\ \Delta V_{\rm H,\bq}^{\bR n}(\br)
+        %
+        &= \sum_{\bq} \int_{\rm SC} d\br' \ \frac{1}{|\br - \br'|} e^{i \bq \cdot \br'} \sum_{\bG} \rho_{\bq+\bG}^{n {\bm 0}} e^{-i \bG \cdot \br'} \\
+        %
+        &= \sum_{\bq} \sum_{\bG} \left\{ \int_{\rm SC} d\br' \frac{1}{|\br -\br'|} e^{i(\bq+\bG) \cdot (\br'-\br)} \right\} \rho_{\bq+\bG}^{n {\bm 0}} e^{i(\bq+\bG) \cdot \br} \\
+        %
+        &= \sum_{\bq} e^{i \bq \cdot \br} \left\{ \sum_{\bG} e^{i \bG \cdot \br} \frac{4\pi}{|\bq+\bG|^2} \rho_{\bq+\bG}^{n {\bm 0}} \right\} \\
+        %
+        &= \sum_{\bq} e^{i \bq \cdot \br} v_{{\rm H},\bq}^{n{\bm 0}}(\br) ,
     \end{split}
+    \label{eq:self-hartree-kcw}
+\end{equation}
+%
+where with $\bG$ we refer to the reciprocal lattice vectors, and we made use of the property $u_{n\bk}(-\bG) = u_{n\bk+\bG}$, which readily extends to the Fourier transforms of $\rho_{\bq}^{n{\bm 0}}(\br)$ and, ultimately, of $v_{{\rm H},\bq}^{n{\bm 0}}(\br)$\footnote{
+This property follows from the fact that the periodic part of a BF fulfills $u_{\bk+\bG}(\br) = e^{-i \bG \cdot \br} u_{\bk}(\br)$, which, in turn, is a consequence of a fundamental invariance of BFs, i.e. $\psi_{\bk+\bG} = \psi_{\bk}$.
+}. 
+The quantity $v_{{\rm H},\bq}^{n{\bm 0}}(\br)$ represents the periodic part of the self-Hartree potential associated to a WF, and from \cref{eq:self-hartree-kcw} we see that its Fourier transform is the product of the Fourier transforms of the Coulomb kernel and of . In the same way we compute the self-xc potentials (we recall that for local or semi-local DFAs the xc kernel is local, i.e. $f_{\rm xc}(\br,\br') = f_{\rm xc}([\rho],\br) \delta(\br-\br')$), that read as
+%
+\begin{equation}
+    \begin{split}
+        v_{\rm xc}([\rho_{n{\bm 0}}],\br) &= \int_{\rm SC} d\br' \ f_{\rm xc}(\br,\br') \rho_{n{\bm 0}}(\br') \\
+        %
+        &= \sum_{\bq} e^{i \bq \cdot \br} f_{\rm xc}([\rho],\br) \rho^{n {\bm 0}}_{\bq} (\br) \\
+        %
+        &= \sum_{\bq} e^{i \bq \cdot \br} v_{{\rm xc},\bq}^{n{\bm 0}}(\br) ,
+    \end{split}
+    \label{eq:self-xc-kcw}
+\end{equation}
+%
+where the periodic part in this case is $v_{{\rm xc},\bq}^{n{\bm 0}}(\br) = f_{\rm xc}([\rho],\br) \rho^{n {\bm 0}}_{\bq} (\br)$.
+
+By putting together \crefrange{eq:ki-pot-second-order}{eq:self-xc-kcw}, we can obtain the final expression for the KI potential, namely
+%
+\begin{equation}
+    \begin{split}
+        v^{\rm uKI(2)}_{n{\bm 0}} &= - \frac{1}{2} \int_{\rm SC} d\br \ \rho_{n{\bm 0}}(\br) \left\{ v_{\rm H}([\rho_{n{\bm 0}}],\br) + v_{\rm xc}([\rho_{n{\bm 0}}],\br) \right\} \\
+        %
+        &= \int_{\rm SC} d\br \ \sum_{\bq} e^{i \bq \cdot \br} \rho_{\bq}^{n {\bm 0}}(\br) \sum_{\bq'} e^{i \bq' \cdot \br} v_{{\rm Hxc},\bq'}^{n{\bm 0}}(\br) \\
+        %
+        &= \int_{\rm SC} d\br \ \sum_{\bq} e^{i \bq \cdot \br} \rho_{\bq}^{n {\bm 0}}(\br) \sum_
+        {\bq'} e^{i \bq' \cdot \br} v_{{\rm Hxc},\bq'}^{n{\bm 0}}(\br) \\
+        %
+        &= \sum_{\bq} \sum_{\bq'} \int_{\rm SC} d\br \ e^{i (\bq+\bq') \cdot \br} \rho_{\bq}^{n {\bm 0}}(\br) v_{{\rm Hxc},\bq'}^{n{\bm 0}}(\br) \qquad \qquad (\bq + \bq' \rightarrow \bk + \bG') \\
+        %
+        &= \sum_{\bq} \sum_{\bk} \sum_{\bG} \sum_{\bG''} \rho_{\bq+\bG}^{n {\bm 0}} v_{{\rm Hxc},\bk - \bq + \bG' + \bG''}^{n{\bm 0}} \underbrace{\int_{\rm SC} d\br \ e^{i (\bk + \bG + \bG' + \bG'') \cdot \br}}_{\delta(\bk)\delta(\bG+\bG'+\bG'')} \\
+        %
+        &= \sum_{\bq} \sum_{\bG} \rho_{\bq+\bG}^{n {\bm 0}} v_{{\rm Hxc},-\bq-\bG}^{n{\bm 0}} \\
+        %
+        &= \sum_{\bq} \sum_{\bG} \rho_{\bq+\bG}^{n {\bm 0}} (v_{{\rm Hxc},\bq+\bG}^{n{\bm 0}})^* ,
+    \end{split}
+    \label{eq:ki-pot-second-order-kcw}
+\end{equation}
+%
+where we used the property $v_{{\rm Hxc},-\bq-\bG}^{n \bR} = (v_{{\rm Hxc},\bq+\bG}^{n \bR})^*$. The matrix elements of the KI potential are then trivially given by
+%
+\begin{equation}
+    \braket{w_{m{\bm 0}}|\hat{v}^{\rm KI}_{n\bR}|\wnR} = \left\{ \sum_{\bq} \sum_{\bG} \rho_{\bq+\bG}^{n {\bm 0}} (v_{{\rm Hxc},\bq+\bG}^{n{\bm 0}})^* \right\} \delta_{mn} \delta_{\bm{R,0}} ,
+    \label{eq:matrix-elements-ki-pot-kcw}
+\end{equation}
+%
+where we see that, thanks to the Wannier character of the variational orbitals and to the properties of Koopmans potentials, the integrals over the SC can be written as sums over the $\bk$-points and the reciprocal lattice vectors $\{ \bG \}$ of the PC -- rather than as sums over the reciprocal lattice vectors of the SC.
+
+To conclude this discussion, we show that also the screening parameters can be easily computed with the linear response method applied within the PC. This is readily obtained by considering that, at the second order, the ratio between the relaxed and unrelaxed KI corrective terms -- which yields $\alpha_i$ as showed in \cref{eq:screening-parameter-dfpt} -- is equal to the ratio between the KI potentials. While the unrelaxed potential  is given by \cref{eq:ki-pot-second-order-kcw}, the relaxed one requires to introduce the screened kernel $\mathcal{F}_{\rm Hxc} = \epsilon^{-1} f_{\rm Hxc}$. Eventually, this brings to a very similar expression to \cref{eq:ki-pot-second-order-kcw}, with the only \emph{caveat} that the density term is now mapped into a quantity that accounts for the response of the system:
+%
+\begin{equation}
+    \rho_{\bq}^{n\bR}(\br) \longrightarrow \rho_{\bq}^{n\bR}(\br) + \Delta \rho_{\bq}^{n\bR}(\br) = (1 + f_{\rm Hxc} \chi) \rho_{\bq}^{n\bR}(\br) .
+    \label{eq:response-density-kcw}
+\end{equation}
+%
+and the screening parameter can finally be expressed as
+%
+\begin{equation}
+    \alpha_{n{\bm 0}} = 1 + \frac{v^{\rm rKI(2)}_{n{\bm 0}}}{v^{\rm uKI(2)}_{n{\bm 0}}} 
+    = 1 + \frac{\sum_{\bq} \sum_{\bG} \Delta \rho_{\bq+\bG}^{n {\bm 0}} (v_{{\rm Hxc},\bq+\bG}^{n{\bm 0}})^*}{\sum_{\bq} \sum_{\bG} \rho_{\bq+\bG}^{n {\bm 0}} (v_{{\rm Hxc},\bq+\bG}^{n{\bm 0}})^*}
+    \label{eq:screening-parameter-kcw}
 \end{equation}
 
+\cref{eq:ki-ham-kcw,eq:matrix-elements-ki-pot-kcw,eq:screening-parameter-kcw} represent the foundation for the PC implementation of Koopmans functionals \cite{colonna_koopmans_2022}.
 
 \clearpage
 \section{Summary\label{sec:ch4-summary}}
-
+In this chapter we discussed the applicability of Koopmans spectral functionals in extended periodic systems. First, we pointed out the consequences of having a localized set of orbitals -- crucial aspect to produce non-trivial Koopmans corrections -- but that inevitably brings to non-periodic potentials, whose compliance with Bloch's theorem is not straightforward. In the second part, we showed that by assuming a Wannier character for the variational orbitals, the ODD potentials inherit some important properties that guarantee the commutativity of the Koopmans Hamiltonian with the translation symmetries of the system. Thanks to this result, the hypothesis of Bloch's theorem is satisfied and the band structure description of the energy spectrum is recovered. As an aside, this suggests that the condition of the Wannier-like character for the variational orbitals is an actual manifestation of the translation symmetry in the context of ODD functionals, and can be considered as an equivalent of the less constraining requirement of periodicity of the total density valid for standard density-functionals. Finally, we discussed how the Bloch-compliance of Koopmans functionals can be exploited to realize a formulation of Koopmans functionals that does not require to compute any quantity in the supercell.
