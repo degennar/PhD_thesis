@@ -1,13 +1,13 @@
 \chapter{Koopmans for metallic systems\label{app:koopmans-metals}}
-In this section we point out the issues arising in metallic systems, or anytime that the occupation number matrix is diagonal. We start from the density operator built over the KS states
+In this section we point out the issues arising in metallic systems, or anytime that the occupation number matrix is non-diagonal. We start from the spectral representation of the density operator
 %
 \begin{equation}
     \hat{\rho} = \sum_i f_i \ket{\psi_i} \bra{\psi_i} \ ,
     \label{eq:density-matrix-diag}
 \end{equation}
 %
-where the occupation numbers $f_i$ are 1 for the occupied states, and 0 for the empty states. The representation of this operator on the Kohn-Sham states $\{ \psi_i \}$ is called \emph{occupation number matrix} and takes the form
-%
+where $\{ \psi_i \}$ is the set of KS eigenvectors, and the occupation numbers follow the Fermi-Dirac distribution: $f_i=1$ for the occupied states, and $f_i=0$ for the empty states. By representing $\hat{\rho}$ on the basis of $\{ \psi_i \}$ we obtain the following form for the occupation number matrix:
+
 \begin{equation}
     \mathcal{F} = 
     \left(\vphantom{\begin{array}{c}1\\1\\1\\1\\1\\1\\1\end{array}}
@@ -34,38 +34,33 @@ where the occupation numbers $f_i$ are 1 for the occupied states, and 0 for the 
         \end{array}
         }^{M-N}}
     \right)
-    = \ \mathbb{1}_{occ} \ \oplus \ \mathbb{0}_{emp}
+    = \ \mymathbb{1}_{\rm occ} \ \oplus \ \mymathbb{0}_{\rm emp} ,
     \label{eq:occ-num-matrix}
 \end{equation}
+
+where $M$ is the dimension of the full Hilbert space, and $N$ is that of the subspace $\hat{\rho}$. In a compact way, $\mathcal{F}$ can be expressed as the direct sum of two matrices defined in the $M$-dimensional Hilbert space: $\mymathbb{1}_{\rm occ}$ that is 0 everywhere and acts as the identity matrix over the $N$-dimensional occupied subspace, and $\mymathbb{0}_{\rm emp}$ that is 0 everywhere and it acts as the null matrix over the $(M-N)$-dimensional empty subspace.
+
+Let's consider now a change of representation from the set of KS states $\{ \psi_i \}$ to a set of orbitals $\{ \phi_i \}$, e.g. the variational orbitals. The two basis are connected by a unitary transformation $U: \ket{\phi_i} = \sum_j U_{ji} \ket{\psi_j}$. In terms of the new vectors, the density operator reads as
 %
-where $M$ is the dimension of the full Hilbert space and $N$ is the dimension of the subspace $\hat{\rho}$ ($M-N$ is the dimension of empty subspace). In a compact way, $\mathcal{F}$ can be expressed as the direct sum of two matrices defined in the $M$-dimensional Hilbert space: $\mathbb{1}_{\rm occ}$ that is 0 everywhere and acts as the identity matrix over the $N$-dimensional occupied subspace, and $\mathbb{0}_{\rm emp}$ that is 0 eveywhere and it acts as the null matrix over the 
-$(N-M)$-dimensional empty subspace.
-
-Let's consider now a change of representation from the set of Kohn-Sham states $\{ \psi_i \}$ to a set of new orbitals $\{ \phi_i \}$, e.g. the variational orbitals. The two basis are connected by a unitary transformation $U: \ket{\phi_i} = \sum_j U_{ji} \ket{\psi_j}$. The density matrix on the new basis takes then the following form
-
 \begin{equation}
     \hat{\rho} = \sum_{jk} \tilde{f}_{jk} \ket{\phi_j} \bra{\phi_k} \ ,
     \label{eq:density-matrix-off-diag}
 \end{equation}
 %
-where $\tilde{f}_{jk}$ are the matrix elements of $\tilde{\mathcal{F}} = U^{\dagger} F U$ that in general is a non-diagonal matrix. The presence of off-diagonal elements in the density matrix represents a problem because of the non-covariant formulation of Koopmans functionals: the theory is based on the assumption that the density matrix has the form given in \eqref{eq:density-matrix-diag} and, indeed, the current equations do not show how to treat mixed orbital-densities $\phi_j^*(\br) \phi_k(\br)$ and off-diagonal occupations $\tilde{f}_{jk}$.
+where $\tilde{f}_{jk}$ are the matrix elements of $\tilde{\mathcal{F}} = U^{\dagger} F U$, that in general is a non-diagonal matrix. The presence of off-diagonal elements in the density matrix represents a problem: the Koopmans' condition [see \cref{eq:koopmans-condition}] applies only to the orbital occupations or, in other words, to the diagonal elements of $\mathcal{F}$. As a consequence, the formalism of Koopmans functionals does not contain any term regarding off-diagonal occupations ($f_{ij}$), or mixed orbital densities ($phi_i^*(\br) \phi_j(\br)$), terms which then are not treated within the current theory.
 
-Nevertheless, some particular choices for the matrix $U$ can avoid this problem and maintain a diagonal form for $\hat{\rho}$. Thanks to its block diagonal form, the $\mathcal{F}$-matrix in \eqref{eq:occ-num-matrix} turns out to be invariant over transformations that do not mix occupied and empty states. These cases are represented by a unitary matrix $U$ having the same block diagonal form of $\mathcal{F}$:
+Nevertheless, some particular choices for the transformation $U$ can avoid this problem and preserve the diagonal form of $\hat{\rho}$. Thanks to its block diagonal form, the $\mathcal{F}$-matrix in \eqref{eq:occ-num-matrix} turns out to be invariant over transformations that do not mix occupied and empty states. These cases are represented by a unitary matrix $U$ having the same block diagonal form of $\mathcal{F}$:
 
 \begin{equation}
     U = 
     \begin{pmatrix}
-        U_{occ} & 0 \\
-        0 & U_{emp}
+        U_{\rm occ} & 0 \\
+        0 & U_{\rm emp}
     \end{pmatrix}
-     = \mathbb{U}_{occ} \oplus \mathbb{U}_{emp} \ ;
+     = \mathbb{U}_{\rm occ} \oplus \mathbb{U}_{\rm emp} \ ;
      \label{eq:U-matrix-separate}
 \end{equation} \\
 %
-since both the identity matrix and the null matrix are trivially invariant over unitary transformations, the $\mathcal{F}$-matrix does not change, preserving also the diagonal form of the density matrix.
+since both the identity matrix and the null matrix are trivially invariant over unitary transformations, the $\mathcal{F}$-matrix does not change, preserving also the diagonal form of \cref{eq:occ-num-matrix}. Eventually, this is the way we proceed when we compute the variational orbitals of Koopmans functionals, whether we determine them self-consistently, or we use a non-self-consistent guess. 
 
-This is the way we proceed when we obtain the variational orbitals for the KI functional, whether we follow the self-consistent way or we use a non self-consistent approach. In the first case we perform an inner-loop minimization of the KIPZ functional starting from the DFT ground state density; in the second case -- in periodic systems -- we usually use maximally localized Wannier functions (MLWFs), in the Marzari-Vanderbilt definition \cite{marzari_maximally_2012}, and we obtain them separately from the occupied and empty states. In both cases the transformation matrix has the form of Eq.\eqref{eq:U-matrix-separate} that does not affect the ONM, and the Koopmans corrective potentials are given by the simpler expressions given in Eqs.\eqref{eq:koopmans-pot-occ}-\eqref{eq:koopmans-pot-emp}.
-
-The situation is different when the unitary transformation mixes up occupied and empty states. In this case $U$ does not have the block diagonal form of \eqref{eq:U-matrix-separate}, and the effect is to modify the $\mathcal{F}$-matrix where, in general, the diagonal elements will take any value between 0 and 1 and also the off-diagonal elements will be different from 0. This situation is actually the same of what we find in metallic systems, where there is no distinction between occupied and empty states. The occupations are still defined by the Fermi-Dirac distribution which now, even at zero temperature, is not anymore a step-function. In the Kohn-Sham representation the ONM will still be diagonal but its diagonal matrix elements will, generally, take any value between 0 and 1. Any rotation of this $\mathcal{F}$-matrix, will then lead to a non-diagonal matrix.
-
-Solving this problem would open to the application of Koopmans-compliant functionals to metallic systems, impossible to tackle otherwise. Moreover, also for insulating systems this would facilitate the applications in solids, in particular in the Wannier functions-based non self-consistent approach. At the present moment, as we already mentioned above, MLWFs are indeed taken as variational orbitals without requiring any further minimization. In order to maintain a diagonal density matrix, the unitary transformation that realizes the WFs must be as in Eq.\eqref{eq:U-matrix-separate}, which means that we need to obtain the WFs by keeping the occupied and empty manifolds separate. This represents a problem because sometimes the WFs need to have a projectability on both the occupied and unoccupied subspaces in order to be successfully localized. Relaxing the condition of a diagonal $\hat{\rho}$ would allow then to build the WFs using the full Hilbert space.
+Solving this problem would open to the application of Koopmans functionals to metallic systems, impossible to tackle otherwise. Moreover, also for insulating systems this would facilitate the applications in periodic systems, since it would allow computing MLWFs without the constraint of \cref{eq:U-matrix-separate}, which forces the separate Wannierization of the occupied and empty manifolds (usually more complex than the Wannierization of the full manifold).
