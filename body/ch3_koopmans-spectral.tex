@@ -5,7 +5,7 @@ In this chapter, we describe in detail the theoretical framework of Koopmans fun
 
 \clearpage
 \section{Koopmans spectral functionals\label{sec:koopmans-spectral-functionals}}
-In density-functional theory any observable, including the direct and inverse photoemission spectra, is a functional of the ground-state electronic density. However, often the challenge is to find a way to extract such information once the ground state of the system is determined. Moreover, the existence of an implicit connection does not imply that any observable has an explicit expression in terms of the density, and often we have to rely on different strategies to compute some physical properties. As discussed in \cref{ch:theoretical-background}, computing spectral properties at the DFT level is generally complicated, and even for the first ionization energies we have to resort to GKS schemes or on the $\Delta$SCF method\footnote{The $\Delta$SCF method allows to compute the first ionization energies of the system from total energy differences; it involves calculations on systems at different particle numbers -- $N$, $N-1$, and $N+1$ -- whose ground-state energy differences directly relate to IP and EA.}; the latter, in particular, works only when the densities of the HO and LU orbitals do not delocalize too much, and therefore it inevitably fails in extended systems. Alternatively, we can resort to dynamical approaches -- such as MBPT -- but this normally requires a high computational cost.
+In density-functional theory any observable, including the direct and inverse photoemission spectra, is a functional of the ground-state electronic density. However, often the challenge is to find a way to extract such information once the ground state of the system is determined. Moreover, the existence of an implicit connection does not imply that any observable has an explicit expression in terms of the density, and often we have to rely on different strategies to compute some physical properties. As discussed in \cref{ch:theoretical-background}, computing spectral properties at the DFT level is generally complicated, and even for the first ionization energies we have to resort to GKS schemes or to the $\Delta$SCF method\footnote{The $\Delta$SCF method allows to compute the first ionization energies of the system from total energy differences; it involves calculations on systems at different particle numbers -- $N$, $N-1$, and $N+1$ -- whose ground-state energy differences directly relate to IP and EA.}; in particular, for standard DFAs the latter works only when the HO and LU orbital densities do not delocalize too much, and therefore it inevitably fails in extended systems. Alternatively, we can resort to dynamical approaches -- such as MBPT -- but this normally requires a high computational cost.
 
 Koopmans spectral functionals take place in this framework targeting the electron addition and removal energies, by means of a variational approach. As we shall see, this requires to go beyond the boundaries of KS-DFT and to embody some features of the dynamical self-energy, in order to better describe the quasiparticles. This is achieved via the imposition of a state-dependent condition that shapes Koopmans functionals and makes them dependent on the density of each individual orbital (rather than the total electronic density); effective potentials resulting from such functionals inherit the same orbital-density-dependence (ODD) and closely resemble a simplified version of the frequency-dependent self-energy.
 
@@ -140,12 +140,12 @@ where the KIPZ unrelaxed correction is defined as\footnote{Although KIPZ was alr
     \label{eq:kipz-correction}
 \end{equation}
 %
-showing that, in addition to $\Pi_i^{\rm uKI}$, the KIPZ correction contains also a PZ-like SIC term. As as consequence of the presence of such term, KIPZ -- differently from KI -- modifies the energy of the underlying DFT functional even at integer occupations. Indeed, the functional of \cref{eq:kipz-functional} can be seen as a KI correction on top of the screened PZ functional, i.e. KI@$\alpha$PZ. Considering then $\alpha$PZ as the base functional, KIPZ does not change the energy of $\alpha$PZ at integer occupations (as expected by any KI-like correction). In \cref{app:ki-kipz}, we detail this interpretation of the KIPZ functional.
+showing that, in addition to $\Pi_i^{\rm uKI}$, the KIPZ correction contains also a PZ-like SIC term. As a consequence of the presence of such term, KIPZ -- differently from KI -- modifies the energy of the underlying DFT functional even at integer occupations. Indeed, the functional of \cref{eq:kipz-functional} can be seen as a KI correction on top of the screened PZ functional, i.e. KI@$\alpha$PZ. Considering then $\alpha$PZ as the base functional, KIPZ does not change the energy of $\alpha$PZ at integer occupations (as expected by any KI-like correction). In \cref{app:ki-kipz}, we detail this interpretation of the KIPZ functional.
 
 One of the main features that emerges in Koopmans functionals is the ODD character, also present in the PZ functional. This is a consequence of the state-dependent nature of the Koopmans' condition, which cannot be fulfilled by an explicit functional of the density, whereas it requires the introduction of additional degrees of freedom: the orbital densities. Unfortunately, the orbital-density-dependence makes the search of a variational ground state much more complex, as it generally breaks the unitary invariance characterizing standard density-functionals. Some of these issues will be addressed in \cref{sec:variational-procedure}.
 
 \subsection{Screening parameters\label{sec:screening-parameters}}
-The effects due to the orbitals relaxation, upon changes in the occupation numbers, must be accounted for in order to have an effective Koopmans correction. While this would generally require a complex treatment of the screening -- e.g., by evaluating the convolution of the inverse dielectric matrix with the Koopmans potential -- here we consider a simplified, yet effective, approach which accounts for the screening via some scalar and orbital-dependent parameters, $\alpha_i$, yielding the following approximation for the fully screened KI correction
+The effects due to the orbitals relaxation upon changes in the occupation numbers, must be accounted for in order to have an effective Koopmans correction. While this would generally require a complex treatment of the screening -- e.g., by evaluating the convolution of the inverse dielectric matrix with the Koopmans potential -- here we consider a simplified, yet effective, approach which accounts for the screening via some scalar and orbital-dependent parameters, $\alpha_i$, yielding the following approximation for the fully screened KI correction
 %
 \begin{equation}
     \Pi_i^{\rm KI} \approx \alpha_i \Pi_i^{\rm uKI} .
@@ -181,7 +181,7 @@ From \cref{eq:koopmans-condition}, the matching of the differential $N$-particle
     \label{eq:alpha-dscf-condition}
 \end{equation}
 %
-We emphasize the Koopmans' condition \eqref{eq:koopmans-condition} is strictly fulfilled only the fully-screened functional; as also showed in \cref{fig:pwl-ki-dft}, the unscreened KI functional is not strictly Koopmans-compliant, while -- at good level of approximation -- the $\alpha$-screened KI functional satisfies the Koopmans' condition for the optimal $\alpha$ values. In this sense, \cref{eq:alpha-dscf-condition} can be seen as a way to enforce the Koopmans' condition on the unscreened Koopmans functional. The optimal values of $\alpha$ are found by means of the secant method, described in \cref{fig:secant-method}. At each step, we suppose a linear $\alpha$-dependence of $\lambda_i$ and \cref{eq:alpha-dscf-condition} is solved by
+We emphasize that the Koopmans' condition \eqref{eq:koopmans-condition} is fulfilled only by the fully-screened functional; as also showed in \cref{fig:pwl-ki-dft}, the unscreened KI functional is not strictly Koopmans-compliant, while -- at good level of approximation -- the $\alpha$-screened KI functional satisfies the Koopmans' condition for the optimal $\alpha$ values. In this sense, \cref{eq:alpha-dscf-condition} can be seen as a way to enforce the Koopmans' condition on the $\alpha$-screened Koopmans functional. The optimal values of $\alpha$ are found by means of the secant method, described in \cref{fig:secant-method}. At each step, we suppose a linear $\alpha$-dependence of $\lambda_i$ and \cref{eq:alpha-dscf-condition} is solved by
 %
 \begin{equation}
     \alpha_i^{(n+1)} = \alpha_i^{(n)} \frac{\lambda_i(\alpha_i^{(n+1)}) - \lambda_i(0)}{\lambda_i(\alpha_i^{(n)}) - \lambda_i(0)} .
@@ -222,7 +222,7 @@ where $\Delta E^{\rm KC}_i = E^{\rm KC}(N) - E^{\rm KC}_i(N-1)$ or $\Delta E^{\r
     \label{fig:alphas-convergence}
 \end{figure}
 
-To end this section, we mention that, although the dependence of $\lambda_i$ on $\alpha$ is generally unknown, most of the times it displays an almost linear trend. As a consequence, the value of $\alpha$ at the first iteration proved to be extremely close to the final solution (see \cref{fig:alphas-convergence}), especially if initialized with some good guess of $\alpha$. In actual calculations then, we often consider the screening parameters obtained after a single iteration, starting from the most reasonable physical guess: the inverse of the dielectric constant, $\alpha_i^{(0)} = \epsilon^{-1}$,
+To end this section, we mention that, although the dependence of $\lambda_i$ on $\alpha$ is generally unknown, most of the times it displays an almost linear trend. As a consequence, the value of $\alpha$ at the first iteration proved to be extremely close to the final solution (see \cref{fig:alphas-convergence}), especially if initialized with some good guess of $\alpha$. In actual calculations then, we often consider the screening parameters obtained after a single iteration, starting from the most reasonable physical guess, which for solids corresponds to the inverse of the dielectric constant, $\alpha_i^{(0)} = \epsilon^{-1}$,
 %
 \begin{equation}
     \alpha_i = \epsilon^{-1} \frac{\Delta E^{\rm KC}_i - \braket{\phi_i|\hat{h}^{\rm DFT}|\phi_i}}{\braket{\phi_i|\hat{h}^{\rm KC}|\phi_i} - \braket{\phi_i|\hat{h}^{\rm DFT}|\phi_i}} .
@@ -315,11 +315,11 @@ a similar expression can be obtained for $\Pi_i^{\rm uKI(2)}$, where the lack of
 %
 We observe that, by approximating $\epsilon^{-1}(\br,\br')$ to a constant, $\alpha_i$ reduces to the inverse of the dielectric constant, which further legitimizes the choice made in \cref{eq:screening-parameter-dscf} for the 0-th order screening parameter.
 
-In practice, the screening parameter of \cref{eq:screening-parameter-dfpt} can be calculated resorting to the linear-response approach of density-functional perturbation theory (DFPT) \cite{colonna_screening_2018}. The knowledge of the (interacting) density-density response function, $\chi$, allows to compute the integral on the right-hand side of the first line of \cref{eq:density-derivative-final}. The only limitation of this approach is that it requires the knowledge of the second derivatives -- i.e. the kernel -- of the base functional: while for KI corrections on top of standard DFAs, such as LDA or PBE, such derivatives are known and already implemented in most of the electronic-structure codes, for KIPZ computing the kernel is not a straightforward task and the DFPT approach -- for the moment -- does not apply. To highlight the agreement between with the finite-differences method, in \cref{fig:alphas-dscf-dfpt} we compared the screening parameters for the orbitals of the methane molecule: the effect of the small differences observed is not significant for the final eigenvalues, which agree within 0.1~eV. 
+In practice, the screening parameter of \cref{eq:screening-parameter-dfpt} can be calculated resorting to the linear-response approach of density-functional perturbation theory (DFPT) \cite{colonna_screening_2018}. The knowledge of the (interacting) density-density response function, $\chi$, allows to compute the integral on the right-hand side of the first line of \cref{eq:density-derivative-final}. The only limitation of this approach is that it requires the knowledge of the second derivatives -- i.e. the kernel -- of the base functional: while for KI corrections on top of standard DFAs, such as LDA or PBE, such derivatives are known and already implemented in most of the electronic-structure codes, for KIPZ computing the kernel is not a straightforward task and the DFPT approach -- for the moment -- does not apply. To highlight the agreement with the finite-differences method, in \cref{fig:alphas-dscf-dfpt} we compared the screening parameters for the orbitals of the methane molecule: the effect of the small differences observed is not significant for the final eigenvalues, which agree within 0.1~eV. 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.6\linewidth]{alphas_dscf_dfpt.png}
+    \includegraphics[width=0.65\linewidth]{alphas_dscf_dfpt.png}
     \caption[Comparison of screening parameters from $\Delta$SCF and DFPT]{Screening parameters for the four KS-PBE valence orbitals of ${\rm CH}_4$ computed from finite differences (blue) and from the linear-response method (orange).}
     \label{fig:alphas-dscf-dfpt}
 \end{figure}
@@ -358,7 +358,7 @@ and $\hat{v}_i^{\rm KC}$ is the ODD potential
 %
 As a result of the ODD nature of Koopmans functionals, the energy derivatives are also orbital-density-dependent, which means that for each vector $\phi_i$ there is a different potential acting on it. As showed in \cref{sec:koopmans-hamiltonian}, this complication does not impede to define a unique -- although non-local -- operator whose representation over the vectors $\{ \phi_i \}$ matches the matrix of Lagrange multipliers introduced in \cref{eq:euler-lagrange-koopmans}.
 
-Let us consider now a unitary transformation $U$ within the subspace $\hat{\rho}$, which maps the set of orbitals $\{ \phi_i \}$ into a new set $\{ \phi_i' \}$. We express such transformation in the exponential form $e^A$, with $A$ being an anti-hermitian matrix. Since we are interested in small energy variations, we can assume $A$ to be very small and expand $U$ at the first order
+Let us consider now a unitary transformation $U$ within the subspace $\hat{\rho}$, which maps the set of orbitals $\{ \phi_i \}$ into a new set $\{ \phi_i' \}$. We express such transformation in the exponential form $e^A$, with $A$ being an anti-hermitian matrix \cite{borghi_variational_2015}. Since we are interested in small energy variations, we can assume $A$ to be very small and expand $U$ at the first order
 %
 \begin{equation}
     U \approx 1 + A ,
@@ -386,7 +386,7 @@ The derivative of the energy with respect to any transformation that preserves t
     \label{eq:energy-der-unitary}
 \end{equation}
 %
-\cref{eq:energy-der-unitary} provides an important property holding at the stationary points of a Koopmans functional, and actually of any PZ-like ODD functional, known as the \emph{Pederson condition}:
+\cref{eq:energy-der-unitary} provides an important property holding at the stationary points of a Koopmans functional, and actually of any PZ-like ODD functional, known as the \emph{Pederson condition} \cite{pederson_localdensity_1984,pederson_densityfunctional_1985}:
 %
 \begin{equation}
     \braket{\phi_k | \hat{v}^{\rm KC}_k | \phi_j} = \braket{\phi_k | \hat{v}^{\rm KC}_j | \phi_j} .
@@ -426,7 +426,7 @@ As we saw in \cref{sec:variational-procedure}, differently from standard DFT, wh
     \label{eq:koopmans-potential}
 \end{equation}
 %
-where the expression on the right-hand side must be considered a whole object that cannot be split: in particular, the quantity $\hat{v}^{\rm KC}_i \ket{\phi_i}$ should be considered as a single entity, i.e. a vector $\ket{\Tilde{\phi}_i}$, thus no operator, including identities, can be inserted in between. This detail is fundamental, as it guarantees that each ODD potential $\hat{v}^{\rm KC}_i$ always acts on the orbital from which it has been defined.
+where the expression on the right-hand side must be considered a whole object that cannot be split: in particular, the quantity $\hat{v}^{\rm KC}_i \ket{\phi_i}$ should be considered as a single entity, i.e. a vector $\ket{\Tilde{\phi}_i}$, thus no operator, including the identity, can be inserted in between. This detail is fundamental, as it guarantees that each ODD potential $\hat{v}^{\rm KC}_i$ always acts on the orbital from which it has been defined.
 
 Let us consider the pair of states $\psi$ and $\phi$ and compute the degree of hermiticity of $\hat{v}^{\rm KC}$, defined as the difference between the operator and its adjoint. By expressing the two vectors on the basis vecotrs $\{ \phi_i \}$, we obtain
 %
@@ -450,7 +450,7 @@ where $\hat{h}_i^{\rm KC} = \hat{h}^{\rm DFT} + \alpha_i \hat{v}_i^{\rm KC}$ are
 
 The operators in \cref{eq:koopmans-potential,eq:koopmans-hamiltonian} are fully determined by the set of orbitals $\{ \phi_i \}$, since those define univocally the ODD potentials $\{ \hat{v}_i^{\rm KC} \}$. In principle, at any step of the minimization we can construct an operator as per \cref{eq:koopmans-hamiltonian}, however, such operator would be generally non-hermitian and become hermitian only at stationary points of the functional. As in KS-DFT, the operators of \cref{eq:koopmans-potential,eq:koopmans-hamiltonian} become, respectively, the Koopmans potential and the Koopmans Hamiltonian only when constructed on the set of variational orbitals (i.e. at the functional minimum).
 
-For the sake of completeness, we remark that the Koopmans Hamiltonian of \cref{eq:koopmans-hamiltonian} could be expressed, in a completely equivalent, way as
+For the sake of completeness, we remark that the Koopmans Hamiltonian of \cref{eq:koopmans-hamiltonian} could be expressed in a completely equivalent way as
 %
 \begin{equation}
     \hat{h}^{\rm KC} = \sum_{ij} h^{\rm KC}_{ij} \ket{\phi_i} \bra{\phi_j}
@@ -461,9 +461,6 @@ For the sake of completeness, we remark that the Koopmans Hamiltonian of \cref{e
 %
 where, in general, $h^{\rm KC}_{ij} \neq (h^{\rm KC}_{ji})^*$ and the equality holds when the Pederson condition is satisfied. Knowing that all the arguments and properties discussed for the definition given in \eqref{eq:koopmans-hamiltonian} apply also to \cref{eq:koopmans-hamiltonian-equivalent-definition}, in the following discussions we will adopt the expression of \cref{eq:koopmans-hamiltonian}.
 
-%\subsection{Connection to SIC and performance of Koopmans}
-%An important aspect to mention is the fact that the generalized PWL condition imposed by Koopmans functionals applies only to the variational orbitals. After the diagonalization, when we pass from variational to canonical orbitals, we lose the connection between the functional and the orbitals in the sense that: (i) the Koopmans energy computed by varying the occupation of the canonical orbitals is not necessarily linear, (ii) the matrix elements of the Koopmans Hamiltonian over the canonical orbitals (i.e. the eigenvalues) -- which are interpreted as the quasiparticle energies -- do not correspond anymore to the total energy difference $E^{KC}(f_i=1)-E^{KC}(f_i=0)$.
-
 \section{Connection to MBPT\label{sec:koopmans-vs-mbpt}}
 In the previous section we introduced Koopmans spectral functionals, a class of orbital-density-dependent functionals that aim to describe charged excitations. As we saw, the ODD character makes the framework more intricated with respect to standard density-functional approaches, mainly because of the lack of unitary-invariance. However, this feature is possibly the reason for the success of Koopmans functionals, as it hints at a connection with frequency-dependent MBPT approaches. In this section, we detail this aspect of the theory by analyzing three fundamental results that lay the foundations for the bridge between ODD schemes -- and, particularly, Koopmans functionals -- and MBPT.
 
@@ -471,7 +468,7 @@ In the previous section we introduced Koopmans spectral functionals, a class of 
 The first milestone is represented by the work of Gatti \emph{et al.}, who identified what are the important features for the self-energy, if one is mainly interested in describing photoemission spectra \cite{gatti_transforming_2007}. One has indeed to keep in mind that the Green's function -- or objects possibly even more complex, such as the many-body wave function -- generally carry much more information than needed, and when targeting specific properties it might not be necessary to resort to the Green's function in its full complexity. In their work, Gatti and collaborators make use of the Sham-Schl\"{u}ter-like equation \cite{sham_density-functional_1983}, to derive an expression for the so-called \emph{spectral potential}. Following their argument, we define $p\{ G \}$ as the part of the Green's function $G$ that we want to predict, and introduce another Green's function $\tilde{G}$ which shares with $G$ the same part, namely $p\{ \tilde{G} \} = p\{ G \}$. If $\tilde{V}$ is the self-energy for $\tilde{G}$, from \cref{eq:dyson-equation} we obtain the following Dyson equation connecting $G$ and $\tilde{G}$:
 %
 \begin{equation}
-    G = \tilde{G} + \tilde{G}\left( \Sigma - V_T \right) G .
+    G = \tilde{G} + \tilde{G}\left( \Sigma - \tilde{V} \right) G .
     \label{eq:dyson-property-p}
 \end{equation}
 %
@@ -544,7 +541,7 @@ Recalling that $f_{\rm H}(\br,\br') = 1/|\br-\br'|$, the second-order KIPZ poten
     \label{eq:kipz-potential-hartree-unscreened}
 \end{equation}
 %
-We can easily show that the matrix elements of this approximated KIPZ potential are very similar to those of the Fock exchange, pointing out the equivalence between the second-order unscreened Hartree-only KIPZ and the HF Hamiltonians. To prove it, let us write down the expression for the matrix elements of the Fock exchange: given its unitary-invariance we can represent $\hat{v}_{\rm x}$ on any basis of the occupied subspace $\hat{\rho}$, and we choose the representation of the KIPZ variational orbitals, $\{ \phi_i \}$. We remark that while the density matrix might be non-diagonal in this representation, here we represent it for simplicity in its diagonal form, i.e. form $\gamma(\br,\br') = \sum_{k} f_{k} \phi_k^*(\br') \phi_k(\br)$. As mentioned already, and discussed in detail in \cref{sec:localization}, the Koopmans variational orbitals are usually very localized in space -- thus, they have a minimal overlap -- which allows to neglect the off-diagonal elements:
+We can easily show that the matrix elements of this approximated KIPZ potential are very similar to those of the Fock exchange, pointing out the equivalence between the second-order unscreened Hartree-only KIPZ and the HF Hamiltonians. To prove it, let us write down the expression for the matrix elements of the Fock exchange: given its unitary-invariance we can represent $\hat{v}_{\rm x}$ on any basis of the occupied subspace $\hat{\rho}$, and we choose the representation of the KIPZ variational orbitals, $\{ \phi_i \}$. On this representation the density matrix takes the form $\gamma(\br,\br') = \sum_{k} f_{k} \phi_k^*(\br') \phi_k(\br)$ (we are neglecting, for simplicity, the off-diagonal elements entering the expression of $\gamma$). As mentioned already, and discussed in detail in \cref{sec:localization}, the Koopmans variational orbitals are usually very localized in space -- thus, they have a minimal overlap -- which allows to neglect the off-diagonal elements:
 %
 \begin{equation}
     \begin{split}
