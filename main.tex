@@ -22,15 +22,20 @@
 %%%  HEAD: thesis' preamble  %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{0pt} % needs to be before titlepage and frontmatter to keep the table of contents lists short
 \frontmatter
 \input{head/titlepage}
+
+% increasing space before each new paragraph according to the template guidelines
+\setlength{\parskip}{0.5em}
 
 \subimport{head/}{dedication}
 \setcounter{page}{0}
 \subimport{head/}{acknowledgments}
 %\subimport{head/}{preface}
 \subimport{head/}{abstracts}
+
+% reducing space between paragraphs to keep the table of contents and lists short
+\setlength{\parskip}{0pt}
 
 \cleardoublepage
 \pdfbookmark{\contentsname}{toc}
@@ -40,13 +45,13 @@
 \cleardoublepage
 \phantomsection
 \addcontentsline{toc}{chapter}{List of Figures}
-\listoffigures
+{\hypersetup{hidelinks} \listoffigures}
  
 % List of tables
 \cleardoublepage
 \phantomsection
 \addcontentsline{toc}{chapter}{List of Tables}
-\listoftables
+{\hypersetup{hidelinks} \listoftables}
 
 % List of symbols
 \cleardoublepage
@@ -54,7 +59,7 @@
 \subimport{head/}{symbols}
 \addcontentsline{toc}{chapter}{\nomname}
 
-% space before each new paragraph according to the template guidelines.
+% restoring the space before each new paragraph according to the template guidelines
 \setlength{\parskip}{1em}
 
 
