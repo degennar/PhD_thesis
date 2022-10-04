@@ -53,12 +53,6 @@
 \addcontentsline{toc}{chapter}{List of Tables}
 {\hypersetup{hidelinks} \listoftables}
 
-% List of symbols
-\cleardoublepage
-\phantomsection
-\subimport{head/}{symbols}
-\addcontentsline{toc}{chapter}{\nomname}
-
 % restoring the space before each new paragraph according to the template guidelines
 \setlength{\parskip}{1em}
 
@@ -101,9 +95,14 @@
 \subimport{tail/}{appendix}
 \backmatter
 \subimport{tail/}{biblio}
-% Add your glossary here
-% Add your index here
-% Photographic credits (list of pictures&images that have been used with names of the person holding the copyright for them)
+
+% List of symbols
+\cleardoublepage
+\phantomsection
+\subimport{head/}{symbols}
+\addcontentsline{toc}{chapter}{\nomname}
+
+% CV
 \subimport{tail/}{cv}
 
 
