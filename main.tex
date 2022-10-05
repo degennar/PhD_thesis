@@ -29,9 +29,9 @@
 \setlength{\parskip}{0.5em}
 
 \subimport{head/}{dedication}
+\clearpage
 \setcounter{page}{0}
 \subimport{head/}{acknowledgments}
-%\subimport{head/}{preface}
 \subimport{head/}{abstracts}
 
 % reducing space between paragraphs to keep the table of contents and lists short
@@ -52,6 +52,12 @@
 \phantomsection
 \addcontentsline{toc}{chapter}{List of Tables}
 {\hypersetup{hidelinks} \listoftables}
+
+% List of symbols
+\cleardoublepage
+\phantomsection
+%\addcontentsline{toc}{chapter}{\nomname}
+\subimport{head/}{symbols}
 
 % restoring the space before each new paragraph according to the template guidelines
 \setlength{\parskip}{1em}
@@ -96,13 +102,8 @@
 \backmatter
 \subimport{tail/}{biblio}
 
-% List of symbols
-\cleardoublepage
-\phantomsection
-\subimport{head/}{symbols}
-\addcontentsline{toc}{chapter}{\nomname}
-
 % CV
+\cleardoublepage
 \subimport{tail/}{cv}
 
 

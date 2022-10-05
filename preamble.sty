@@ -165,7 +165,6 @@
 % Other packages
 \usepackage{bm}
 \usepackage{braket}
-\usepackage{nomencl}
 \usepackage{siunitx}
 \usepackage{float}
 \usepackage{tabularx}
@@ -177,10 +176,14 @@
 \renewcommand\arraystretch{1.1}
 \setlength\tabcolsep{2pt}
 
+\usepackage{nomencl}
 \makenomenclature
 \setlength{\nomitemsep}{-\parskip}
 \renewcommand{\nomname}{List of Acronyms}
 \renewcommand{\nompreamble}{\vspace{1cm}}
+
+\usepackage{etoolbox}
+\patchcmd{\thenomenclature}{\chapter*}{\nomname}{}{}
 
 % New commands and aliases
 \newcommand{\me}{Riccardo De Gennaro}
