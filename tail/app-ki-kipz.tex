@@ -164,9 +164,9 @@ As for KI, the KIPZ potential can be obtained from the functional derivative of 
 \begin{equation}
     \begin{split}
         v^{\rm KIPZ}_j(\br) =\ &\frac{\delta \left( \sum_i \Pi^{\rm KIPZ}_i[\rho,\rho_i] \right)}{\delta \rho_j(\br)} \\
-        =\ &\frac{\delta \left( \sum_i \Pi^{\text{KI}}_i[\rho,\rho_i] \right)}{\delta \rho_j(\br)} + 
+        =\ &\frac{\delta \left( \sum_i \Pi^{\text{KI}}_i[\rho,\rho_i] \right)}{\delta \rho_j(\br)} - 
         \frac{\delta \left( \sum_i f_i E_{\rm Hxc}[n_i] \right)}{\delta \rho_j(\br)} \\
-        =\ &v^{\text{KI}}_j(\br) + v_{\rm Hxc}([n_j],\br) - \int v_{\rm Hxc}([n_j],\br) n_j(\br) d\br + E_{\rm Hxc}[n_j]
+        =\ &v^{\text{KI}}_j(\br) - v_{\rm Hxc}([n_j],\br) + \int v_{\rm Hxc}([n_j],\br) n_j(\br) d\br - E_{\rm Hxc}[n_j]
     \end{split}
     \label{eq:kipz-pot-full}
 \end{equation}

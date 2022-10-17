@@ -14,3 +14,5 @@ https://github.com/glederrey/EPFL_thesis_template
 
 For more information about importing customized packages and splitting a document in multiple .tex files check this page out:<br />
 https://www.overleaf.com/learn/latex/Management_in_a_large_project
+
+**Latest commits contain an updated version of the manuscript with respect to the one printed and distributed by EPFL, and include a posteriori corrections.**
