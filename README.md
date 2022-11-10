@@ -1,6 +1,6 @@
 # PhD thesis
 
-![Latex compilation main](https://github.com/degennar/PhD_thesis/actions/workflows/latex-compilation.yml/badge.svg?branch=main)
+![Latex compilation main](https://github.com/degennar/PhD_thesis/actions/workflows/latex-compilation.yml/badge.svg?branch=test_gh_action)
 
 LateX source code to generate the PhD thesis from *Riccardo De Gennaro* titled:
 
