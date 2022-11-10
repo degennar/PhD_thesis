@@ -28,3 +28,4 @@ bibtex main
 pdflatex main
 pdflatex main
 ```
+NB: at the first compilation if any section misses the title or has it shifted down, run once more ```pdflatex main```.

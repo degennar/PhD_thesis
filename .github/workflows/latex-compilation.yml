@@ -11,7 +11,7 @@ jobs:
         with:
           root_file: main.tex
           compiler: pdflatex
-          args: -interaction=nonstopmode -shell-escape
+          args: -halt-on-error -shell-escape
       - name: makeindex
         uses: dante-ev/latex-action@latest
         with:
@@ -29,10 +29,10 @@ jobs:
         with:
           root_file: main.tex
           compiler: pdflatex
-          args: -interaction=nonstopmode -shell-escape
+          args: -halt-on-error -shell-escape
       - name: pdflatex main
         uses: dante-ev/latex-action@latest
         with:
           root_file: main.tex
           compiler: pdflatex
-          args: -interaction=nonstopmode -shell-escape
+          args: -halt-on-error -shell-escape
