@@ -19,3 +19,12 @@ For more information about importing customized packages and splitting a documen
 [https://www.overleaf.com/learn/latex/Management_in_a_large_project](https://www.overleaf.com/learn/latex/Management_in_a_large_project)
 
 **Latest commits contain an updated version of the manuscript with respect to the one printed and distributed by EPFL, and include a posteriori corrections.**
+
+To compile run:
+```
+pdflatex main
+makeindex main.nlo -s nomencl.ist -o main.nls
+bibtex main
+pdflatex main
+pdflatex main
+```
