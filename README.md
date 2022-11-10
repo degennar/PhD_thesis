@@ -8,7 +8,7 @@ LateX source code to generate the PhD thesis from *Riccardo De Gennaro* titled:
 
 written on May-Jul 2022.
 
-The thesis was published by EPFL, and it is distributed via the Infoscience platform:
+The thesis was published by EPFL, and it is distributed via the Infoscience platform:<br />
 [https://infoscience.epfl.ch/record/297324]()
 
 This document has been adapted from one of the templates provided by EPFL.<br />
