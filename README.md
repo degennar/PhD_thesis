@@ -4,7 +4,7 @@
 
 LateX source code to generate the PhD thesis from *Riccardo De Gennaro* titled:
 
-**Spectral properties of extended systems from Koopmans-compliant functionals**
+[**Spectral properties of extended systems from Koopmans-compliant functionals**](main.pdf)
 
 written on May-Jul 2022.
 
