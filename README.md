@@ -11,6 +11,8 @@ written on May-Jul 2022.
 The thesis was published by EPFL, and it is distributed via the Infoscience platform:<br />
 [https://infoscience.epfl.ch/record/297324](https://infoscience.epfl.ch/record/297324)
 
+The file [`main.pdf`](main.pdf) contains the most recent updates to the manuscript, so it contains corrections with respect to the version distributed by EPFL.
+
 This document has been adapted from one of the templates provided by EPFL.<br />
 The original template can be found here:<br />
 [https://github.com/glederrey/EPFL_thesis_template](https://github.com/glederrey/EPFL_thesis_template)
